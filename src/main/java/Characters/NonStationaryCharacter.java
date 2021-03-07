@@ -2,7 +2,8 @@ package Characters;
 
 public class NonStationaryCharacter {
     //Tile tile = new Tile(); // currently not working since not implemented in this branch
-
+    int tileXLocation = 0;
+    int tileYLocation = 0;
     /**
      * @author Brendan
      * @version 1

@@ -1,4 +1,5 @@
 package Characters;
+import Core.*;
 
 public class Enemy extends NonStationaryCharacter {
     /**
