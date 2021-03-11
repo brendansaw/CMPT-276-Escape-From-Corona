@@ -4,22 +4,19 @@ import java.awt.event.KeyEvent;
 import Core.*;
 
 /**
- * <h1>MainCharacter</h1>
- * This class implements methods to update the
+ * MainCharacter class implements methods to update the
  * character. This includes character movement
  * and input handling for player controls.
  *
  * @author Brendan
  * @author Stephen Dao
- * @version 1
- * @since commit 1
- * @return Nothing
+ * @version 1.0
+ * @since 1.0
  */
 public class MainCharacter extends NonStationaryCharacter {
     private static MainCharacter mainCharacter = null;
 
-    private int x; // x coord
-    private int y; // y coord
+    //private Board board = Board.getBoard();
 
     boolean keyIsPressed; // if a key is held down or not
 
@@ -30,10 +27,13 @@ public class MainCharacter extends NonStationaryCharacter {
     }
 
     /**
-     * This method creates an instance of MainCharacter and sets
+     * Creates an instance of MainCharacter and sets
      * the starting coordinates if there is currently no other
      * instance of this class.
-     * @return MainCharacter
+     *
+     * @param x starting x position
+     * @param y starting y position
+     * @return an instance of a MainCharacter object
      */
     public static MainCharacter getMainCharacter(int x, int y) { // x,y are starting coordinates
         if (mainCharacter == null) { // only create object if none exist
@@ -43,30 +43,38 @@ public class MainCharacter extends NonStationaryCharacter {
         return mainCharacter;
     }
 
-    public void move() {
-        // do something
-    }
-
     /**
-     * This method returns the value of x.
-     * @return int x
+     * Handles game behaviour when player changes position.
      */
-    public int getX() {
-        return x;
+    @Override
+    private void move() {
+//        Tile currentTile = board.getTile(x, y);
+//        if(isColliding(currentTile)) {
+//            currentTile.onPlayerEntered();
+//        }
     }
 
     /**
-     * This method returns the value of y.
-     * @return int y
+     * Checks if the player is colliding with a reward tile.
+     *
+     * @param currentTile a Tile object corresponding to the player's current position
+     * @return true if the player is on a reward tile, else false
      */
-    public int getY() {
-        return y;
+    @Override
+    protected boolean isColliding(Tile currentTile) {
+//        if(currentTile.getHasReward()) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
     }
 
     /**
-     * This method handles player movement in
+     * Handles player movement in
      * response to a key input.
-     * @param e A key input.
+     *
+     * @param e a KeyEvent key input
      */
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -91,9 +99,10 @@ public class MainCharacter extends NonStationaryCharacter {
     }
 
     /**
-     * This method resets the keyIsPressed condition
+     * Resets the keyIsPressed condition
      * when a key is released.
-     * @param e The key that is released.
+     *
+     * @param e a KeyEvent that is the key being released
      */
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode(); // currently unneeded
