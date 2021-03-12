@@ -1,6 +1,6 @@
 package Core;
 
-import sample.Tile;
+import BoardDesign.Wall;
 
 public class Board
 {
@@ -11,9 +11,7 @@ public class Board
     int numCheckptsLeft;
     private int[] entryPos;
     private int[] exitPos;
-//        int hasReward; //-1 by default; 0-2 depending on type of reward
-//        Boolean hasEnemy;
-//        Boolean hasMain; THESE BELONG IN CLASS TILE
+
     /*
     private int[][] barrierPositions;
     private Tile[][] tiles;
@@ -37,12 +35,16 @@ public class Board
                 switch(cur)
                 {
                     case 0://Tile
-                        board[i][j] = new Tile(0);
+                        board[i][j] = new Tile();
                     case 1://Barrier
-
+                        board[i][j] = new Wall();
                     case 2://Tile with checkpoint
-                    case 3://Tile with bonus reward
-                    case 4://Tile with punishment
+                        board[i][j] = new Reward();
+                    case 3://Tile with punishment
+                        board[i][j] = new Reward();
+
+                    case 4://Tile with bonus reward. Perhaps the location   
+                        board[i][j] = new Reward();
 
                 }
             }
