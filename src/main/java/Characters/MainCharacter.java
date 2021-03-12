@@ -2,7 +2,13 @@ package Characters;
 import Core.*;
 
 public class MainCharacter extends NonStationaryCharacter {
+    int xCoord;
+    int yCoord;
+    MainCharacter(int x, int y) {
+        xCoord = x;
+        yCoord = y;
 
+    }
     /**
      * @author Brendan
      * @version 1
@@ -11,5 +17,9 @@ public class MainCharacter extends NonStationaryCharacter {
      */
     void move(String direction) {
 
+    }
+
+    int getX() {
+        return xCoord;
     }
 }
