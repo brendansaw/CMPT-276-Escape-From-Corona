@@ -79,6 +79,14 @@ public class Board
         }
     }
 
+    public int getDimX(){
+        return dimX;
+    }
+
+    public int getDimY(){
+        return dimY;
+    }
+
     public void setID(int i, int j, int val)
     {
         //Changes the ID of a single entry, like for when a reward is stepped on

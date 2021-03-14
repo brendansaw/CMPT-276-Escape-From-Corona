@@ -19,6 +19,7 @@ public class Game extends Application{
     private int score;
     private int time;
 
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
@@ -26,13 +27,19 @@ public class Game extends Application{
         mainGame.setTitle("Maze Game");
 
         startGame();
-        createBoard();
+        Board boardGame = createBoard();
+
+        int width = boardGame.getDimX();
+        int height = boardGame.getDimY();
+
         Group root = new Group();
         Scene theScene = new Scene(root);
         mainGame.setScene(theScene);
 
-        Canvas canvas = new Canvas(400, 200);
+        Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
         root.getChildren().add( canvas);
+
+
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill( Color.GREEN );
@@ -69,7 +76,7 @@ public class Game extends Application{
         return score;
     }
 
-    private void createBoard() {
+    private Board createBoard() {
 
         Board boardGame = new Board();
         for (int i = 0; i < boardGame.dimX; i++) {
@@ -78,6 +85,7 @@ public class Game extends Application{
             }
             System.out.println("");
         }
+        return boardGame;
     }
 
 
