@@ -1,4 +1,5 @@
 package Core;
+import Characters.MainCharacter;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -88,6 +89,7 @@ public class Game extends Application{
         game.changeScore(23);
         int testscore2 = game.getScore();
         System.out.println(testscore2);
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     }
 
 }
