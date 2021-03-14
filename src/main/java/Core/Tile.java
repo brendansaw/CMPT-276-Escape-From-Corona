@@ -9,18 +9,18 @@ public class Tile
     private boolean hasMain;
     private boolean hasReward = false;
     Reward reward;
-    public int typeOfReward = 0;
+    public String typeOfReward = "";
 
     public Tile() {
         hasReward = false;
     }
 
     public Tile(int inputType) {
-        typeOfReward = inputType;
         hasReward = true;
-        switch (typeOfReward) {
+        switch (inputType) {
             case 1:
                 reward = new Bonus();
+
                 break;
             case 2:
                 reward = new Punishment();
@@ -32,6 +32,7 @@ public class Tile
                 System.out.println("Incorrect input");
                 break;
         }
+        typeOfReward = reward.getClass().getSimpleName();
     }
 
     public boolean getHasEnemy()

@@ -1,17 +1,22 @@
 package BoardDesign;
+import Characters.MainCharacter;
 import Core.*;
 import TileAction.*;
+import sun.applet.Main;
 
 public class Exit extends Wall {
-    private boolean isOpen = false;
-    private Board gameBoard;
-    public Exit() {
+    private static boolean isOpen = false;
+    static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+    public Exit() { }
 
-    }
-
-    public boolean checkCheckpoints() { // essentially call this whenever checkpoints are updated
+    public static boolean checkCheckpoints() { // essentially call this whenever checkpoints are updated
         if (Checkpoint.checkpointsLeft == 0) {
             isOpen = true;
+        }
+
+
+        if (mainCharacter.getX() == Board.exitXPos && mainCharacter.getY() == Board.exitYPos) {
+            Game.endGame();
         }
         /*
         if (gameBoard.getCheckpointsLeft <= 0) {

@@ -43,6 +43,12 @@ public class MainCharacter extends NonStationaryCharacter {
         return mainCharacter;
     }
 
+    public static MainCharacter restartMainCharacter(int x, int y) { // only called when game is restarted
+        mainCharacter = new MainCharacter(x, y);
+
+        return mainCharacter;
+    }
+
     /**
      * Handles game behaviour when player changes position.
      */
@@ -119,5 +125,7 @@ public class MainCharacter extends NonStationaryCharacter {
             keyIsPressed = false;
         }
     }
+
+
 
 }

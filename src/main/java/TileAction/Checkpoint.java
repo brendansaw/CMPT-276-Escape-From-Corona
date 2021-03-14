@@ -1,9 +1,9 @@
 package TileAction;
 import Characters.*;
+import Core.Game;
 
 public class Checkpoint implements Reward {
     public static int checkpointsLeft = 10;
-    boolean isActive = false;
     int scoreIncreaseValue = 50;
 
     public Checkpoint() {
@@ -12,6 +12,7 @@ public class Checkpoint implements Reward {
 
     @Override
     public void updatePlayerScore() {
+        Game.score += scoreIncreaseValue;
         /*
         mainCharacter.increasePlayerScore(scoreIncreaseValue);
          */

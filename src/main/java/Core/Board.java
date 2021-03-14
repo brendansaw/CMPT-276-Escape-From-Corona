@@ -10,20 +10,21 @@ public class Board
 
     public int dimX;
     public int dimY;
-    private int[][] boardID;
-    public Tile[][] board;
-    int numCheckptsLeft;
-    private int[] entryPos;
-    private int[] exitPos;
+    private static int[][] boardID;
+    private static Tile[][] board;
+    public static int exitXPos;
+    public static int exitYPos;
 
-    /*
-    private int[][] barrierPositions;
-    private Tile[][] tiles;
-    Not sure if these are necessary based on tilemap implementation
-    */
+    public static Tile[][] getBoard() {
+        return board.clone(); // return a copy that they cannot edit
+    }
 
     public Board() {
-        int[][] id = {{1, 0, 2}, {1, 0, 3}, {1, 1, 4}};
+        int[][] id = {  {1, 0, 2, 5},
+                        {1, 0, 3, 6},
+                        {1, 1, 4, 2}
+                    };
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
         /**Takes a 2D array...
      *... and initializes each co-ordinate to a Tile object determined by the id at each entry
      *
@@ -31,19 +32,16 @@ public class Board
 
         // assume id must be a rectangle, and thus each X is the same length
         boardID = id;
-        dimX = boardID[0].length;
-        dimY = boardID.length;
-        board = new Tile[dimX][dimY];
+        dimX = boardID[0].length; // number of columns
+        dimY = boardID.length; // number of rows
+        board = new Tile[dimY][dimX]; // y has to go first
 
-        for(int i = 0; i < dimX; i++)
-        {
-            for(int j = 0; j < dimY; j++)
-            {
+        for(int i = 0; i < dimY; i++) {
+            for(int j = 0; j < dimX; j++) {
                 System.out.println();
                 int cur = boardID[i][j];
 
-                switch(cur)
-                {
+                switch(cur) {
                     case 0://Tile
                         board[i][j] = new Tile();
                         break;
@@ -61,6 +59,13 @@ public class Board
                     case 4:
                         board[i][j] = new Tile(3); // bonus is input 3
                         break;
+                    case 5:
+                        board[i][j] = new Entrance();
+                        break;
+                    case 6:
+                        board[i][j] = new Exit();
+                        break;
+
 
 
 //                    case 2://Tile with checkpoint

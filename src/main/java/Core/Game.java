@@ -1,5 +1,7 @@
 package Core;
-import Characters.MainCharacter;
+import BoardDesign.*;
+import Characters.*;
+import TileAction.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,7 +18,7 @@ import java.util.Locale;
 
 public class Game extends Application{
 
-    private int score;
+    public static int score;
     private int time;
 
     // no constructor needed since this will contain the main for now
@@ -53,7 +55,7 @@ public class Game extends Application{
     }
 
 
-    public void endGame(){
+    public static void endGame(){
 
     }
     public int getScore(){
@@ -72,9 +74,9 @@ public class Game extends Application{
     private void createBoard() {
 
         Board boardGame = new Board();
-        for (int i = 0; i < boardGame.dimX; i++) {
-            for (int j = 0; j < boardGame.dimY; j++) {
-                System.out.print(boardGame.board[i][j].getClass().getSimpleName() + boardGame.board[i][j].typeOfReward + " ");
+        for (int i = 0; i < boardGame.dimY; i++) {
+            for (int j = 0; j < boardGame.dimX; j++) {
+                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
             }
             System.out.println("");
         }
