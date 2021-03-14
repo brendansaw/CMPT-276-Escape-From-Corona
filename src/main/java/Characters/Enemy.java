@@ -12,7 +12,8 @@ import Core.*;
  * @since 1.0
  */
 public class Enemy extends NonStationaryCharacter {
-    private MainCharacter player = MainCharacter.getMainCharacter(0, 0); // reference to main character
+    private static MainCharacter player = MainCharacter.getMainCharacter(0, 0); // reference to main character
+
     /**
      * Calculates the position the
      * enemy should move to.
@@ -49,7 +50,6 @@ public class Enemy extends NonStationaryCharacter {
     /**
      * Updates the position of the enemy.
      */
-    @Override
     public void move() {
         Direction direction = checkBestMovement();
 
@@ -67,7 +67,7 @@ public class Enemy extends NonStationaryCharacter {
         }
 
         if(isColliding()) {
-            //onPlayerEntered
+            //onPlayerEntered();
         }
     }
 
@@ -76,8 +76,7 @@ public class Enemy extends NonStationaryCharacter {
      *
      * @return true if the player is on the same tile, else false
      */
-    @Override
-    protected boolean isColliding() {
+    private boolean isColliding() {
         if((player.getX() == x) && (player.getY() == y)) {
             return true;
         }
@@ -90,6 +89,6 @@ public class Enemy extends NonStationaryCharacter {
      * Causes the player to lose the game.
      */
     private void onPlayerEntered() {
-        player.
+        //player.setScore(-1); // set score to -1
     }
 }
