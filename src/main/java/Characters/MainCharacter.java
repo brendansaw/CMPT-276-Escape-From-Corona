@@ -15,8 +15,8 @@ import Core.*;
  */
 public class MainCharacter extends NonStationaryCharacter {
     private static MainCharacter mainCharacter = null;
-
-    //private Board board = Board.getBoard();
+//    private static Game scoreboard = Game.getGame(); // get reference to the score handler
+//    private Board board = Board.getBoard();
 
     boolean keyIsPressed; // if a key is held down or not
 
@@ -46,7 +46,6 @@ public class MainCharacter extends NonStationaryCharacter {
     /**
      * Handles game behaviour when player changes position.
      */
-    @Override
     private void move() {
 //        Tile currentTile = board.getTile(x, y);
 //        if(isColliding(currentTile)) {
@@ -60,14 +59,22 @@ public class MainCharacter extends NonStationaryCharacter {
      * @param currentTile a Tile object corresponding to the player's current position
      * @return true if the player is on a reward tile, else false
      */
-    @Override
-    protected boolean isColliding(Tile currentTile) {
+    private boolean isColliding(Tile currentTile) {
 //        if(currentTile.getHasReward()) {
 //            return true;
 //        }
 //        else {
 //            return false;
 //        }
+        return false;
+    }
+
+    public void updateScore(int value) { // call to update score
+//        scoreboard.updateScore(value);
+    }
+
+    public void setScore(int value) { // call to set score
+//        scoreboard.updateScore(value);
     }
 
     /**
@@ -105,7 +112,7 @@ public class MainCharacter extends NonStationaryCharacter {
      * @param e a KeyEvent that is the key being released
      */
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode(); // currently unneeded
+        //int key = e.getKeyCode(); // currently unneeded
 
         if (keyIsPressed) {
             keyIsPressed = false;

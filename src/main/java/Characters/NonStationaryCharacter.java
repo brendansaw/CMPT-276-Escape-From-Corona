@@ -15,12 +15,12 @@ abstract public class NonStationaryCharacter {
     protected int x = 0; // x coord
     protected int y = 0; // y coord
 
-    /**
-     * Abstract method to check for collision with another object.
-     *
-     * @return true or false
-     */
-    abstract protected boolean isColliding();
+//    /**
+//     * Abstract method to check for collision with another object.
+//     *
+//     * @return true or false
+//     */
+//    abstract protected boolean isColliding();
 
     /**
      * Returns the value of x.
@@ -39,11 +39,4 @@ abstract public class NonStationaryCharacter {
     public int getY() {
         return y;
     }
-
-    abstract public void move();
-    /* not able to be implemented yet
-    int getPosition() {
-        return tile.getPosition();
-    }
-     */
 }
