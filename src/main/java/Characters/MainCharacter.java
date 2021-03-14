@@ -98,6 +98,7 @@ public class MainCharacter extends NonStationaryCharacter {
         }
     }
 
+    }
     /**
      * Resets the keyIsPressed condition
      * when a key is released.
@@ -110,5 +111,9 @@ public class MainCharacter extends NonStationaryCharacter {
         if (keyIsPressed) {
             keyIsPressed = false;
         }
+    }
+
+    int getX() {
+        return xCoord;
     }
 }
