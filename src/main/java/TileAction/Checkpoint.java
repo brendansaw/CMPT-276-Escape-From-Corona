@@ -6,7 +6,7 @@ public class Checkpoint implements Reward {
     boolean isActive = false;
     int scoreIncreaseValue = 50;
 
-    public Checkpoint(MainCharacter mainCharacter) {
+    public Checkpoint() {
 
     }
 

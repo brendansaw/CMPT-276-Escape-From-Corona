@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.BarChart;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -17,14 +18,14 @@ public class Game extends Application{
     private int score;
     private int time;
 
+    // no constructor needed since this will contain the main for now
 
-
-    public void start(Stage mainGame)
-    {
+    // launch automatically calls start
+    public void start(Stage mainGame) {
         mainGame.setTitle("Maze Game");
 
         startGame();
-
+        createBoard();
         Group root = new Group();
         Scene theScene = new Scene(root);
         mainGame.setScene(theScene);
@@ -44,6 +45,7 @@ public class Game extends Application{
         mainGame.show();
 
     }
+
     public void startGame(){
         score = 0;
         time = 0;
@@ -64,6 +66,17 @@ public class Game extends Application{
     public int changeScore(int amount){
         score = score + amount;
         return score;
+    }
+
+    private void createBoard() {
+
+        Board boardGame = new Board();
+        for (int i = 0; i < boardGame.dimY; i++) {
+            for (int j = 0; j < boardGame.dimX; j++) {
+                System.out.print(boardGame.board[j][i].getClass().getSimpleName() + boardGame.board[j][i].typeOfReward + " ");
+            }
+            System.out.println("");
+        }
     }
 
 

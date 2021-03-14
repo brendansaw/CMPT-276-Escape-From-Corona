@@ -6,7 +6,7 @@ public class Bonus implements Reward {
     int scoreIncreaseValue = 100;
     int ticksRemaining = 0;
 
-    public Bonus(MainCharacter mainCharacter) {
+    public Bonus() {
 
     }
 

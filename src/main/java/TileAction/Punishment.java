@@ -6,8 +6,7 @@ public class Punishment implements Reward {
     int scoreIncreaseValue = -100;
     MainCharacter mainCharacter;
 
-    public Punishment(MainCharacter mainCharacter) {
-        this.mainCharacter = mainCharacter;
+    public Punishment() {
     }
 
     @Override

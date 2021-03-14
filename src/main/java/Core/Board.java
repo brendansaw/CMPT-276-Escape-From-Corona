@@ -1,13 +1,17 @@
 package Core;
 
-import BoardDesign.Wall;
+import BoardDesign.*;
+import Characters.*;
+import TileAction.*;
+
 
 public class Board
 {
 
-    private int dim;
+    public int dimX;
+    public int dimY;
     private int[][] boardID;
-    private Tile[][] board;
+    public Tile[][] board;
     int numCheckptsLeft;
     private int[] entryPos;
     private int[] exitPos;
@@ -18,40 +22,58 @@ public class Board
     Not sure if these are necessary based on tilemap implementation
     */
 
-    public Board(int[][] id)
-    {
-
+    public Board() {
+        int[][] id = {{1, 0, 2}, {1, 0, 3}, {1, 1, 4}};
         /**Takes a 2D array...
      *... and initializes each co-ordinate to a Tile object determined by the id at each entry
      *
      */
 
+        // assume id must be a rectangle, and thus each X is the same length
         boardID = id;
+        dimX = boardID[0].length;
+        dimY = boardID.length;
+        board = new Tile[dimX][dimY];
 
-        int cur;
-        for(int i = 0; i < dim; i++)
+        for(int i = 0; i < dimY; i++)
         {
-            for(int j = 0; j < dim; j++)
+            for(int j = 0; j < dimX; j++)
             {
-                cur = boardID[i][j];
+                System.out.println();
+                int cur = boardID[j][i];
 
                 switch(cur)
                 {
                     case 0://Tile
-                        board[i][j] = new Tile();
-                    case 1://Barrier
-                        board[i][j] = new Wall();
-                    case 2://Tile with checkpoint
-                        //board[i][j] = new Reward(/*checkpoint params*/);
-                    case 3://Tile with punishment
-                        //board[i][j] = new Reward(/*punishment params*/);
-                    case 4://Tile with bonus reward. Perhaps the location is predetermined since it is here, to group it with all the other rewards
-                        //board[i][j] = new Reward(/*bonus params*/);
-                    case 5://Tile with entry
-                        entryPos = new int[]{i,j};
-                    case 6://Tile with exit. Cannot be accessed until all checkpoints collected!
-                        exitPos = new int[]{i,j};
+                        board[j][i] = new Tile();
+                        break;
+                        //System.out.println("Tile");
+                    case 1://Wall
+                        board[j][i] = new Wall();
+                        break;
+                        //System.out.println("Wall");
+                    case 2: //Tile with checkpoint
+                        board[j][i] = new Tile(1); // checkpoint is input 1
+                        break;
+                    case 3: //Tile with punishment
+                        board[j][i] = new Tile(2); // punishment is input 2
+                        break;
+                    case 4:
+                        board[j][i] = new Tile(3); // bonus is input 3
+                        break;
 
+
+//                    case 2://Tile with checkpoint
+//                        //board[i][j] = new Reward(/*checkpoint params*/);
+//                    case 3://Tile with punishment
+//                        //board[i][j] = new Reward(/*punishment params*/);
+//                    case 4://Tile with bonus reward. Perhaps the location is predetermined since it is here, to group it with all the other rewards
+//                        //board[i][j] = new Reward(/*bonus params*/);
+//                    case 5://Tile with entry
+//                        entryPos = new int[]{i,j};
+//                    case 6://Tile with exit. Cannot be accessed until all checkpoints collected!
+//                        exitPos = new int[]{i,j};
+//
                 }
             }
         }
