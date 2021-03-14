@@ -35,31 +35,31 @@ public class Board
         dimY = boardID.length;
         board = new Tile[dimX][dimY];
 
-        for(int i = 0; i < dimY; i++)
+        for(int i = 0; i < dimX; i++)
         {
-            for(int j = 0; j < dimX; j++)
+            for(int j = 0; j < dimY; j++)
             {
                 System.out.println();
-                int cur = boardID[j][i];
+                int cur = boardID[i][j];
 
                 switch(cur)
                 {
                     case 0://Tile
-                        board[j][i] = new Tile();
+                        board[i][j] = new Tile();
                         break;
                         //System.out.println("Tile");
                     case 1://Wall
-                        board[j][i] = new Wall();
+                        board[i][j] = new Wall();
                         break;
                         //System.out.println("Wall");
                     case 2: //Tile with checkpoint
-                        board[j][i] = new Tile(1); // checkpoint is input 1
+                        board[i][j] = new Tile(1); // checkpoint is input 1
                         break;
                     case 3: //Tile with punishment
-                        board[j][i] = new Tile(2); // punishment is input 2
+                        board[i][j] = new Tile(2); // punishment is input 2
                         break;
                     case 4:
-                        board[j][i] = new Tile(3); // bonus is input 3
+                        board[i][j] = new Tile(3); // bonus is input 3
                         break;
 
 

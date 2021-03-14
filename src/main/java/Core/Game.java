@@ -71,9 +71,9 @@ public class Game extends Application{
     private void createBoard() {
 
         Board boardGame = new Board();
-        for (int i = 0; i < boardGame.dimY; i++) {
-            for (int j = 0; j < boardGame.dimX; j++) {
-                System.out.print(boardGame.board[j][i].getClass().getSimpleName() + boardGame.board[j][i].typeOfReward + " ");
+        for (int i = 0; i < boardGame.dimX; i++) {
+            for (int j = 0; j < boardGame.dimY; j++) {
+                System.out.print(boardGame.board[i][j].getClass().getSimpleName() + boardGame.board[i][j].typeOfReward + " ");
             }
             System.out.println("");
         }
