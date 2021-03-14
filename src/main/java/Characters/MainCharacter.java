@@ -1,7 +1,12 @@
 package Characters;
 
-import java.awt.event.KeyEvent;
+import javafx.scene.input.*;
+import java.lang.Math.*;
+import java.util.*;
+
 import Core.*;
+import TileAction.*;
+import BoardDesign.Exit;
 
 /**
  * MainCharacter class implements methods to update the
@@ -15,8 +20,7 @@ import Core.*;
  */
 public class MainCharacter extends NonStationaryCharacter {
     private static MainCharacter mainCharacter = null;
-//    private static Game scoreboard = Game.getGame(); // get reference to the score handler
-//    private Board board = Board.getBoard();
+    private ArrayList<Bonus> bonusArrayList = new ArrayList<>();
 
     boolean keyIsPressed; // if a key is held down or not
 
@@ -43,6 +47,14 @@ public class MainCharacter extends NonStationaryCharacter {
         return mainCharacter;
     }
 
+    /**
+     * Creates a new instance of MainCharacter and sets
+     * the starting coordinates.
+     *
+     * @param x starting x position
+     * @param y starting y position
+     * @return an instance of a MainCharacter object
+     */
     public static MainCharacter restartMainCharacter(int x, int y) { // only called when game is restarted
         mainCharacter = new MainCharacter(x, y);
 
@@ -53,10 +65,39 @@ public class MainCharacter extends NonStationaryCharacter {
      * Handles game behaviour when player changes position.
      */
     private void move() {
-//        Tile currentTile = board.getTile(x, y);
-//        if(isColliding(currentTile)) {
-//            currentTile.onPlayerEntered();
-//        }
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
+        Tile currentTile = board[y][x];
+        Tile exit = board[Board.exitYPos][Board.exitXPos];
+        ((Exit) exit).checkCheckpoints();
+
+        int xPos = (int)(Math.random() * dimX-1);
+        int yPos = (int)(Math.random() * dimY-1);
+        Tile bonusTile = board[yPos][xPos];
+        if(!bonusTile.getHasReward() && bonusTile.isOpen()) {
+            Bonus bonus = new Bonus(xPos, yPos);
+            bonusTile.setReward(bonus);
+            bonusArrayList.add(bonus);
+        }
+        Iterator<Bonus> itr = bonusArrayList.iterator();
+        while(itr.hasNext()) {
+            Bonus b = itr.next();
+            b.decrementTicksRemaining();
+            if(b.getTicksRemaining() <= 0) {
+                board[b.getY()][b.getX()].removeReward();
+                itr.remove();
+            }
+        }
+
+        if(isColliding(currentTile)) {
+            Reward reward = currentTile.getReward();
+            reward.updatePlayerScore();
+            currentTile.removeReward();
+        }
+
+        Game.inputReceived();
+        Board.printBoard();
     }
 
     /**
@@ -66,21 +107,12 @@ public class MainCharacter extends NonStationaryCharacter {
      * @return true if the player is on a reward tile, else false
      */
     private boolean isColliding(Tile currentTile) {
-//        if(currentTile.getHasReward()) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
-        return false;
-    }
-
-    public void updateScore(int value) { // call to update score
-//        scoreboard.updateScore(value);
-    }
-
-    public void setScore(int value) { // call to set score
-//        scoreboard.updateScore(value);
+        if(currentTile.getHasReward()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -90,27 +122,36 @@ public class MainCharacter extends NonStationaryCharacter {
      * @param e a KeyEvent key input
      */
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        // origin is top left
-        // x,y increases by going right,down
+        KeyCode key = e.getCode();
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
         if (!keyIsPressed) { // check if previous key was released to only allow singular key presses
-            if (key == KeyEvent.VK_UP) {
-                y += -1;
+            if ((key == KeyCode.UP) && (y-1 >= 0)) {
+                if(board[y-1][x].isOpen()) {
+                    y += -1;
+                }
             }
-            if (key == KeyEvent.VK_DOWN) {
-                y += 1;
+            if ((key == KeyCode.DOWN) && (y+1 < dimY)) {
+                if(board[y+1][x].isOpen()) {
+                    y += 1;
+                }
             }
-            if (key == KeyEvent.VK_LEFT) {
-                x += -1;
+            if ((key == KeyCode.LEFT) && (x-1 >= 0)) {
+                if(board[y][x-1].isOpen()) {
+                    x += -1;
+                }
             }
-            if (key == KeyEvent.VK_RIGHT) {
-                x += 1;
+            if ((key == KeyCode.RIGHT) && (x+1 < dimX)) {
+                if(board[y][x+1].isOpen()) {
+                    x += 1;
+                }
             }
-
+            System.out.println(x + "," + y);
             keyIsPressed = true;
+            move();
         }
     }
-
 
     /**
      * Resets the keyIsPressed condition
@@ -125,7 +166,4 @@ public class MainCharacter extends NonStationaryCharacter {
             keyIsPressed = false;
         }
     }
-
-
-
 }

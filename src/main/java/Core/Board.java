@@ -8,8 +8,8 @@ import TileAction.*;
 public class Board
 {
 
-    public int dimX;
-    public int dimY;
+    public static int dimX;
+    public static int dimY;
     private static int[][] boardID;
     private static Tile[][] board;
     public static int exitXPos;
@@ -20,9 +20,9 @@ public class Board
     }
 
     public Board() {
-        int[][] id = {  {1, 0, 2, 5},
-                        {1, 0, 3, 6},
-                        {1, 1, 4, 2}
+        int[][] id = {  {1, 0, 0, 5},
+                        {1, 0, 0, 6},
+                        {1, 0, 4, 0}
                     };
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
         /**Takes a 2D array...
@@ -51,19 +51,21 @@ public class Board
                         break;
                         //System.out.println("Wall");
                     case 2: //Tile with checkpoint
-                        board[i][j] = new Tile(1); // checkpoint is input 1
+                        board[i][j] = new Tile(1, j, i); // checkpoint is input 1
                         break;
                     case 3: //Tile with punishment
-                        board[i][j] = new Tile(2); // punishment is input 2
+                        board[i][j] = new Tile(2, j, i); // punishment is input 2
                         break;
                     case 4:
-                        board[i][j] = new Tile(3); // bonus is input 3
+                        board[i][j] = new Tile(3, j, i); // bonus is input 3
                         break;
                     case 5:
                         board[i][j] = new Entrance();
                         break;
                     case 6:
                         board[i][j] = new Exit();
+                        exitYPos = i;
+                        exitXPos = j;
                         break;
 
 
@@ -88,6 +90,15 @@ public class Board
     {
         //Changes the ID of a single entry, like for when a reward is stepped on
         boardID[i][j] = val;
+    }
+
+    public static void printBoard() {
+        for (int i = 0; i < dimY; i++) {
+            for (int j = 0; j < dimX; j++) {
+                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + " ");
+            }
+            System.out.println("");
+        }
     }
 }
 
