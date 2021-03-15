@@ -6,16 +6,20 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
-
+import javafx.scene.image.Image;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Locale;
 
 public class Game extends Application{
@@ -27,7 +31,7 @@ public class Game extends Application{
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
-    public void start(Stage mainGame) {
+    public void start(Stage mainGame) throws FileNotFoundException {
         mainGame.setTitle("Maze Game");
 
         startGame();
@@ -55,6 +59,11 @@ public class Game extends Application{
         Scene scene = new Scene(root);
         mainGame.setScene(scene);
 
+        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
+        Image image = new Image(inputStream);
+        ImageView imageView = new ImageView(image);
+
+
         int horizontal = 256, vertical = 256;
         Rectangle rect = null;
         for(int i = 0; i < width; ++i)
@@ -67,8 +76,24 @@ public class Game extends Application{
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //Create a new rectangle(PosY,PosX,width,height)
 
-
+                //rect.setFill(new ImagePattern(image));
+                int cur = boardGame.getID(i,j);
                 rect.setStroke(Color.RED);
+                rect.setFill(Color.WHITE);
+                switch(cur)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        rect.setStroke((Color.GREEN));
+                        break;
+                    case 2:
+                        rect.setFill(Color.GREEN);
+                        break;
+
+                }
+
+
                 //Give rectangles an outline so I can see rectangles
 
                 root.getChildren().add(rect);
