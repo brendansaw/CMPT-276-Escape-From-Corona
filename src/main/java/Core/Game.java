@@ -59,9 +59,9 @@ public class Game extends Application{
         Scene scene = new Scene(root);
         mainGame.setScene(scene);
 
-        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
-        Image image = new Image(inputStream);
-        ImageView imageView = new ImageView(image);
+//        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
+//        Image image = new Image(inputStream);
+//        ImageView imageView = new ImageView(image);
 
 
         int horizontal = 256, vertical = 256;
@@ -90,7 +90,11 @@ public class Game extends Application{
                     case 2:
                         rect.setFill(Color.GREEN);
                         break;
-
+                    case 3:
+                        rect.setFill(Color.RED);
+                        break;
+                    case 4:
+                        rect.setFill(Color.BLUE);
                 }
 
 
