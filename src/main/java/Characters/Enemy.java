@@ -14,6 +14,11 @@ import Core.*;
 public class Enemy extends NonStationaryCharacter {
     private static MainCharacter player = MainCharacter.getMainCharacter(0, 0); // reference to main character
 
+    public Enemy(int x, int y) { // constructor sets starting position of Enemy
+        this.x = x;
+        this.y = y;
+    }
+
     /**
      * Calculates the position the
      * enemy should move to.
@@ -21,6 +26,11 @@ public class Enemy extends NonStationaryCharacter {
      * @return an enum corresponding to a direction of movement
      */
     private Direction checkBestMovement() {
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
+
+        boolean moved = false;
         Direction checkedDirection = Direction.STAY;
         int playerPosX = player.getX();
         int playerPosY = player.getY();
@@ -29,19 +39,37 @@ public class Enemy extends NonStationaryCharacter {
         int distanceY = playerPosY - y;
         // Chooses a direction that sets their coordinates closer to the player
         // Checks x movement first then y movement
-        // should check if directions are valid. maybe check wallPositions[x][y]
-        // to see if there is a wall there.
-        if(distanceX > 0) {
-            checkedDirection = Direction.RIGHT;
+        if(!moved) {
+            if ((distanceX > 0) && (x + 1 <= dimX)) {
+                if (board[y][x + 1].isOpen()) {
+                    checkedDirection = Direction.RIGHT;
+                    moved = true;
+                }
+            }
         }
-        else if(distanceX < 0) {
-            checkedDirection = Direction.LEFT;
+        if(!moved) {
+            if ((distanceX < 0) && (x - 1 >= 0)) {
+                if (board[y][x - 1].isOpen()) {
+                    checkedDirection = Direction.LEFT;
+                    moved = true;
+                }
+            }
         }
-        else if(distanceY > 0) {
-            checkedDirection = Direction.DOWN;
+        if(!moved) {
+            if ((distanceY > 0) && (y + 1 <= dimY)) {
+                if (board[y + 1][x].isOpen()) {
+                    checkedDirection = Direction.DOWN;
+                    moved = true;
+                }
+            }
         }
-        else if(distanceY < 0) {
-            checkedDirection = Direction.UP;
+        if(!moved) {
+            if ((distanceY < 0) && (y - 1 >= 0)) {
+                if (board[y - 1][x].isOpen()) {
+                    checkedDirection = Direction.UP;
+                    moved = true;
+                }
+            }
         }
 
         return checkedDirection;
@@ -52,22 +80,25 @@ public class Enemy extends NonStationaryCharacter {
      */
     public void move() {
         Direction direction = checkBestMovement();
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
 
-        if (direction == Direction.UP) {
-            y += Direction.UP.getVal();
+        if(direction == Direction.UP) {
+            y += -1;
         }
-        if (direction == Direction.DOWN) {
-            y += Direction.DOWN.getVal();
+        if(direction == Direction.DOWN) {
+            y += 1;
         }
-        if (direction == Direction.LEFT) {
-            x += Direction.LEFT.getVal();
+        if(direction == Direction.LEFT) {
+            x += -1;
         }
-        if (direction == Direction.RIGHT) {
-            x += Direction.RIGHT.getVal();
+        if(direction == Direction.RIGHT) {
+            x += 1;
         }
 
         if(isColliding()) {
-            //onPlayerEntered();
+            onPlayerEntered();
         }
     }
 
@@ -86,9 +117,9 @@ public class Enemy extends NonStationaryCharacter {
     }
 
     /**
-     * Causes the player to lose the game.
+     * Causes the player to lose the game by calling Game method endGame().
      */
     private void onPlayerEntered() {
-        //player.setScore(-1); // set score to -1
+        Game.endGame(false);
     }
 }
