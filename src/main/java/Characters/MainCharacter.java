@@ -72,13 +72,35 @@ public class MainCharacter extends NonStationaryCharacter {
         Tile exit = board[Board.exitYPos][Board.exitXPos];
         ((Exit) exit).checkCheckpoints();
 
-        int xPos = (int)(Math.random() * dimX-1);
-        int yPos = (int)(Math.random() * dimY-1);
-        Tile bonusTile = board[yPos][xPos];
-        if(!bonusTile.getHasReward() && bonusTile.isOpen()) {
-            Bonus bonus = new Bonus(xPos, yPos);
-            bonusTile.setReward(bonus);
-            bonusArrayList.add(bonus);
+        generateBonus();
+
+        if(isColliding(currentTile)) {
+            Reward reward = currentTile.getReward();
+            reward.updatePlayerScore();
+            currentTile.removeReward();
+        }
+
+        Game.inputReceived();
+        Board.printBoard();
+    }
+
+    private void generateBonus() {
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
+
+        int bonusChance = 20; // chance to attempt to generate bonus
+        int chance = (int)(Math.random() * 100);
+
+        if(chance <= bonusChance) { // attempt to generate a bonus reward
+            int xPos = (int) (Math.random() * (dimX - 2) + 1); // generate coordinate between 1 and dim-2
+            int yPos = (int) (Math.random() * (dimY - 2) + 1); // ^^^
+            Tile bonusTile = board[yPos][xPos];
+            if (!bonusTile.getHasReward() && bonusTile.isOpen()) {
+                Bonus bonus = new Bonus(xPos, yPos);
+                bonusTile.setReward(bonus);
+                bonusArrayList.add(bonus);
+            }
         }
         Iterator<Bonus> itr = bonusArrayList.iterator();
         while(itr.hasNext()) {
@@ -89,15 +111,6 @@ public class MainCharacter extends NonStationaryCharacter {
                 itr.remove();
             }
         }
-
-        if(isColliding(currentTile)) {
-            Reward reward = currentTile.getReward();
-            reward.updatePlayerScore();
-            currentTile.removeReward();
-        }
-
-        Game.inputReceived();
-        Board.printBoard();
     }
 
     /**
