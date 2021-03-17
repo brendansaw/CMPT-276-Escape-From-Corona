@@ -1,6 +1,10 @@
 package Core;
-import Characters.MainCharacter;
+import BoardDesign.*;
+import Characters.*;
+import TileAction.*;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,15 +16,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.scene.input.*;
 
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Game extends Application{
 
-    private int score;
+    public static int score;
     private int time;
 
+    private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
     // no constructor needed since this will contain the main for now
 
@@ -37,6 +44,21 @@ public class Game extends Application{
         Group root = new Group();
         Scene theScene = new Scene(root);
         mainGame.setScene(theScene);
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+
+        theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                mainCharacter.keyPressed(e);
+            }
+        });
+
+        theScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                mainCharacter.keyReleased(e);
+            }
+        });
 
         Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
         root.getChildren().add( canvas);
@@ -100,9 +122,13 @@ public class Game extends Application{
         time = 0;
     }
 
-
-    public void endGame(){
-
+    public static void endGame(boolean win){
+        if(win) {
+            System.out.println("You win.");
+        }
+        else {
+            System.out.println("You lose.");
+        }
     }
     public int getScore(){
         return score;
@@ -117,18 +143,24 @@ public class Game extends Application{
         return score;
     }
 
+
     private Board createBoard() {
 
         Board boardGame = new Board();
-        for (int i = 0; i < boardGame.dimX; i++) {
-            for (int j = 0; j < boardGame.dimY; j++) {
-                System.out.print(boardGame.board[i][j].getClass().getSimpleName() + boardGame.board[i][j].typeOfReward + " ");
+        for (int i = 0; i < boardGame.dimY; i++) {
+            for (int j = 0; j < boardGame.dimX; j++) {
+                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
             }
             System.out.println("");
         }
         return boardGame;
     }
 
+    public static void inputReceived() {
+        for(Enemy e : enemyArrayList) {
+            e.move();
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);

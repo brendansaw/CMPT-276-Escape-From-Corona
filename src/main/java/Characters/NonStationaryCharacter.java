@@ -10,17 +10,10 @@ package Characters;
  * @since 1.0
  */
 
-abstract public class NonStationaryCharacter {
+public class NonStationaryCharacter {
     //Tile tile = new Tile(); // currently not working since not implemented in this branch
     protected int x = 0; // x coord
     protected int y = 0; // y coord
-
-//    /**
-//     * Abstract method to check for collision with another object.
-//     *
-//     * @return true or false
-//     */
-//    abstract protected boolean isColliding();
 
     /**
      * Returns the value of x.
