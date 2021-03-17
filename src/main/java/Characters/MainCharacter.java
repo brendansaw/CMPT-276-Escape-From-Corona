@@ -84,6 +84,9 @@ public class MainCharacter extends NonStationaryCharacter {
         Board.printBoard();
     }
 
+    /**
+     * Method to attempt to generate a bonus reward on the board.
+     */
     private void generateBonus() {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;

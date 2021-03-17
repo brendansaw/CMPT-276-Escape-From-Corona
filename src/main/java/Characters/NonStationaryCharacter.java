@@ -11,12 +11,11 @@ package Characters;
  */
 
 public class NonStationaryCharacter {
-    //Tile tile = new Tile(); // currently not working since not implemented in this branch
     protected int x = 0; // x coord
     protected int y = 0; // y coord
 
     /**
-     * Returns the value of x.
+     * Getter for the x coordinate of object.
      *
      * @return an int corresponding to an x coordinate
      */
@@ -25,7 +24,7 @@ public class NonStationaryCharacter {
     }
 
     /**
-     * Returns the value of y.
+     * Getter for the y coordinate of object.
      *
      * @return an int corresponding to a y coordinate
      */

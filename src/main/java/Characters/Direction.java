@@ -1,5 +1,12 @@
 package Characters;
 
+/**
+ * An enum class to assign values to directions.
+ *
+ * @author Stephen Dao
+ * @version 1.0
+ * @since 1.0
+ */
 public enum Direction {
     UP(-1),
     DOWN(1),

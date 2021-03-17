@@ -4,7 +4,7 @@ import Core.*;
 /**
  * Enemy class implements methods to update the
  * enemy object. This includes movement handling
- * and entity collision.
+ * and collision handling.
  *
  * @author Brendan
  * @author Stephen Dao
@@ -17,6 +17,33 @@ public class Enemy extends NonStationaryCharacter {
     public Enemy(int x, int y) { // constructor sets starting position of Enemy
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Updates the position of the enemy.
+     */
+    public void move() {
+        Direction direction = checkBestMovement();
+        Tile[][] board = Board.getBoard();
+        int dimX = board[0].length;
+        int dimY = board.length;
+
+        if(direction == Direction.UP) {
+            y += -1;
+        }
+        if(direction == Direction.DOWN) {
+            y += 1;
+        }
+        if(direction == Direction.LEFT) {
+            x += -1;
+        }
+        if(direction == Direction.RIGHT) {
+            x += 1;
+        }
+
+        if(isColliding()) {
+            onPlayerEntered();
+        }
     }
 
     /**
@@ -73,33 +100,6 @@ public class Enemy extends NonStationaryCharacter {
         }
 
         return checkedDirection;
-    }
-
-    /**
-     * Updates the position of the enemy.
-     */
-    public void move() {
-        Direction direction = checkBestMovement();
-        Tile[][] board = Board.getBoard();
-        int dimX = board[0].length;
-        int dimY = board.length;
-
-        if(direction == Direction.UP) {
-            y += -1;
-        }
-        if(direction == Direction.DOWN) {
-            y += 1;
-        }
-        if(direction == Direction.LEFT) {
-            x += -1;
-        }
-        if(direction == Direction.RIGHT) {
-            x += 1;
-        }
-
-        if(isColliding()) {
-            onPlayerEntered();
-        }
     }
 
     /**

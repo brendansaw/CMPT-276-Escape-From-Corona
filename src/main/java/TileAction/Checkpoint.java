@@ -2,6 +2,18 @@ package TileAction;
 import Characters.*;
 import Core.Game;
 
+/**
+ * Checkpoint class implements the Reward interface.
+ * Contains method to update player score by the
+ * value of the object.
+ * Also holds the static value of checkpoints left and
+ * updates this value accordingly.
+ *
+ * @author Brendan
+ * @author Stephen Dao
+ * @version 1.0
+ * @since 1.0
+ */
 public class Checkpoint implements Reward {
     public static int checkpointsLeft = 0;
     int scoreIncreaseValue = 50;
@@ -11,6 +23,10 @@ public class Checkpoint implements Reward {
         System.out.println(checkpointsLeft);
     }
 
+    /**
+     * Updates player score by value of reward and
+     * updates number of checkpoints left.
+     */
     @Override
     public void updatePlayerScore() {
         Game.score += scoreIncreaseValue;
