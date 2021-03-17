@@ -5,22 +5,25 @@ import TileAction.*;
 
 public class Tile
 {
+    private int x;
+    private int y;
     private boolean hasEnemy;
     private boolean hasMain;
     private boolean hasReward = false;
+    protected boolean isOpen = true;
     Reward reward;
-    public int typeOfReward = 0;
+    public String typeOfReward = "";
 
     public Tile() {
         hasReward = false;
     }
 
-    public Tile(int inputType) {
-        typeOfReward = inputType;
+    public Tile(int inputType, int x, int y) {
         hasReward = true;
-        switch (typeOfReward) {
+        switch (inputType) {
             case 1:
-                reward = new Bonus();
+                reward = new Bonus(x, y);
+
                 break;
             case 2:
                 reward = new Punishment();
@@ -32,6 +35,7 @@ public class Tile
                 System.out.println("Incorrect input");
                 break;
         }
+        typeOfReward = reward.getClass().getSimpleName();
     }
 
     public boolean getHasEnemy()
@@ -46,5 +50,34 @@ public class Tile
 
     public boolean getHasReward(){
         return hasReward;
+    }
+
+    public Reward getReward() {
+        return reward;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setHasReward(boolean hasReward) {
+        this.hasReward = hasReward;
+    }
+
+    /**
+     * Sets the reward object for the tile.
+     *
+     * @param reward a type of Reward object
+     */
+    public void setReward(Reward reward) {
+        hasReward = true;
+        this.reward = reward;
+        typeOfReward = reward.getClass().getSimpleName();
+    }
+
+    public void removeReward() {
+        hasReward = false;
+        reward = null;
+        typeOfReward = "";
     }
 }
