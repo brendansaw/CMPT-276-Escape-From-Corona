@@ -70,7 +70,9 @@ public class MainCharacter extends NonStationaryCharacter {
         int dimY = board.length;
         Tile currentTile = board[y][x];
         Tile exit = board[Board.exitYPos][Board.exitXPos];
-        ((Exit) exit).checkCheckpoints();
+        if(Board.exitXPos != 0 || Board.exitYPos != 0) {
+            ((Exit) exit).checkCheckpoints();
+        }
 
         generateBonus();
 
@@ -163,7 +165,7 @@ public class MainCharacter extends NonStationaryCharacter {
                     x += 1;
                 }
             }
-            System.out.println(x + "," + y);
+            printPos();
             keyIsPressed = true;
             move();
         }

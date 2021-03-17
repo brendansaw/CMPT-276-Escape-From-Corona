@@ -22,7 +22,7 @@ public class Bonus implements Reward {
     private int y;
 
     public Bonus(int x, int y) { // constructor sets bonus coordinates and lifetime
-        ticksRemaining = (int)((Math.random() * 7) + 3); // max lifetime = 10, min lifetime = 3
+        ticksRemaining = (int)((Math.random() * 15) + 5); // max lifetime = 20, min lifetime = 5
         this.x = x;
         this.y = y;
         //System.out.println("created bonus at" + x + "," + y);
@@ -33,7 +33,7 @@ public class Bonus implements Reward {
      */
     @Override
     public void updatePlayerScore() {
-        Game.score += scoreIncreaseValue;
+        Game.updateScore(scoreIncreaseValue);
         //System.out.println(Game.score);
         /*
         mainCharacter.increasePlayerScore(scoreIncreaseValue);

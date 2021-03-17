@@ -20,7 +20,7 @@ public class Checkpoint implements Reward {
 
     public Checkpoint() {
         checkpointsLeft += 1;
-        System.out.println(checkpointsLeft);
+        //System.out.println(checkpointsLeft);
     }
 
     /**
@@ -29,7 +29,7 @@ public class Checkpoint implements Reward {
      */
     @Override
     public void updatePlayerScore() {
-        Game.score += scoreIncreaseValue;
+        Game.updateScore(scoreIncreaseValue);
         checkpointsLeft -= 1;
         //System.out.println(Game.score);
         /*

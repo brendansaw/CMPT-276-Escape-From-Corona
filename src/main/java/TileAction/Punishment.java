@@ -24,7 +24,7 @@ public class Punishment implements Reward {
      */
     @Override
     public void updatePlayerScore() {
-        Game.score += scoreIncreaseValue;
+        Game.updateScore(scoreIncreaseValue);
         //System.out.println(Game.score);
         /*
         mainCharacter.increasePlayerScore(scoreIncreaseValue);

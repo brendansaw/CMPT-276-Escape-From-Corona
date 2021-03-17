@@ -31,4 +31,19 @@ public class NonStationaryCharacter {
     public int getY() {
         return y;
     }
+
+    /**
+     * Setter to set the x and y coordinate of the object.
+     *
+     * @param x an x coordinate
+     * @param y a y coordinate
+     */
+    public void setPos(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void printPos() {
+        System.out.println(getClass().getSimpleName() +":[" + x + ", " + y + "]");
+    }
 }
