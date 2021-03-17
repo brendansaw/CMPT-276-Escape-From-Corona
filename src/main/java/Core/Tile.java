@@ -22,14 +22,13 @@ public class Tile
         hasReward = true;
         switch (inputType) {
             case 1:
-                reward = new Bonus(x, y);
-
+                reward = new Checkpoint();
                 break;
             case 2:
                 reward = new Punishment();
                 break;
             case 3:
-                reward = new Checkpoint();
+                reward = new Bonus(x, y);
                 break;
             default:
                 System.out.println("Incorrect input");

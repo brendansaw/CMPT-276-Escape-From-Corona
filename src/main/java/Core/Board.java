@@ -20,8 +20,8 @@ public class Board
     }
 
     public Board() {
-        int[][] id = {  {1, 0, 0, 5},
-                        {1, 0, 0, 6},
+        int[][] id = {  {1, 0, 2, 5},
+                        {1, 0, 3, 6},
                         {1, 0, 4, 0}
                     };
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
@@ -68,19 +68,6 @@ public class Board
                         exitXPos = j;
                         break;
 
-
-
-//                    case 2://Tile with checkpoint
-//                        //board[i][j] = new Reward(/*checkpoint params*/);
-//                    case 3://Tile with punishment
-//                        //board[i][j] = new Reward(/*punishment params*/);
-//                    case 4://Tile with bonus reward. Perhaps the location is predetermined since it is here, to group it with all the other rewards
-//                        //board[i][j] = new Reward(/*bonus params*/);
-//                    case 5://Tile with entry
-//                        entryPos = new int[]{i,j};
-//                    case 6://Tile with exit. Cannot be accessed until all checkpoints collected!
-//                        exitPos = new int[]{i,j};
-//
                 }
             }
         }
@@ -94,9 +81,9 @@ public class Board
         return dimY;
     }
 
-    public int getID(int i, int j)
+    public Tile getTile(int i, int j)
     {
-        return boardID[i][j];
+        return board[i][j];
     }
 
     public void setID(int i, int j, int val)
