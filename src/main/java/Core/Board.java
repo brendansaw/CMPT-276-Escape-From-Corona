@@ -94,6 +94,11 @@ public class Board
         return dimY;
     }
 
+    public int getID(int i, int j)
+    {
+        return boardID[i][j];
+    }
+
     public void setID(int i, int j, int val)
     {
         //Changes the ID of a single entry, like for when a reward is stepped on
@@ -108,6 +113,7 @@ public class Board
             System.out.println("");
         }
     }
+
 }
 
 
