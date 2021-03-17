@@ -107,8 +107,7 @@ public class Game extends Application{
                 mainCharacter.keyReleased(e);
             }
         });
-        scene.setRoot(positions);
-        mainGame.show();
+
         mainGame.setScene(scene);
 
         drawRectangles(root, boardGame);
@@ -136,7 +135,7 @@ public class Game extends Application{
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
-
+        mainGame.show();
 
 
     }
