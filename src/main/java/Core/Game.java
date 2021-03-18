@@ -74,6 +74,8 @@ public class Game extends Application{
         AnchorPane root = new AnchorPane();
         positions.setCenter(root);
 
+        mainGame.setFullScreen(true);
+
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
 //        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
@@ -141,7 +143,7 @@ public class Game extends Application{
     void drawRectangles(AnchorPane root, Board boardGame) {
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
-        int horizontal = 100, vertical = 100;
+        int horizontal = 256, vertical = 256;
         Rectangle rect = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
