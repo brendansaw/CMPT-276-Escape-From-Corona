@@ -78,11 +78,21 @@ public class Game extends Application{
 //        }
 
         Label labelCenter = new Label("this is BorderPane center");
-        BorderPane positions = new BorderPane(labelCenter);
-        AnchorPane root = new AnchorPane();
-        positions.setCenter(root);
+        Label labelTop = new Label("this is BorderPane top");
+        Label labelBottom = new Label("this is BorderPane bottom");
+        Label labelLeft = new Label("this is BorderPane left");
+        Label labelRight = new Label("this is BorderPane right");
 
-        positions.setAlignment(labelCenter, Pos.CENTER);
+        AnchorPane root = new AnchorPane();
+        BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
+
+        positions.setCenter(root);
+        //positions.setTop(labelTop);
+        positions.setAlignment(labelTop, Pos.CENTER);
+        positions.setAlignment(labelBottom, Pos.CENTER);
+        positions.setAlignment(labelLeft, Pos.CENTER);
+        positions.setAlignment(labelRight, Pos.CENTER);
+
         positions.setAlignment(root, Pos.CENTER);
 
         Scene scene = new Scene(positions);
