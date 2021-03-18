@@ -1,8 +1,15 @@
 package BoardDesign;
 import Core.*;
 
+/**
+ * Entrance class represents a Tile object
+ * where the player character starts the game on.
+ *
+ * @author Brendan
+ * @version 1.0
+ * @since 1.0
+ */
 public class Entrance extends Wall {
-    //static boolean isOpen = true;
     public Entrance() {
         isOpen = false;
     }
