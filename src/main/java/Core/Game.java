@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -84,10 +85,14 @@ public class Game extends Application{
         Label labelRight = new Label("this is BorderPane right");
 
         AnchorPane root = new AnchorPane();
-        BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
-
+        //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
+        BorderPane positions = new BorderPane(root);
+        //positions.setPrefSize(500,500);
         positions.setCenter(root);
-        //positions.setTop(labelTop);
+        positions.setTop(labelTop);
+        positions.setBottom(labelBottom);
+        positions.setLeft(labelLeft);
+        positions.setRight(labelRight);
         positions.setAlignment(labelTop, Pos.CENTER);
         positions.setAlignment(labelBottom, Pos.CENTER);
         positions.setAlignment(labelLeft, Pos.CENTER);
@@ -157,9 +162,9 @@ public class Game extends Application{
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
         mainGame.show();
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+    /*    Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         mainGame.setX((primScreenBounds.getWidth() - mainGame.getWidth()) / 2);
-        mainGame.setY((primScreenBounds.getHeight() - mainGame.getHeight()) / 2);
+        mainGame.setY((primScreenBounds.getHeight() - mainGame.getHeight()) / 2);*/
 
     }
 
