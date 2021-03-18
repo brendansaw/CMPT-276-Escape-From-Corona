@@ -8,11 +8,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
 import javafx.scene.image.Image;
@@ -72,9 +76,14 @@ public class Game extends Application{
 //                rect[i][j] = new Rectangle();
 //            }
 //        }
-        BorderPane positions = new BorderPane();
+
+        Label labelCenter = new Label("this is BorderPane center");
+        BorderPane positions = new BorderPane(labelCenter);
         AnchorPane root = new AnchorPane();
         positions.setCenter(root);
+
+        positions.setAlignment(labelCenter, Pos.CENTER);
+        positions.setAlignment(root, Pos.CENTER);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
@@ -110,6 +119,8 @@ public class Game extends Application{
 
         mainGame.setScene(scene);
 
+
+
         drawRectangles(root, boardGame);
 
 
@@ -136,7 +147,9 @@ public class Game extends Application{
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
         mainGame.show();
-
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        mainGame.setX((primScreenBounds.getWidth() - mainGame.getWidth()) / 2);
+        mainGame.setY((primScreenBounds.getHeight() - mainGame.getHeight()) / 2);
 
     }
 
