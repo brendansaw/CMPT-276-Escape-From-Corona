@@ -2,7 +2,7 @@ package BoardDesign;
 import Characters.MainCharacter;
 import Core.*;
 import TileAction.*;
-import sun.applet.Main;
+//import sun.applet.Main;
 
 public class Exit extends Wall {
     //private static boolean isOpen = false;
