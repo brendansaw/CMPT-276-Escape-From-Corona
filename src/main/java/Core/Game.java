@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
@@ -45,8 +46,10 @@ import java.util.Locale;
 
 public class Game extends Application{
 
-    private static int score;
-    private int time;
+
+    public static int score;
+    private static int time;
+
     private static String winStatus;
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
@@ -136,23 +139,48 @@ public class Game extends Application{
         drawRectangles(root, boardGame);
 
         Timeline everySecond = new Timeline(
-                new KeyFrame(Duration.millis(500),
+                new KeyFrame(Duration.millis(1000),
                         new EventHandler<ActionEvent>() {
 
                             @Override
                             public void handle(ActionEvent event) {
                                 Integer getScoreInt = new Integer(getScore());
-                                VBox b = new VBox();
-                                Text test = new Text(getScoreInt.toString() + "                                  ");
-                                Text test2 = new Text(winStatus);
-                                //test.setX(0);
-                                //test.setY(0);
-                                //test2.setX(0);
-                                //test2.setY(50);
-                                b.getChildren().add(test);
-                                b.getChildren().add(test2);
-                                positions.setLeft(b);
-                                //positions.setLeft(test2);
+                                Integer getTimeInt = new Integer(time);
+                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
+                                HBox statistics = new HBox();
+                                VBox firstChild = new VBox();
+                                VBox secondChild = new VBox();
+                                VBox thirdChild = new VBox();
+                                VBox fourthChild = new VBox();
+                                int numberOfChildren = 4;
+                                Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
+                                Text timeDisplay = new Text("Time Remaining: " + getTimeInt.toString());
+                                Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
+                                Text winDisplay = new Text("Win Status: " + winStatus);
+                                firstChild.getChildren().add(scoreDisplay);
+                                secondChild.getChildren().add(timeDisplay);
+                                thirdChild.getChildren().add(checkpointDisplay);
+                                fourthChild.getChildren().add(winDisplay);
+                                statistics.setPrefWidth(boardGame.getDimX() * 256);
+                                firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                // maybe use escape to pause game or something?
+
+                                if (time <= 0) {
+                                    endGame(false);
+                                } else {
+                                    time = time-1;
+                                }
+
+
+                                statistics.getChildren().add(firstChild);
+                                statistics.getChildren().add(secondChild);
+                                statistics.getChildren().add(thirdChild);
+                                statistics.getChildren().add(fourthChild);
+
+                                positions.setTop(statistics);
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
@@ -245,17 +273,17 @@ public class Game extends Application{
 
     public void startGame(){
         score = 0;
-        time = 0;
+        time = 10;
     }
 
     public static void endGame(boolean win){
-        if(win) {
-            winStatus = "You win.";
-            System.out.println(winStatus);
-        }
-        else {
-            winStatus = "You lose.";
-            System.out.println(winStatus);
+        if (winStatus == null) {    // prevents winStatus from changing
+            if(win) {
+                winStatus = "You win.";
+            }
+            else {
+                winStatus = "You lose.";
+            }
         }
     }
     public int getScore(){
@@ -288,6 +316,7 @@ public class Game extends Application{
     }
 
     public static void main(String[] args) {
+
         launch(args);
 //
 //        Game game = new Game();
