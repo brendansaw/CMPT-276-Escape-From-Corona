@@ -10,35 +10,20 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.chart.BarChart;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import javafx.scene.*;
+import javafx.scene.layout.*;
+import javafx.scene.input.*;
+import javafx.scene.paint.*;
 import javafx.scene.shape.*;
-import javafx.scene.image.Image;
+import javafx.stage.*;
+import javafx.scene.text.*;
+import javafx.scene.image.*;
+import java.lang.*;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javafx.scene.input.*;
+
 import javafx.util.Duration;
 
 import java.io.InputStream;
@@ -50,6 +35,8 @@ public class Game extends Application{
 
     public static int score;
     private static int time;
+    private int xTileSize = 96;
+    private int yTileSize = 96;
 
     private static String winStatus;
 
@@ -79,29 +66,29 @@ public class Game extends Application{
 //            }
 //        }
 
-        Label labelCenter = new Label("this is BorderPane center");
-        Label labelTop = new Label("this is BorderPane top");
-        Label labelBottom = new Label("this is BorderPane bottom");
-        Label labelLeft = new Label("this is BorderPane left");
-        Label labelRight = new Label("this is BorderPane right");
+        //Label labelCenter = new Label("this is BorderPane center");
+        //Label labelTop = new Label("this is BorderPane top");
+        //Label labelBottom = new Label("this is BorderPane bottom");
+        //Label labelLeft = new Label("this is BorderPane left");
+        //Label labelRight = new Label("this is BorderPane right");
 
         AnchorPane root = new AnchorPane();
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
         BorderPane positions = new BorderPane(root);
         //positions.setPrefSize(500,500);
         positions.setCenter(root);
-        positions.setTop(labelTop);
-        positions.setBottom(labelBottom);
-        positions.setLeft(labelLeft);
-        positions.setRight(labelRight);
-        positions.setAlignment(labelTop, Pos.CENTER);
-        positions.setAlignment(labelBottom, Pos.CENTER);
-        positions.setAlignment(labelLeft, Pos.CENTER);
-        positions.setAlignment(labelRight, Pos.CENTER);
+        //positions.setTop(labelTop);
+        //positions.setBottom(labelBottom);
+        //positions.setLeft(labelLeft);
+        //positions.setRight(labelRight);
+        //positions.setAlignment(labelTop, Pos.CENTER);
+        //positions.setAlignment(labelBottom, Pos.CENTER);
+        //positions.setAlignment(labelLeft, Pos.CENTER);
+        //positions.setAlignment(labelRight, Pos.CENTER);
 
         positions.setAlignment(root, Pos.CENTER);
 
-        mainGame.setFullScreen(true);
+        //mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
@@ -135,8 +122,11 @@ public class Game extends Application{
             }
         });
 
-        mainGame.setScene(scene);
 
+        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+        scene.setRoot(positions);
+        mainGame.setScene(scene);
 
 
         drawRectangles(root, boardGame);
@@ -147,6 +137,7 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
+
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
                                 Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
@@ -157,31 +148,31 @@ public class Game extends Application{
                                 VBox fourthChild = new VBox();
                                 int numberOfChildren = 4;
                                 Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
-                                Text timeDisplay = new Text("Time Remaining: " + getTimeInt.toString());
+                                Text timeDisplay = new Text("Time Elapsed: " + getTimeInt.toString());
                                 Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
                                 Text winDisplay = new Text("Win Status: " + winStatus);
                                 firstChild.getChildren().add(scoreDisplay);
                                 secondChild.getChildren().add(timeDisplay);
                                 thirdChild.getChildren().add(checkpointDisplay);
                                 fourthChild.getChildren().add(winDisplay);
-                                statistics.setPrefWidth(boardGame.getDimX() * 256);
+                                statistics.setPrefWidth(boardGame.getDimX() * xTileSize);
                                 firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
                                 secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
                                 thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
                                 fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
                                 // maybe use escape to pause game or something?
 
-                                if (time <= 0) {
-                                    endGame(false);
-                                } else {
-                                    time = time-1;
-                                }
+                                time = time + 1;
 
 
                                 statistics.getChildren().add(firstChild);
                                 statistics.getChildren().add(secondChild);
                                 statistics.getChildren().add(thirdChild);
                                 statistics.getChildren().add(fourthChild);
+
+                                xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
+                                yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
+                                drawRectangles(root, boardGame);
 
                                 positions.setTop(statistics);
                             }
@@ -206,9 +197,10 @@ public class Game extends Application{
     }
 
     void drawRectangles(AnchorPane root, Board boardGame) {
+        root.getChildren().clear();
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
-        int horizontal = 64, vertical = 64;
+        int horizontal = xTileSize, vertical = yTileSize;
         Rectangle rect = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
@@ -279,6 +271,7 @@ public class Game extends Application{
 
 
                 //Give rectangles an outline so I can see rectangles
+
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
@@ -288,7 +281,7 @@ public class Game extends Application{
 
     public void startGame(){
         score = 0;
-        time = 10;
+        time = 0;
     }
 
     public static void endGame(boolean win){
