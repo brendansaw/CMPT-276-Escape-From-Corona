@@ -41,6 +41,7 @@ import java.io.FileNotFoundException;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -57,7 +58,7 @@ public class Game extends Application{
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
-    public void start(Stage mainGame) throws FileNotFoundException {
+    public void start(Stage mainGame) {
         mainGame.setTitle("Maze Game");
 
         startGame();
@@ -99,6 +100,8 @@ public class Game extends Application{
         positions.setAlignment(labelRight, Pos.CENTER);
 
         positions.setAlignment(root, Pos.CENTER);
+
+        mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
@@ -213,11 +216,20 @@ public class Game extends Application{
             {//Iterate through rows
 //              Color choice = chooseColor(rectColors);
                 //Method that chooses a color
-
                 rect = new Rectangle(vertical*j, horizontal*i, horizontal, vertical);
                 //Create a new rectangle(PosY,PosX,width,height)
 
-                //rect.setFill(new ImagePattern(image));
+                //temporary asset loading for textures; should eventually be done from one file and be more elegant
+                InputStream inputTile;
+                InputStream inputWall;
+                try {
+                    inputTile = new FileInputStream("assets/grass.png");
+                    inputWall = new FileInputStream("assets/wall.png");
+                } catch(FileNotFoundException e) { inputTile = null; inputWall = null;}
+
+                Image imageTile = new Image(inputTile);
+                Image imageWall = new Image(inputWall);
+
                 Tile currentTile = boardGame.getTile(i,j);
                 String currentTileString = currentTile.getClass().getSimpleName();
                 int currentTileInt = 0;
@@ -239,9 +251,10 @@ public class Game extends Application{
                 switch(currentTileInt)
                 {
                     case 0: // empty tile
+                        rect.setFill(new ImagePattern(imageTile));
                         break;
                     case 1: // wall
-                        rect.setFill(Color.BLACK);
+                        rect.setFill(new ImagePattern(imageWall));
                         break;
                     case 2: // entrance
                         rect.setFill(Color.GREEN);
@@ -255,13 +268,15 @@ public class Game extends Application{
                     rect.setStrokeWidth(5);
                     rect.toFront();
                     if (currentTile.typeOfReward.equals("Checkpoint")) {
-                        rect.setStroke(Color.BLUE);
+                        rect.setFill(Color.BLUE);
                     } else if (currentTile.typeOfReward.equals("Punishment")) {
-                        rect.setStroke(Color.PINK);
+                        rect.setFill(Color.PINK);
                     } else if (currentTile.typeOfReward.equals("Bonus")) {
-                        rect.setStroke(Color.YELLOW);
+                        rect.setFill(Color.YELLOW);
                     }
                 }
+
+
 
                 //Give rectangles an outline so I can see rectangles
                 root.getChildren().add(rect);

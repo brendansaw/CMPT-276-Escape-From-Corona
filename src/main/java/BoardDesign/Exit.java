@@ -2,7 +2,7 @@ package BoardDesign;
 import Characters.MainCharacter;
 import Core.*;
 import TileAction.*;
-import sun.applet.Main;
+//import sun.applet.Main;
 
 /**
  * Exit class represents a Tile object
