@@ -105,29 +105,10 @@ public class Game extends Application{
 //        gc.fillText( "Start Game", 60, 50 );
 //        gc.strokeText( "Start Game", 60, 50 );
 
-        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyPressed(e);
-                drawRectangles(root, boardGame);
-            }
-        });
-
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyReleased(e);
-            }
-        });
-
-
         //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         scene.setRoot(positions);
         mainGame.setScene(scene);
-
 
         drawRectangles(root, boardGame);
 
@@ -179,8 +160,36 @@ public class Game extends Application{
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
-        mainGame.show();
 
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            boolean paused = false;
+            @Override
+            public void handle(KeyEvent e) {
+                if(e.getCode() == KeyCode.ESCAPE) {
+                    if(!paused) {
+                        everySecond.pause();
+                    }
+                    else {
+                        everySecond.play();
+                    }
+                    paused = !paused;
+                }
+                if(!paused) {
+                    mainCharacter.keyPressed(e);
+                    drawRectangles(root, boardGame);
+                }
+            }
+        });
+
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                mainCharacter.keyReleased(e);
+            }
+        });
+        mainGame.show();
     }
 
     public static void generateEnemies() {
