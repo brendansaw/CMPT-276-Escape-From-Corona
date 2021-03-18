@@ -45,7 +45,7 @@ import java.util.Locale;
 
 public class Game extends Application{
 
-    public static int score;
+    private static int score;
     private int time;
     private static String winStatus;
 
@@ -59,9 +59,6 @@ public class Game extends Application{
 
         startGame();
         Board boardGame = createBoard();
-
-
-
 
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
@@ -138,7 +135,6 @@ public class Game extends Application{
 
         drawRectangles(root, boardGame);
 
-
         Timeline everySecond = new Timeline(
                 new KeyFrame(Duration.millis(500),
                         new EventHandler<ActionEvent>() {
@@ -162,16 +158,26 @@ public class Game extends Application{
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
         mainGame.show();
-    /*    Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        mainGame.setX((primScreenBounds.getWidth() - mainGame.getWidth()) / 2);
-        mainGame.setY((primScreenBounds.getHeight() - mainGame.getHeight()) / 2);*/
 
+    }
+
+    public static void generateEnemies() {
+        Enemy e1 = new Enemy(8, 2);
+        Enemy e2 = new Enemy(3, 8);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+    }
+    public static void inputReceived() {
+        for(Enemy e : enemyArrayList) {
+            e.move();
+            //e.printPos();
+        }
     }
 
     void drawRectangles(AnchorPane root, Board boardGame) {
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
-        int horizontal = 256, vertical = 256;
+        int horizontal = 64, vertical = 64;
         Rectangle rect = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
@@ -198,8 +204,10 @@ public class Game extends Application{
                 else if (currentTileString.equals("Exit")) {
                     currentTileInt = 3;
                 }
+                rect.setStrokeWidth(1);
                 rect.setStroke(Color.BLACK);
                 rect.setFill(Color.WHITE);
+                rect.toBack();
                 switch(currentTileInt)
                 {
                     case 0: // empty tile
@@ -216,6 +224,8 @@ public class Game extends Application{
                 }
                 boolean tileHasReward = currentTile.getHasReward();
                 if (tileHasReward) {
+                    rect.setStrokeWidth(5);
+                    rect.toFront();
                     if (currentTile.typeOfReward.equals("Checkpoint")) {
                         rect.setStroke(Color.BLUE);
                     } else if (currentTile.typeOfReward.equals("Punishment")) {
@@ -226,7 +236,6 @@ public class Game extends Application{
                 }
 
                 //Give rectangles an outline so I can see rectangles
-
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
@@ -242,9 +251,11 @@ public class Game extends Application{
     public static void endGame(boolean win){
         if(win) {
             winStatus = "You win.";
+            System.out.println(winStatus);
         }
         else {
             winStatus = "You lose.";
+            System.out.println(winStatus);
         }
     }
     public int getScore(){
@@ -255,9 +266,12 @@ public class Game extends Application{
         return time;
     }
 
-    public int changeScore(int amount){
-        score = score + amount;
-        return score;
+    public static void updateScore(int amount){
+        score += amount;
+        //System.out.println("Score:" + score);
+        if(score < 0) {
+            endGame(false);
+        }
     }
 
 
@@ -271,12 +285,6 @@ public class Game extends Application{
             System.out.println("");
         }
         return boardGame;
-    }
-
-    public static void inputReceived() {
-        for(Enemy e : enemyArrayList) {
-            e.move();
-        }
     }
 
     public static void main(String[] args) {

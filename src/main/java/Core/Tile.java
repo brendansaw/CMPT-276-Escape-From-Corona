@@ -3,12 +3,21 @@ package Core;
 import javax.sound.midi.SysexMessage;
 import TileAction.*;
 
+/**
+ * Tile class represents the tiles that the make up the board.
+ * Provides the methods and members for a regular tile.
+ *
+ * @author Brendan
+ * @author Stephen Dao
+ * @version 1.0
+ * @since 1.0
+ */
 public class Tile
 {
     private int x;
     private int y;
-    private boolean hasEnemy;
-    private boolean hasMain;
+//    private boolean hasEnemy;
+//    private boolean hasMain;
     private boolean hasReward = false;
     protected boolean isOpen = true;
     Reward reward;
@@ -18,7 +27,7 @@ public class Tile
         hasReward = false;
     }
 
-    public Tile(int inputType, int x, int y) {
+    public Tile(int inputType, int x, int y) { // constructor that also generates a Reward object
         hasReward = true;
         switch (inputType) {
             case 1:
@@ -37,28 +46,48 @@ public class Tile
         typeOfReward = reward.getClass().getSimpleName();
     }
 
-    public boolean getHasEnemy()
-    {
-        return hasEnemy;
-    }
+//    public boolean getHasEnemy()
+//    {
+//        return hasEnemy;
+//    }
 
-    public boolean getHasMain()
-    {
-        return hasMain;
-    }
+//    public boolean getHasMain()
+//    {
+//        return hasMain;
+//    }
 
+    /**
+     * Getter for hasReward.
+     *
+     * @return true if the tile contains a Reward, else false
+     */
     public boolean getHasReward(){
         return hasReward;
     }
 
+    /**
+     * Getter for reward.
+     *
+     * @return the Reward object at this tile
+     */
     public Reward getReward() {
         return reward;
     }
 
+    /**
+     * Getter for isOpen.
+     *
+     * @return true if the tile is open (can be moved onto), else false
+     */
     public boolean isOpen() {
         return isOpen;
     }
 
+    /**
+     * Sets whether or not the tile has a reward.
+     *
+     * @param hasReward true if the tile has a reward, else false
+     */
     public void setHasReward(boolean hasReward) {
         this.hasReward = hasReward;
     }
@@ -74,6 +103,9 @@ public class Tile
         typeOfReward = reward.getClass().getSimpleName();
     }
 
+    /**
+     * Removes the reward object for the tile.
+     */
     public void removeReward() {
         hasReward = false;
         reward = null;
