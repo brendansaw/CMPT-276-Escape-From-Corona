@@ -8,14 +8,18 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -25,6 +29,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
 import javafx.scene.image.Image;
@@ -41,8 +46,10 @@ import java.util.Locale;
 
 public class Game extends Application{
 
+
     public static int score;
     private static int time;
+
     private static String winStatus;
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
@@ -55,9 +62,6 @@ public class Game extends Application{
 
         startGame();
         Board boardGame = createBoard();
-
-
-
 
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
@@ -73,9 +77,28 @@ public class Game extends Application{
 //                rect[i][j] = new Rectangle();
 //            }
 //        }
-        BorderPane positions = new BorderPane();
+
+        Label labelCenter = new Label("this is BorderPane center");
+        Label labelTop = new Label("this is BorderPane top");
+        Label labelBottom = new Label("this is BorderPane bottom");
+        Label labelLeft = new Label("this is BorderPane left");
+        Label labelRight = new Label("this is BorderPane right");
+
         AnchorPane root = new AnchorPane();
+        //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
+        BorderPane positions = new BorderPane(root);
+        //positions.setPrefSize(500,500);
         positions.setCenter(root);
+        positions.setTop(labelTop);
+        positions.setBottom(labelBottom);
+        positions.setLeft(labelLeft);
+        positions.setRight(labelRight);
+        positions.setAlignment(labelTop, Pos.CENTER);
+        positions.setAlignment(labelBottom, Pos.CENTER);
+        positions.setAlignment(labelLeft, Pos.CENTER);
+        positions.setAlignment(labelRight, Pos.CENTER);
+
+        positions.setAlignment(root, Pos.CENTER);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
@@ -111,8 +134,9 @@ public class Game extends Application{
 
         mainGame.setScene(scene);
 
-        drawRectangles(root, boardGame);
 
+
+        drawRectangles(root, boardGame);
 
         Timeline everySecond = new Timeline(
                 new KeyFrame(Duration.millis(1000),
@@ -163,13 +187,25 @@ public class Game extends Application{
         everySecond.play();
         mainGame.show();
 
+    }
 
+    public static void generateEnemies() {
+        Enemy e1 = new Enemy(8, 2);
+        Enemy e2 = new Enemy(3, 8);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+    }
+    public static void inputReceived() {
+        for(Enemy e : enemyArrayList) {
+            e.move();
+            //e.printPos();
+        }
     }
 
     void drawRectangles(AnchorPane root, Board boardGame) {
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
-        int horizontal = 256, vertical = 256;
+        int horizontal = 64, vertical = 64;
         Rectangle rect = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
@@ -196,8 +232,10 @@ public class Game extends Application{
                 else if (currentTileString.equals("Exit")) {
                     currentTileInt = 3;
                 }
+                rect.setStrokeWidth(1);
                 rect.setStroke(Color.BLACK);
                 rect.setFill(Color.WHITE);
+                rect.toBack();
                 switch(currentTileInt)
                 {
                     case 0: // empty tile
@@ -214,6 +252,8 @@ public class Game extends Application{
                 }
                 boolean tileHasReward = currentTile.getHasReward();
                 if (tileHasReward) {
+                    rect.setStrokeWidth(5);
+                    rect.toFront();
                     if (currentTile.typeOfReward.equals("Checkpoint")) {
                         rect.setStroke(Color.BLUE);
                     } else if (currentTile.typeOfReward.equals("Punishment")) {
@@ -224,7 +264,6 @@ public class Game extends Application{
                 }
 
                 //Give rectangles an outline so I can see rectangles
-
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
@@ -255,9 +294,12 @@ public class Game extends Application{
         return time;
     }
 
-    public int changeScore(int amount){
-        score = score + amount;
-        return score;
+    public static void updateScore(int amount){
+        score += amount;
+        //System.out.println("Score:" + score);
+        if(score < 0) {
+            endGame(false);
+        }
     }
 
 
@@ -271,12 +313,6 @@ public class Game extends Application{
             System.out.println("");
         }
         return boardGame;
-    }
-
-    public static void inputReceived() {
-        for(Enemy e : enemyArrayList) {
-            e.move();
-        }
     }
 
     public static void main(String[] args) {

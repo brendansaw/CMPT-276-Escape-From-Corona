@@ -20,9 +20,16 @@ public class Board
     }
 
     public Board() {
-        int[][] id = {  {1, 0, 2, 5},
-                        {1, 0, 3, 6},
-                        {1, 0, 4, 0}
+        int[][] id = {  {1, 5, 1, 1, 1, 1, 1, 1, 1, 1},
+                        {1, 0, 0, 3, 0, 0, 0, 1, 3, 1},
+                        {1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
+                        {1, 2, 0, 0, 1, 2, 0, 0, 0, 1},
+                        {1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+                        {1, 0, 0, 0, 2, 0, 0, 0, 0, 1},
+                        {1, 0, 1, 1, 1, 0, 1, 1, 1, 1},
+                        {1, 0, 0, 0, 1, 0, 1, 2, 1, 1},
+                        {1, 2, 1, 0, 1, 0, 0, 0, 0, 1},
+                        {1, 1, 1, 1, 1, 1, 1, 1, 6, 1},
                     };
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
         /**Takes a 2D array...
@@ -38,7 +45,7 @@ public class Board
 
         for(int i = 0; i < dimY; i++) {
             for(int j = 0; j < dimX; j++) {
-                System.out.println();
+                //System.out.println();
                 int cur = boardID[i][j];
 
                 switch(cur) {
@@ -61,6 +68,7 @@ public class Board
                         break;
                     case 5:
                         board[i][j] = new Entrance();
+                        mainCharacter.setPos(j, i);
                         break;
                     case 6:
                         board[i][j] = new Exit();
@@ -71,6 +79,8 @@ public class Board
                 }
             }
         }
+
+        Game.generateEnemies();
     }
 
     public int getDimX(){
@@ -95,7 +105,7 @@ public class Board
     public static void printBoard() {
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
-                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + " ");
+                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + "  ");
             }
             System.out.println("");
         }

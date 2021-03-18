@@ -4,8 +4,16 @@ import Core.*;
 import TileAction.*;
 import sun.applet.Main;
 
+/**
+ * Exit class represents a Tile object
+ * that the player must move onto in order
+ * to trigger a win.
+ *
+ * @author Brendan
+ * @version 1.0
+ * @since 1.0
+ */
 public class Exit extends Wall {
-    //private static boolean isOpen = false;
     static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
     public Exit() {
@@ -23,15 +31,10 @@ public class Exit extends Wall {
             isOpen = true;
         }
 
-
         if (mainCharacter.getX() == Board.exitXPos && mainCharacter.getY() == Board.exitYPos) {
             Game.endGame(true);
         }
-        /*
-        if (gameBoard.getCheckpointsLeft <= 0) {
-            isOpen = true;
-        }
-         */
+
         return isOpen;
     }
 }
