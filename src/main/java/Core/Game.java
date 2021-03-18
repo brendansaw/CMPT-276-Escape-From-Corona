@@ -41,7 +41,7 @@ import java.util.Locale;
 public class Game extends Application{
 
     public static int score;
-    private int time;
+    private static int time;
     private static String winStatus;
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
@@ -114,21 +114,29 @@ public class Game extends Application{
 
 
         Timeline everySecond = new Timeline(
-                new KeyFrame(Duration.millis(500),
+                new KeyFrame(Duration.millis(1000),
                         new EventHandler<ActionEvent>() {
 
                             @Override
                             public void handle(ActionEvent event) {
                                 Integer getScoreInt = new Integer(getScore());
+                                Integer getTimeInt = new Integer(time);
                                 VBox b = new VBox();
-                                Text test = new Text(getScoreInt.toString() + "                                  ");
-                                Text test2 = new Text(winStatus);
+                                Text test = new Text("Current Score: " + getScoreInt.toString() + "                                  ");
+                                Text test2 = new Text("Time Remaining: " + getTimeInt.toString());
+                                Text test3 = new Text("Win Status: " + winStatus);
+                                time = time-1;
+                                if (time < 0 && !(winStatus.equals("You win."))) {
+                                    endGame(false);
+                                }
+
                                 //test.setX(0);
                                 //test.setY(0);
                                 //test2.setX(0);
                                 //test2.setY(50);
                                 b.getChildren().add(test);
                                 b.getChildren().add(test2);
+                                b.getChildren().add(test3);
                                 positions.setLeft(b);
                                 //positions.setLeft(test2);
                             }
@@ -208,7 +216,7 @@ public class Game extends Application{
 
     public void startGame(){
         score = 0;
-        time = 0;
+        time = 10;
     }
 
     public static void endGame(boolean win){
@@ -252,6 +260,7 @@ public class Game extends Application{
     }
 
     public static void main(String[] args) {
+
         launch(args);
 //
 //        Game game = new Game();
