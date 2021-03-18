@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
@@ -121,24 +122,41 @@ public class Game extends Application{
                             public void handle(ActionEvent event) {
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
-                                VBox b = new VBox();
-                                Text test = new Text("Current Score: " + getScoreInt.toString() + "                                  ");
-                                Text test2 = new Text("Time Remaining: " + getTimeInt.toString());
-                                Text test3 = new Text("Win Status: " + winStatus);
-                                time = time-1;
-                                if (time < 0 && !(winStatus.equals("You win."))) {
+                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
+                                HBox statistics = new HBox();
+                                VBox firstChild = new VBox();
+                                VBox secondChild = new VBox();
+                                VBox thirdChild = new VBox();
+                                VBox fourthChild = new VBox();
+                                int numberOfChildren = 4;
+                                Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
+                                Text timeDisplay = new Text("Time Remaining: " + getTimeInt.toString());
+                                Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
+                                Text winDisplay = new Text("Win Status: " + winStatus);
+                                firstChild.getChildren().add(scoreDisplay);
+                                secondChild.getChildren().add(timeDisplay);
+                                thirdChild.getChildren().add(checkpointDisplay);
+                                fourthChild.getChildren().add(winDisplay);
+                                statistics.setPrefWidth(boardGame.getDimX() * 256);
+                                firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                // maybe use escape to pause game or something?
+
+                                if (time <= 0) {
                                     endGame(false);
+                                } else {
+                                    time = time-1;
                                 }
 
-                                //test.setX(0);
-                                //test.setY(0);
-                                //test2.setX(0);
-                                //test2.setY(50);
-                                b.getChildren().add(test);
-                                b.getChildren().add(test2);
-                                b.getChildren().add(test3);
-                                positions.setLeft(b);
-                                //positions.setLeft(test2);
+
+                                statistics.getChildren().add(firstChild);
+                                statistics.getChildren().add(secondChild);
+                                statistics.getChildren().add(thirdChild);
+                                statistics.getChildren().add(fourthChild);
+
+                                positions.setTop(statistics);
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
@@ -220,11 +238,13 @@ public class Game extends Application{
     }
 
     public static void endGame(boolean win){
-        if(win) {
-            winStatus = "You win.";
-        }
-        else {
-            winStatus = "You lose.";
+        if (winStatus == null) {    // prevents winStatus from changing
+            if(win) {
+                winStatus = "You win.";
+            }
+            else {
+                winStatus = "You lose.";
+            }
         }
     }
     public int getScore(){
