@@ -17,11 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
@@ -50,6 +46,11 @@ public class Game extends Application{
 
     public static int score;
     private static int time;
+    private int SizeXTile = 64;
+    private int SizeYTile = 64;
+
+
+
 
     private static String winStatus;
 
@@ -63,6 +64,7 @@ public class Game extends Application{
 
         startGame();
         Board boardGame = createBoard();
+        int squaredBoard = 10;
 
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
@@ -89,7 +91,7 @@ public class Game extends Application{
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
         BorderPane positions = new BorderPane(root);
         //positions.setPrefSize(500,500);
-        positions.setCenter(root);
+        //positions.setCenter(root);
         positions.setTop(labelTop);
         positions.setBottom(labelBottom);
         positions.setLeft(labelLeft);
@@ -99,12 +101,38 @@ public class Game extends Application{
         positions.setAlignment(labelLeft, Pos.CENTER);
         positions.setAlignment(labelRight, Pos.CENTER);
 
-        positions.setAlignment(root, Pos.CENTER);
 
+        root.setMinWidth(squaredBoard*(boardGame.getDimX()));
+        root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
+        root.setMinHeight(squaredBoard*(boardGame.getDimY()));
+        root.setMaxHeight(squaredBoard*(boardGame.getDimY()));
+
+
+
+
+        //positions.setCenter(root);
         mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
+
+
+
+        StackPane stack = new StackPane();
+       /* BorderPane.setAlignment(stack, Pos.CENTER);
+*/
+        stack.getChildren().add(root);
+        stack.setLayoutX(stack.getLayoutX()-stack.getWidth()/2);
+        stack.setLayoutY(stack.getLayoutY()-stack.getHeight()/2);
+
+        //stack.translateXProperty(-(stack.widthProperty().divide(2)));
+        //stack.translateXProperty().subtract(stack.widthProperty().divide(2));
+        //stack.translateXProperty().bind(mainGame.widthProperty().subtract(stack.widthProperty().divide(2)));
+        //stack.translateYProperty().subtract(stack.heightProperty().divide(2));
+        //stack.translateYProperty().bind(mainGame.heightProperty().subtract(stack.heightProperty().divide(2)));
+
+        positions.setCenter(stack);
+
 //        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
 //        Image image = new Image(inputStream);
 //        ImageView imageView = new ImageView(image);
@@ -140,6 +168,8 @@ public class Game extends Application{
 
 
         drawRectangles(root, boardGame);
+
+
 
         Timeline everySecond = new Timeline(
                 new KeyFrame(Duration.millis(1000),
