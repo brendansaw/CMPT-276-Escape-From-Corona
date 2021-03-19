@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 
 
 import javafx.util.Duration;
+//import org.graalvm.compiler.nodeinfo.StructuralInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class Game extends Application{
             @Override
             public void handle(KeyEvent e) {
                 mainCharacter.keyPressed(e);
-                drawRectangles(root, boardGame);
+                drawRectangles(root, boardGame, mainCharacter);
             }
         });
 
@@ -129,7 +130,7 @@ public class Game extends Application{
         mainGame.setScene(scene);
 
 
-        drawRectangles(root, boardGame);
+        drawRectangles(root, boardGame, mainCharacter);
 
         Timeline everySecond = new Timeline(
                 new KeyFrame(Duration.millis(1000),
@@ -172,7 +173,7 @@ public class Game extends Application{
 
                                 xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
                                 yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
-                                drawRectangles(root, boardGame);
+                                drawRectangles(root, boardGame, mainCharacter);
 
                                 positions.setTop(statistics);
                             }
@@ -183,7 +184,7 @@ public class Game extends Application{
 
     }
 
-    public static void generateEnemies() {
+    public static void generateEnemies() { //GENERATING ENEMIES
         Enemy e1 = new Enemy(8, 2);
         Enemy e2 = new Enemy(3, 8);
         enemyArrayList.add(e1);
@@ -196,7 +197,29 @@ public class Game extends Application{
         }
     }
 
-    void drawRectangles(AnchorPane root, Board boardGame) {
+    void drawMainCharacter(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
+
+        Rectangle rect = null;
+        InputStream inputStream;
+        Image image = null;
+//        try{
+//            inputStream = new FileInputStream("assets/spriteguy.png");
+//            image = new Image(inputStream);
+//        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        int x = mainCharacter.getX();
+        int y = mainCharacter.getY();
+        int width = xTileSize;
+        int height = yTileSize;
+        rect = new Rectangle(width*x, height*y, width, height);
+        if(image != null)
+            rect.setFill(new ImagePattern(image));
+        else
+            rect.setFill(Color.BLACK);
+        root.getChildren().add(rect);
+
+    }
+
+    void drawRectangles(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
         root.getChildren().clear();
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
@@ -208,9 +231,8 @@ public class Game extends Application{
             {//Iterate through rows
 //              Color choice = chooseColor(rectColors);
                 //Method that chooses a color
-                rect = new Rectangle(vertical*j, horizontal*i, horizontal, vertical);
                 //Create a new rectangle(PosY,PosX,width,height)
-
+                rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
                 InputStream inputTile;
                 InputStream inputWall;
@@ -236,7 +258,7 @@ public class Game extends Application{
                 else if (currentTileString.equals("Exit")) {
                     currentTileInt = 3;
                 }
-                rect.setStrokeWidth(1);
+//                rect.setStrokeWidth(1);
                 rect.setStroke(Color.BLACK);
                 rect.setFill(Color.WHITE);
                 rect.toBack();
@@ -268,7 +290,7 @@ public class Game extends Application{
                     }
                 }
 
-
+                drawMainCharacter(root, boardGame, mainCharacter);
 
                 //Give rectangles an outline so I can see rectangles
 
