@@ -260,6 +260,7 @@ public class Game extends Application{
             e.move();
             e.printPos();
         }
+        Board.generateBonus();
     }
 
     void drawRectangles(AnchorPane root, Board boardGame) {
