@@ -176,7 +176,7 @@ public class Game extends Application{
                     }
                     paused = !paused;
                 }
-                if(!paused) {
+                else if(!paused) {
                     mainCharacter.keyPressed(e);
                     drawRectangles(root, boardGame);
                 }
