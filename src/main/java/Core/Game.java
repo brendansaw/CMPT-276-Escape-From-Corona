@@ -39,6 +39,7 @@ public class Game extends Application{
 
     private int xTileSize = 96;
     private int yTileSize = 96;
+    private boolean onFullSecondNextRound = false;
 
     private static String winStatus;
 
@@ -148,10 +149,8 @@ public class Game extends Application{
 
         drawRectangles(root, boardGame);
 
-
-
         Timeline everySecond = new Timeline(
-                new KeyFrame(Duration.millis(1000),
+                new KeyFrame(Duration.millis(500),
                         new EventHandler<ActionEvent>() {
 
                             @Override
@@ -174,14 +173,19 @@ public class Game extends Application{
                                 secondChild.getChildren().add(timeDisplay);
                                 thirdChild.getChildren().add(checkpointDisplay);
                                 fourthChild.getChildren().add(winDisplay);
-                                statistics.setPrefWidth(boardGame.getDimX() * xTileSize);
-                                firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                statistics.setPrefWidth(mainGame.getWidth());
+                                firstChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                secondChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                thirdChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                fourthChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
                                 // maybe use escape to pause game or something?
+                                if (onFullSecondNextRound) {
+                                    time = time + 1;
+                                    onFullSecondNextRound = false;
+                                } else {
+                                    onFullSecondNextRound = true;
+                                }
 
-                                time = time + 1;
 
 
                                 statistics.getChildren().add(firstChild);
