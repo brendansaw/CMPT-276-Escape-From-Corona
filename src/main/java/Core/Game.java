@@ -89,49 +89,49 @@ public class Game extends Application{
 
         AnchorPane root = new AnchorPane();
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
-        BorderPane positions = new BorderPane(root);
+        BorderPane positions = new BorderPane();
         //positions.setPrefSize(500,500);
         //positions.setCenter(root);
         positions.setTop(labelTop);
         positions.setBottom(labelBottom);
         positions.setLeft(labelLeft);
         positions.setRight(labelRight);
+        //positions.setCenter(labelCenter);
         positions.setAlignment(labelTop, Pos.CENTER);
         positions.setAlignment(labelBottom, Pos.CENTER);
         positions.setAlignment(labelLeft, Pos.CENTER);
         positions.setAlignment(labelRight, Pos.CENTER);
 
 
-        root.setMinWidth(squaredBoard*(boardGame.getDimX()));
-        root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
-        root.setMinHeight(squaredBoard*(boardGame.getDimY()));
-        root.setMaxHeight(squaredBoard*(boardGame.getDimY()));
+        //root.setMinWidth(squaredBoard*(boardGame.getDimX()));
+        //root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
+        //root.setMinHeight(squaredBoard*(boardGame.getDimY()));
+        //root.setMaxHeight(squaredBoard*(boardGame.getDimY()));
+        //positions.setCenter(root);
+
+        Group rootGroup = new Group(root);
+        positions.setCenter(rootGroup);
+        positions.setAlignment(rootGroup, Pos.CENTER);
 
 
 
 
         //positions.setCenter(root);
-        mainGame.setFullScreen(true);
+        //mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
-
+        /*
 
 
         StackPane stack = new StackPane();
-       /* BorderPane.setAlignment(stack, Pos.CENTER);
-*/
+
         stack.getChildren().add(root);
-        stack.setLayoutX(stack.getLayoutX()-stack.getWidth()/2);
-        stack.setLayoutY(stack.getLayoutY()-stack.getHeight()/2);
+        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
+        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
 
-        //stack.translateXProperty(-(stack.widthProperty().divide(2)));
-        //stack.translateXProperty().subtract(stack.widthProperty().divide(2));
-        //stack.translateXProperty().bind(mainGame.widthProperty().subtract(stack.widthProperty().divide(2)));
-        //stack.translateYProperty().subtract(stack.heightProperty().divide(2));
-        //stack.translateYProperty().bind(mainGame.heightProperty().subtract(stack.heightProperty().divide(2)));
-
-        positions.setCenter(stack);
+        */
+        //positions.setCenter(stack);
 
 //        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
 //        Image image = new Image(inputStream);
@@ -164,7 +164,8 @@ public class Game extends Application{
         });
 
         mainGame.setScene(scene);
-
+        //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
+        //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
 
 
         drawRectangles(root, boardGame);
@@ -214,6 +215,7 @@ public class Game extends Application{
                                 statistics.getChildren().add(fourthChild);
 
                                 positions.setTop(statistics);
+
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
