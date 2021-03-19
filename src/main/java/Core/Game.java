@@ -38,6 +38,9 @@ public class Game extends Application{
 
     public static int score;
     private static int time;
+
+    private static TimerTask gameTicksTask;
+    private static Timer gameTicks;
     private static int ticksElapsed = 0; // a tick is 2 seconds
     private static boolean paused = false;
 
@@ -209,18 +212,6 @@ public class Game extends Application{
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
 
-        TimerTask gameTicksTask = new TimerTask() {
-            @Override
-            public void run() {
-                if(!paused) {
-                    updateGame();
-                    ticksElapsed += 1;
-                }
-            }
-        };
-        Timer gameTicks = new Timer();
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
-
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             int timeOfInput = ticksElapsed;
             @Override
@@ -346,9 +337,24 @@ public class Game extends Application{
         }
     }
 
+    private void startTimer() {
+        gameTicksTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(!paused) {
+                    updateGame();
+                    ticksElapsed += 1;
+                }
+            }
+        };
+        gameTicks = new Timer();
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
+    }
+
     public void startGame(){
         score = 0;
         time = 0;
+        startTimer();
     }
 
     public static void endGame(boolean win){
@@ -359,6 +365,7 @@ public class Game extends Application{
             else {
                 winStatus = "You lose.";
             }
+            gameTicks.cancel();
         }
     }
     public int getScore(){
