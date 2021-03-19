@@ -82,8 +82,7 @@ public class MainCharacter extends NonStationaryCharacter {
             currentTile.removeReward();
         }
 
-        Game.inputReceived();
-        Board.printBoard();
+        //Board.printBoard();
     }
 
     /**

@@ -30,12 +30,16 @@ import javafx.util.Duration;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game extends Application{
 
 
     public static int score;
     private static int time;
+    private static int ticksElapsed = 0; // a tick is 2 seconds
+    private static boolean paused = false;
 
     private int xTileSize = 96;
     private int yTileSize = 96;
@@ -43,6 +47,7 @@ public class Game extends Application{
 
     private static String winStatus;
 
+    private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
     // no constructor needed since this will contain the main for now
@@ -204,22 +209,31 @@ public class Game extends Application{
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
 
-        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+        TimerTask gameTicksTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(!paused) {
+                    updateGame();
+                    ticksElapsed += 1;
+                }
+            }
+        };
+        Timer gameTicks = new Timer();
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            boolean paused = false;
+            int timeOfInput = ticksElapsed;
             @Override
             public void handle(KeyEvent e) {
-                if(e.getCode() == KeyCode.ESCAPE) {
-                    if(!paused) {
+                if (e.getCode() == KeyCode.ESCAPE) {
+                    if (!paused) {
                         everySecond.pause();
-                    }
-                    else {
-                        everySecond.play();
+                    } else {
+                            everySecond.play();
                     }
                     paused = !paused;
-                }
-                else if(!paused) {
+                } else if (!paused && ((ticksElapsed-timeOfInput) >= 1)) {
+                    timeOfInput = ticksElapsed;
                     mainCharacter.keyPressed(e);
                     drawRectangles(root, boardGame);
                 }
@@ -241,10 +255,10 @@ public class Game extends Application{
         enemyArrayList.add(e1);
         enemyArrayList.add(e2);
     }
-    public static void inputReceived() {
+    public static void updateGame() {
         for(Enemy e : enemyArrayList) {
             e.move();
-            //e.printPos();
+            e.printPos();
         }
     }
 
