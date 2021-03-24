@@ -241,11 +241,13 @@ public class Game extends Application{
                                 thirdChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
                                 fourthChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
                                 // maybe use escape to pause game or something?
-                                if (onFullSecondNextRound) {
-                                    time = time + 1;
-                                    onFullSecondNextRound = false;
-                                } else {
-                                    onFullSecondNextRound = true;
+                                if (!paused) {
+                                    if (onFullSecondNextRound) {
+                                        time = time + 1;
+                                        onFullSecondNextRound = false;
+                                    } else {
+                                        onFullSecondNextRound = true;
+                                    }
                                 }
 
 
@@ -273,18 +275,23 @@ public class Game extends Application{
                 if (e.getCode() == KeyCode.ESCAPE) {
                     if (!paused) {
                         everySecond.pause();
-                        Label t2 = new Label("This is the main menu");
+                        Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
                         Button b2 = new Button("Go to the maingame");
                         t2.setTranslateY(15);
-                        b2.setTranslateY(50);
+                        //b2.setTranslateY(50);
+                        //b2.setOnMouseClicked(f -> { positions.setCenter(rootGroup);});
                         g2.getChildren().clear();
-                        g2.getChildren().addAll(t2, b2);
+                        //g2.getChildren().addAll(t2, b2);
+                        g2.getChildren().add(t2);
                         positions.setCenter(g2);
                     } else {
                         everySecond.play();
                         positions.setCenter(rootGroup);
                     }
-                    paused = !paused;
+                    if (winStatus == null) {
+                        paused = !paused;
+                    }
+
                 } else if (!paused && ((ticksElapsed-timeOfInput) >= 1)) {
                     timeOfInput = ticksElapsed;
                     mainCharacter.keyPressed(e);
@@ -336,6 +343,28 @@ public class Game extends Application{
             rect.setFill(Color.BLACK);
         root.getChildren().add(rect);
 
+    }
+
+    void drawEnemies(AnchorPane root, Board boardGame) {
+        Rectangle rect = null;
+        InputStream inputStream;
+        Image image = null;
+        try {
+            inputStream = new FileInputStream("assets/enemy.png");
+            image = new Image(inputStream);
+        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        int width = xTileSize;
+        int height = yTileSize;
+        for (int i = 0; i < enemyArrayList.size(); i++) {
+            int x = enemyArrayList.get(i).getX();
+            int y = enemyArrayList.get(i).getY();
+            rect = new Rectangle(width*x, height*y, width, height);
+            if(image != null)
+                rect.setFill(new ImagePattern(image));
+            else
+                rect.setFill(Color.BLACK);
+            root.getChildren().add(rect);
+        }
     }
 
     void drawRectangles(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
@@ -410,7 +439,7 @@ public class Game extends Application{
                 }
 
                 drawMainCharacter(root, boardGame, mainCharacter);
-
+                drawEnemies(root, boardGame);
                 //Give rectangles an outline so I can see rectangles
 
                 root.getChildren().add(rect);
@@ -449,6 +478,7 @@ public class Game extends Application{
                 winStatus = "You lose.";
             }
             gameTicks.cancel();
+            paused = true;
         }
     }
     public int getScore(){
