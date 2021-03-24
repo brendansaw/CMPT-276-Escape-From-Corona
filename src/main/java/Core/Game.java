@@ -11,6 +11,7 @@ import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -40,6 +41,8 @@ import javafx.util.Duration;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import javafx.scene.Node.*;
+import javafx.scene.control.Button;
 
 public class Game extends Application{
 
@@ -84,7 +87,7 @@ public class Game extends Application{
         Label labelCenter = new Label("this is BorderPane center");
         Label labelTop = new Label("this is BorderPane top");
         Label labelBottom = new Label("this is BorderPane bottom");
-        Label labelLeft = new Label("this is BorderPane left");
+        //Label labelLeft = new Label("this is BorderPane left");
         Label labelRight = new Label("this is BorderPane right");
 
         AnchorPane root = new AnchorPane();
@@ -94,12 +97,12 @@ public class Game extends Application{
         //positions.setCenter(root);
         positions.setTop(labelTop);
         positions.setBottom(labelBottom);
-        positions.setLeft(labelLeft);
+        //positions.setLeft(labelLeft);
         positions.setRight(labelRight);
         //positions.setCenter(labelCenter);
         positions.setAlignment(labelTop, Pos.CENTER);
         positions.setAlignment(labelBottom, Pos.CENTER);
-        positions.setAlignment(labelLeft, Pos.CENTER);
+        //positions.setAlignment(labelLeft, Pos.CENTER);
         positions.setAlignment(labelRight, Pos.CENTER);
 
 
@@ -121,6 +124,29 @@ public class Game extends Application{
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
+
+        Group g2 = new Group();
+        Scene mainmenu = new Scene(g2, 150, 100);
+
+        Label t1 = new Label("Maingame");
+        Button b1 = new Button("Go to main menu");
+        Label t2 = new Label("This is the main menu");
+        Button b2 = new Button("Go to the maingame");
+        //t1.setTranslateY(15);
+        t2.setTranslateY(15);
+        //b1.setTranslateY(50);
+        b2.setTranslateY(50);
+        positions.setLeft(b1);
+        positions.setLeft(t1);
+        positions.setAlignment(b1, Pos.CENTER);
+        positions.setAlignment(t1, Pos.CENTER);
+        rootGroup.getChildren().addAll(t1, b1);
+        g2.getChildren().addAll(t2, b2);
+
+        b1.setOnMouseClicked(e -> { positions.setCenter(g2); });
+        b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup); });
+
+
         /*
 
 
