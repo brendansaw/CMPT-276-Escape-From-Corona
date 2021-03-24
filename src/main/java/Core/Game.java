@@ -128,23 +128,32 @@ public class Game extends Application{
         Group g2 = new Group();
         Scene mainmenu = new Scene(g2, 150, 100);
 
+        Group g1 = new Group();
+
+
         Label t1 = new Label("Maingame");
         Button b1 = new Button("Go to main menu");
         Label t2 = new Label("This is the main menu");
         Button b2 = new Button("Go to the maingame");
-        //t1.setTranslateY(15);
+        t1.setTranslateY(15);
         t2.setTranslateY(15);
-        //b1.setTranslateY(50);
+        b1.setTranslateY(50);
         b2.setTranslateY(50);
-        positions.setLeft(b1);
-        positions.setLeft(t1);
-        positions.setAlignment(b1, Pos.CENTER);
-        positions.setAlignment(t1, Pos.CENTER);
-        rootGroup.getChildren().addAll(t1, b1);
+        //positions.setLeft(b1);
+        //positions.setLeft(t1);
+        //positions.setAlignment(b1, Pos.CENTER);
+        //positions.setAlignment(t1, Pos.CENTER);
+        g1.getChildren().addAll(t1, b1);
         g2.getChildren().addAll(t2, b2);
 
-        b1.setOnMouseClicked(e -> { positions.setCenter(g2); });
-        b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup); });
+        positions.setLeft(g1);
+        positions.setAlignment(g1, Pos.CENTER);
+   // positions.setLeft(b1);
+    //positions.setLeft(t1);
+
+        b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
+        b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
+                                    positions.setLeft(g1);});
 
 
         /*
