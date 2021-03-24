@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,45 +19,55 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+
+
+import javafx.scene.*;
+
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import javafx.scene.input.*;
+import javafx.scene.paint.*;
 import javafx.scene.shape.*;
-import javafx.scene.image.Image;
+import javafx.stage.*;
+import javafx.scene.text.*;
+import javafx.scene.image.*;
+import java.lang.*;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import javafx.scene.input.*;
+
 import javafx.util.Duration;
+//import org.graalvm.compiler.nodeinfo.StructuralInput;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import javafx.scene.Node.*;
 import javafx.scene.control.Button;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class Game extends Application{
 
 
     public static int score;
     private static int time;
-    private int SizeXTile = 64;
-    private int SizeYTile = 64;
 
+    private static TimerTask gameTicksTask;
+    private static Timer gameTicks;
+    private static int ticksElapsed = 0; // a tick is 2 seconds
+    private static boolean paused = false;
 
-
+    private int xTileSize = 96;
+    private int yTileSize = 96;
+    private boolean onFullSecondNextRound = false;
 
     private static String winStatus;
 
+    private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
     // no constructor needed since this will contain the main for now
@@ -84,26 +95,31 @@ public class Game extends Application{
 //            }
 //        }
 
-        Label labelCenter = new Label("this is BorderPane center");
-        Label labelTop = new Label("this is BorderPane top");
-        Label labelBottom = new Label("this is BorderPane bottom");
+
+        //Label labelCenter = new Label("this is BorderPane center");
+        //Label labelTop = new Label("this is BorderPane top");
+        //Label labelBottom = new Label("this is BorderPane bottom");
         //Label labelLeft = new Label("this is BorderPane left");
-        Label labelRight = new Label("this is BorderPane right");
+        //Label labelRight = new Label("this is BorderPane right");
+
 
         AnchorPane root = new AnchorPane();
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
         BorderPane positions = new BorderPane();
         //positions.setPrefSize(500,500);
+
         //positions.setCenter(root);
-        positions.setTop(labelTop);
-        positions.setBottom(labelBottom);
+
+        //positions.setTop(labelTop);
+        //positions.setBottom(labelBottom);
         //positions.setLeft(labelLeft);
-        positions.setRight(labelRight);
-        //positions.setCenter(labelCenter);
-        positions.setAlignment(labelTop, Pos.CENTER);
-        positions.setAlignment(labelBottom, Pos.CENTER);
+        //positions.setRight(labelRight);
+        //positions.setAlignment(labelTop, Pos.CENTER);
+        //positions.setAlignment(labelBottom, Pos.CENTER);
         //positions.setAlignment(labelLeft, Pos.CENTER);
-        positions.setAlignment(labelRight, Pos.CENTER);
+        //positions.setAlignment(labelRight, Pos.CENTER);
+
+
 
 
         //root.setMinWidth(squaredBoard*(boardGame.getDimX()));
@@ -120,6 +136,8 @@ public class Game extends Application{
 
 
         //positions.setCenter(root);
+
+
         //mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
@@ -181,38 +199,24 @@ public class Game extends Application{
 //        gc.fillText( "Start Game", 60, 50 );
 //        gc.strokeText( "Start Game", 60, 50 );
 
-        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyPressed(e);
-                drawRectangles(root, boardGame);
-            }
-        });
-
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyReleased(e);
-            }
-        });
-
+        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+        scene.setRoot(positions);
         mainGame.setScene(scene);
+
         //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
         //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
 
 
-        drawRectangles(root, boardGame);
-
-
+        drawRectangles(root, boardGame, mainCharacter);
 
         Timeline everySecond = new Timeline(
-                new KeyFrame(Duration.millis(1000),
+                new KeyFrame(Duration.millis(500),
                         new EventHandler<ActionEvent>() {
 
                             @Override
                             public void handle(ActionEvent event) {
+
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
                                 Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
@@ -223,25 +227,26 @@ public class Game extends Application{
                                 VBox fourthChild = new VBox();
                                 int numberOfChildren = 4;
                                 Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
-                                Text timeDisplay = new Text("Time Remaining: " + getTimeInt.toString());
+                                Text timeDisplay = new Text("Time Elapsed: " + getTimeInt.toString());
                                 Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
                                 Text winDisplay = new Text("Win Status: " + winStatus);
                                 firstChild.getChildren().add(scoreDisplay);
                                 secondChild.getChildren().add(timeDisplay);
                                 thirdChild.getChildren().add(checkpointDisplay);
                                 fourthChild.getChildren().add(winDisplay);
-                                statistics.setPrefWidth(boardGame.getDimX() * 256);
-                                firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                statistics.setPrefWidth(mainGame.getWidth());
+                                firstChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                secondChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                thirdChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                fourthChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
                                 // maybe use escape to pause game or something?
-
-                                if (time <= 0) {
-                                    endGame(false);
+                                if (onFullSecondNextRound) {
+                                    time = time + 1;
+                                    onFullSecondNextRound = false;
                                 } else {
-                                    time = time-1;
+                                    onFullSecondNextRound = true;
                                 }
+
 
 
                                 statistics.getChildren().add(firstChild);
@@ -249,33 +254,86 @@ public class Game extends Application{
                                 statistics.getChildren().add(thirdChild);
                                 statistics.getChildren().add(fourthChild);
 
+                                xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
+                                yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY())-6-(int)Math.ceil(statistics.getHeight()/boardGame.getDimY());
+                                drawRectangles(root, boardGame, mainCharacter);
+
                                 positions.setTop(statistics);
 
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
-        mainGame.show();
 
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            int timeOfInput = ticksElapsed;
+            @Override
+            public void handle(KeyEvent e) {
+                if (e.getCode() == KeyCode.ESCAPE) {
+                    if (!paused) {
+                        everySecond.pause();
+                    } else {
+                            everySecond.play();
+                    }
+                    paused = !paused;
+                } else if (!paused && ((ticksElapsed-timeOfInput) >= 1)) {
+                    timeOfInput = ticksElapsed;
+                    mainCharacter.keyPressed(e);
+                    drawRectangles(root, boardGame);
+                }
+            }
+        });
+
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                mainCharacter.keyReleased(e);
+            }
+        });
+        mainGame.show();
     }
 
-    public static void generateEnemies() {
+    public static void generateEnemies() { //GENERATING ENEMIES
         Enemy e1 = new Enemy(8, 2);
         Enemy e2 = new Enemy(3, 8);
         enemyArrayList.add(e1);
         enemyArrayList.add(e2);
     }
-    public static void inputReceived() {
+    public static void updateGame() {
         for(Enemy e : enemyArrayList) {
             e.move();
-            //e.printPos();
+            e.printPos();
         }
+        Board.generateBonus();
     }
 
-    void drawRectangles(AnchorPane root, Board boardGame) {
+    void drawMainCharacter(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
+
+        Rectangle rect = null;
+        InputStream inputStream;
+        Image image = null;
+        try{
+            inputStream = new FileInputStream("assets/spriteguy.png");
+            image = new Image(inputStream);
+        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        int x = mainCharacter.getX();
+        int y = mainCharacter.getY();
+        int width = xTileSize;
+        int height = yTileSize;
+        rect = new Rectangle(width*x, height*y, width, height);
+        if(image != null)
+            rect.setFill(new ImagePattern(image));
+        else
+            rect.setFill(Color.BLACK);
+        root.getChildren().add(rect);
+
+    }
+
+    void drawRectangles(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
+        root.getChildren().clear();
         int width = boardGame.getDimX();
         int height = boardGame.getDimY();
-        int horizontal = 64, vertical = 64;
+        int horizontal = xTileSize, vertical = yTileSize;
         Rectangle rect = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
@@ -283,9 +341,8 @@ public class Game extends Application{
             {//Iterate through rows
 //              Color choice = chooseColor(rectColors);
                 //Method that chooses a color
-                rect = new Rectangle(vertical*j, horizontal*i, horizontal, vertical);
                 //Create a new rectangle(PosY,PosX,width,height)
-
+                rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
                 InputStream inputTile;
                 InputStream inputWall;
@@ -311,7 +368,7 @@ public class Game extends Application{
                 else if (currentTileString.equals("Exit")) {
                     currentTileInt = 3;
                 }
-                rect.setStrokeWidth(1);
+//                rect.setStrokeWidth(1);
                 rect.setStroke(Color.BLACK);
                 rect.setFill(Color.WHITE);
                 rect.toBack();
@@ -343,9 +400,10 @@ public class Game extends Application{
                     }
                 }
 
-
+                drawMainCharacter(root, boardGame, mainCharacter);
 
                 //Give rectangles an outline so I can see rectangles
+
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
@@ -353,9 +411,24 @@ public class Game extends Application{
         }
     }
 
+    private void startTimer() {
+        gameTicksTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(!paused) {
+                    updateGame();
+                    ticksElapsed += 1;
+                }
+            }
+        };
+        gameTicks = new Timer();
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
+    }
+
     public void startGame(){
         score = 0;
-        time = 10;
+        time = 0;
+        startTimer();
     }
 
     public static void endGame(boolean win){
@@ -366,6 +439,7 @@ public class Game extends Application{
             else {
                 winStatus = "You lose.";
             }
+            gameTicks.cancel();
         }
     }
     public int getScore(){
