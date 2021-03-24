@@ -20,7 +20,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-
 import javafx.scene.*;
 
 import javafx.scene.layout.*;
@@ -49,10 +48,21 @@ import javafx.scene.control.Button;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Game class implements the JavaFX Application class.
+ * This class handles game rendering as well as game data
+ * including the player score and time elapsed. The game
+ * is started and ended from this class. Input listening
+ * is also done from this class using EventHandler.
+ *
+ * @author Danyaal
+ * @author Peter
+ * @author Brendan
+ * @author Stephen
+ * @version 1.0
+ * @since 1.0
+ */
 public class Game extends Application{
-
-
     public static int score;
     private static int time;
 
@@ -95,13 +105,11 @@ public class Game extends Application{
 //            }
 //        }
 
-
         //Label labelCenter = new Label("this is BorderPane center");
         //Label labelTop = new Label("this is BorderPane top");
         //Label labelBottom = new Label("this is BorderPane bottom");
         //Label labelLeft = new Label("this is BorderPane left");
         //Label labelRight = new Label("this is BorderPane right");
-
 
         AnchorPane root = new AnchorPane();
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
@@ -119,9 +127,6 @@ public class Game extends Application{
         //positions.setAlignment(labelLeft, Pos.CENTER);
         //positions.setAlignment(labelRight, Pos.CENTER);
 
-
-
-
         //root.setMinWidth(squaredBoard*(boardGame.getDimX()));
         //root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
         //root.setMinHeight(squaredBoard*(boardGame.getDimY()));
@@ -132,11 +137,7 @@ public class Game extends Application{
         positions.setCenter(rootGroup);
         positions.setAlignment(rootGroup, Pos.CENTER);
 
-
-
-
         //positions.setCenter(root);
-
 
         //mainGame.setFullScreen(true);
 
@@ -147,7 +148,6 @@ public class Game extends Application{
         Scene mainmenu = new Scene(g2, 150, 100);
 
         Group g1 = new Group();
-
 
         //Label t1 = new Label("Maingame");
         //Button b1 = new Button("Go to main menu");
@@ -164,7 +164,6 @@ public class Game extends Application{
         //g1.getChildren().addAll(t1, b1);
         //g2.getChildren().addAll(t2, b2);
 
-
         //positions.setLeft(g1);
         //positions.setAlignment(g1, Pos.CENTER);
    // positions.setLeft(b1);
@@ -173,10 +172,7 @@ public class Game extends Application{
         //b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
         //b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
         //                            positions.setLeft(g1);});
-
-
         /*
-
 
         StackPane stack = new StackPane();
 
@@ -207,7 +203,6 @@ public class Game extends Application{
 
         //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
         //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
-
 
         drawRectangles(root, boardGame, mainCharacter);
 
@@ -250,8 +245,6 @@ public class Game extends Application{
                                     }
                                 }
 
-
-
                                 statistics.getChildren().add(firstChild);
                                 statistics.getChildren().add(secondChild);
                                 statistics.getChildren().add(thirdChild);
@@ -262,12 +255,12 @@ public class Game extends Application{
                                 drawRectangles(root, boardGame, mainCharacter);
 
                                 positions.setTop(statistics);
-
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
 
+        //game timer
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             int timeOfInput = ticksElapsed;
             @Override
@@ -309,12 +302,20 @@ public class Game extends Application{
         mainGame.show();
     }
 
+    /**
+     * Generates enemies on the in a static manner.
+     */
     public static void generateEnemies() { //GENERATING ENEMIES
-        Enemy e1 = new Enemy(8, 2);
+        Enemy e1 = new Enemy(8, 8);
         Enemy e2 = new Enemy(3, 8);
         enemyArrayList.add(e1);
         enemyArrayList.add(e2);
     }
+
+    /**
+     * Called every tick. Handles game updates including
+     * enemy movement and Bonus reward generation.
+     */
     public static void updateGame() {
         for(Enemy e : enemyArrayList) {
             e.move();
@@ -323,6 +324,13 @@ public class Game extends Application{
         Board.generateBonus();
     }
 
+    /**
+     * Draws the mainCharacter.
+     *
+     * @param root a JavaFX Pane
+     * @param boardGame Board used in current game
+     * @param mainCharacter the player controlled MainCharacter
+     */
     void drawMainCharacter(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
 
         Rectangle rect = null;
@@ -345,6 +353,12 @@ public class Game extends Application{
 
     }
 
+    /**
+     * Draws the enemies.
+     *
+     * @param root a JavaFX Pane
+     * @param boardGame Board used in current game
+     */
     void drawEnemies(AnchorPane root, Board boardGame) {
         Rectangle rect = null;
         InputStream inputStream;
@@ -367,6 +381,13 @@ public class Game extends Application{
         }
     }
 
+    /**
+     * Draws the board Tiles.
+     *
+     * @param root a JavaFX Pane
+     * @param boardGame Board used in current game
+     * @param mainCharacter the player controlled MainCharacter
+     */
     void drawRectangles(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
         root.getChildren().clear();
         int width = boardGame.getDimX();
@@ -449,6 +470,9 @@ public class Game extends Application{
         }
     }
 
+    /**
+     * Starts the gameTicks timer.
+     */
     private void startTimer() {
         gameTicksTask = new TimerTask() {
             @Override
@@ -463,12 +487,21 @@ public class Game extends Application{
         gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
     }
 
+    /**
+     * Initializes the starting variables score and time.
+     * Also start the gameTicks timer.
+     */
     public void startGame(){
         score = 0;
         time = 0;
         startTimer();
     }
 
+    /**
+     * Ends the current game.
+     *
+     * @param win true if player wins, else false
+     */
     public static void endGame(boolean win){
         if (winStatus == null) {    // prevents winStatus from changing
             if(win) {
@@ -481,14 +514,30 @@ public class Game extends Application{
             paused = true;
         }
     }
+
+    /**
+     * Getter for score.
+     *
+     * @return the current game score
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * Getter for time.
+     *
+     * @return the current game time
+     */
     public int getTime(){
         return time;
     }
 
+    /**
+     * Adds to the game score by specified amount.
+     *
+     * @param amount the value to add to the total score
+     */
     public static void updateScore(int amount){
         score += amount;
         //System.out.println("Score:" + score);
@@ -496,7 +545,6 @@ public class Game extends Application{
             endGame(false);
         }
     }
-
 
     private Board createBoard() {
 
