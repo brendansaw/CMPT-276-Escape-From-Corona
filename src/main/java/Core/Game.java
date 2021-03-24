@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.input.*;
@@ -30,17 +31,27 @@ import javafx.util.Duration;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game extends Application{
 
 
     public static int score;
     private static int time;
+
+    private static TimerTask gameTicksTask;
+    private static Timer gameTicks;
+    private static int ticksElapsed = 0; // a tick is 2 seconds
+    private static boolean paused = false;
+
     private int xTileSize = 96;
     private int yTileSize = 96;
+    private boolean onFullSecondNextRound = false;
 
     private static String winStatus;
 
+    private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
     // no constructor needed since this will contain the main for now
@@ -51,6 +62,7 @@ public class Game extends Application{
 
         startGame();
         Board boardGame = createBoard();
+        int squaredBoard = 10;
 
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
@@ -75,9 +87,10 @@ public class Game extends Application{
 
         AnchorPane root = new AnchorPane();
         //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
-        BorderPane positions = new BorderPane(root);
+        BorderPane positions = new BorderPane();
         //positions.setPrefSize(500,500);
-        positions.setCenter(root);
+
+        //positions.setCenter(root);
         //positions.setTop(labelTop);
         //positions.setBottom(labelBottom);
         //positions.setLeft(labelLeft);
@@ -87,12 +100,40 @@ public class Game extends Application{
         //positions.setAlignment(labelLeft, Pos.CENTER);
         //positions.setAlignment(labelRight, Pos.CENTER);
 
-        positions.setAlignment(root, Pos.CENTER);
+
+
+        //root.setMinWidth(squaredBoard*(boardGame.getDimX()));
+        //root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
+        //root.setMinHeight(squaredBoard*(boardGame.getDimY()));
+        //root.setMaxHeight(squaredBoard*(boardGame.getDimY()));
+        //positions.setCenter(root);
+
+        Group rootGroup = new Group(root);
+        positions.setCenter(rootGroup);
+        positions.setAlignment(rootGroup, Pos.CENTER);
+
+
+
+
+        //positions.setCenter(root);
+
 
         //mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
+        /*
+
+
+        StackPane stack = new StackPane();
+
+        stack.getChildren().add(root);
+        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
+        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
+
+        */
+        //positions.setCenter(stack);
+
 //        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
 //        Image image = new Image(inputStream);
 //        ImageView imageView = new ImageView(image);
@@ -106,34 +147,19 @@ public class Game extends Application{
 //        gc.fillText( "Start Game", 60, 50 );
 //        gc.strokeText( "Start Game", 60, 50 );
 
-        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyPressed(e);
-                drawRectangles(root, boardGame, mainCharacter);
-            }
-        });
-
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyReleased(e);
-            }
-        });
-
-
         //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         scene.setRoot(positions);
         mainGame.setScene(scene);
 
+        //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
+        //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
+
 
         drawRectangles(root, boardGame, mainCharacter);
 
         Timeline everySecond = new Timeline(
-                new KeyFrame(Duration.millis(1000),
+                new KeyFrame(Duration.millis(500),
                         new EventHandler<ActionEvent>() {
 
                             @Override
@@ -156,14 +182,19 @@ public class Game extends Application{
                                 secondChild.getChildren().add(timeDisplay);
                                 thirdChild.getChildren().add(checkpointDisplay);
                                 fourthChild.getChildren().add(winDisplay);
-                                statistics.setPrefWidth(boardGame.getDimX() * xTileSize);
-                                firstChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                secondChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                thirdChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
-                                fourthChild.setPrefWidth(statistics.getPrefWidth()/numberOfChildren);
+                                statistics.setPrefWidth(mainGame.getWidth());
+                                firstChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                secondChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                thirdChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
+                                fourthChild.setPrefWidth(mainGame.getWidth()/numberOfChildren);
                                 // maybe use escape to pause game or something?
+                                if (onFullSecondNextRound) {
+                                    time = time + 1;
+                                    onFullSecondNextRound = false;
+                                } else {
+                                    onFullSecondNextRound = true;
+                                }
 
-                                time = time + 1;
 
 
                                 statistics.getChildren().add(firstChild);
@@ -176,12 +207,38 @@ public class Game extends Application{
                                 drawRectangles(root, boardGame, mainCharacter);
 
                                 positions.setTop(statistics);
+
                             }
                         }));
         everySecond.setCycleCount(Timeline.INDEFINITE);
         everySecond.play();
-        mainGame.show();
 
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            int timeOfInput = ticksElapsed;
+            @Override
+            public void handle(KeyEvent e) {
+                if (e.getCode() == KeyCode.ESCAPE) {
+                    if (!paused) {
+                        everySecond.pause();
+                    } else {
+                            everySecond.play();
+                    }
+                    paused = !paused;
+                } else if (!paused && ((ticksElapsed-timeOfInput) >= 1)) {
+                    timeOfInput = ticksElapsed;
+                    mainCharacter.keyPressed(e);
+                    drawRectangles(root, boardGame);
+                }
+            }
+        });
+
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                mainCharacter.keyReleased(e);
+            }
+        });
+        mainGame.show();
     }
 
     public static void generateEnemies() { //GENERATING ENEMIES
@@ -190,11 +247,12 @@ public class Game extends Application{
         enemyArrayList.add(e1);
         enemyArrayList.add(e2);
     }
-    public static void inputReceived() {
+    public static void updateGame() {
         for(Enemy e : enemyArrayList) {
             e.move();
-            //e.printPos();
+            e.printPos();
         }
+        Board.generateBonus();
     }
 
     void drawMainCharacter(AnchorPane root, Board boardGame, MainCharacter mainCharacter) {
@@ -301,9 +359,24 @@ public class Game extends Application{
         }
     }
 
+    private void startTimer() {
+        gameTicksTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(!paused) {
+                    updateGame();
+                    ticksElapsed += 1;
+                }
+            }
+        };
+        gameTicks = new Timer();
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
+    }
+
     public void startGame(){
         score = 0;
         time = 0;
+        startTimer();
     }
 
     public static void endGame(boolean win){
@@ -314,6 +387,7 @@ public class Game extends Application{
             else {
                 winStatus = "You lose.";
             }
+            gameTicks.cancel();
         }
     }
     public int getScore(){
