@@ -202,10 +202,10 @@ public class Game extends Application{
         Rectangle rect = null;
         InputStream inputStream;
         Image image = null;
-//        try{
-//            inputStream = new FileInputStream("assets/spriteguy.png");
-//            image = new Image(inputStream);
-//        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        try{
+            inputStream = new FileInputStream("assets/spriteguy.png");
+            image = new Image(inputStream);
+        } catch(FileNotFoundException e) { inputStream = null; image = null;}
         int x = mainCharacter.getX();
         int y = mainCharacter.getY();
         int width = xTileSize;
