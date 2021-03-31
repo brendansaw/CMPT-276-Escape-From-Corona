@@ -68,7 +68,7 @@ public class Game extends Application{
 
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
-    private static int ticksElapsed = 0; // a tick is 2 seconds
+    private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
     private static boolean paused = false;
 
     private int xTileSize = 96;
@@ -293,12 +293,12 @@ public class Game extends Application{
             }
         });
 
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyReleased(e);
-            }
-        });
+//        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent e) {
+//                mainCharacter.keyReleased(e);
+//            }
+//        });
         mainGame.show();
     }
 

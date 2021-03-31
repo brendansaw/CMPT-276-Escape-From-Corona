@@ -21,12 +21,12 @@ import BoardDesign.Exit;
 public class MainCharacter extends NonStationaryCharacter {
     private static MainCharacter mainCharacter = null;
 
-    boolean keyIsPressed; // if a key is held down or not
+//    boolean keyIsPressed; // if a key is held down or not
 
     private MainCharacter(int x, int y) { // private constructor
         this.x = x;
         this.y = y;
-        keyIsPressed = false;
+//        keyIsPressed = false;
     }
 
     /**
@@ -108,44 +108,41 @@ public class MainCharacter extends NonStationaryCharacter {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
-        if (!keyIsPressed) { // check if previous key was released to only allow singular key presses
-            if ((key == KeyCode.UP) && (y-1 >= 0)) {
-                if(board[y-1][x].isOpen()) {
-                    y += -1;
-                }
+        if ((key == KeyCode.UP) && (y-1 >= 0)) {
+            if(board[y-1][x].isOpen()) {
+                y += -1;
             }
-            if ((key == KeyCode.DOWN) && (y+1 < dimY)) {
-                if(board[y+1][x].isOpen()) {
-                    y += 1;
-                }
-            }
-            if ((key == KeyCode.LEFT) && (x-1 >= 0)) {
-                if(board[y][x-1].isOpen()) {
-                    x += -1;
-                }
-            }
-            if ((key == KeyCode.RIGHT) && (x+1 < dimX)) {
-                if(board[y][x+1].isOpen()) {
-                    x += 1;
-                }
-            }
-            printPos();
-            keyIsPressed = true;
-            move();
         }
+        if ((key == KeyCode.DOWN) && (y+1 < dimY)) {
+            if(board[y+1][x].isOpen()) {
+                y += 1;
+            }
+        }
+        if ((key == KeyCode.LEFT) && (x-1 >= 0)) {
+            if(board[y][x-1].isOpen()) {
+                x += -1;
+            }
+        }
+        if ((key == KeyCode.RIGHT) && (x+1 < dimX)) {
+            if(board[y][x+1].isOpen()) {
+                x += 1;
+            }
+        }
+        printPos();
+        move();
     }
 
-    /**
-     * Resets the keyIsPressed condition
-     * when a key is released.
-     *
-     * @param e a KeyEvent that is the key being released
-     */
-    public void keyReleased(KeyEvent e) {
-        //int key = e.getKeyCode(); // currently unneeded
-
-        if (keyIsPressed) {
-            keyIsPressed = false;
-        }
-    }
+//    /**
+//     * Resets the keyIsPressed condition
+//     * when a key is released.
+//     *
+//     * @param e a KeyEvent that is the key being released
+//     */
+//    public void keyReleased(KeyEvent e) {
+//        //int key = e.getKeyCode(); // currently unneeded
+//
+//        if (keyIsPressed) {
+//            keyIsPressed = false;
+//        }
+//    }
 }
