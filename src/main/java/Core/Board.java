@@ -18,13 +18,13 @@ import java.util.Iterator;
  */
 public class Board
 {
-
-    public static int dimX;
-    public static int dimY;
+    private static int dimX;
+    private static int dimY;
     private static int[][] boardID;
     private static Tile[][] board;
-    public static int exitXPos;
-    public static int exitYPos;
+    private static int exitXPos;
+    private static int exitYPos;
+
     private static ArrayList<Bonus> bonusArrayList = new ArrayList<>(); // list of bonus rewards currently on board
 
     public static Tile[][] getBoard() {
@@ -101,6 +101,14 @@ public class Board
 
     public int getDimY(){
         return dimY;
+    }
+
+    public static int getExitXPos() {
+        return exitXPos;
+    }
+
+    public static int getExitYPos() {
+        return exitYPos;
     }
 
     public Tile getTile(int i, int j)

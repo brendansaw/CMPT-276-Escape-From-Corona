@@ -68,8 +68,8 @@ public class MainCharacter extends NonStationaryCharacter {
         int dimX = board[0].length;
         int dimY = board.length;
         Tile currentTile = board[y][x];
-        Tile exit = board[Board.exitYPos][Board.exitXPos];
-        if(Board.exitXPos != 0 || Board.exitYPos != 0) {
+        Tile exit = board[Board.getExitYPos()][Board.getExitXPos()];
+        if(Board.getExitXPos() != 0 || Board.getExitYPos() != 0) {
             ((Exit) exit).checkCheckpoints();
         }
 

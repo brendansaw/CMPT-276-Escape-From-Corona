@@ -63,7 +63,7 @@ import java.util.TimerTask;
  * @since 1.0
  */
 public class Game extends Application{
-    public static int score;
+    private static int score;
     private static int time;
 
     private static TimerTask gameTicksTask;
@@ -215,7 +215,7 @@ public class Game extends Application{
 
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
-                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
+                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.getCheckpointsLeft());
                                 HBox statistics = new HBox();
                                 VBox firstChild = new VBox();
                                 VBox secondChild = new VBox();
@@ -560,8 +560,8 @@ public class Game extends Application{
     private Board createBoard() {
 
         Board boardGame = new Board();
-        for (int i = 0; i < boardGame.dimY; i++) {
-            for (int j = 0; j < boardGame.dimX; j++) {
+        for (int i = 0; i < boardGame.getDimY(); i++) {
+            for (int j = 0; j < boardGame.getDimX(); j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
             }
             System.out.println("");
