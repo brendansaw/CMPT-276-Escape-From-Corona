@@ -1,6 +1,8 @@
 package Characters;
 import Core.*;
 
+import java.util.ArrayList;
+
 /**
  * Enemy class implements methods to update the
  * enemy object. This includes movement handling
@@ -22,8 +24,8 @@ public class Enemy extends NonStationaryCharacter {
     /**
      * Updates the position of the enemy.
      */
-    public void move() {
-        Direction direction = checkBestMovement();
+    public void move(ArrayList<Enemy> enemyArrayList) {
+        Direction direction = checkBestMovement(enemyArrayList);
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
@@ -52,7 +54,7 @@ public class Enemy extends NonStationaryCharacter {
      *
      * @return an enum corresponding to a direction of movement
      */
-    private Direction checkBestMovement() {
+    private Direction checkBestMovement(ArrayList<Enemy> enemyArrayList) {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
@@ -62,6 +64,9 @@ public class Enemy extends NonStationaryCharacter {
         int playerPosX = player.getX();
         int playerPosY = player.getY();
 
+        int newPosX = x;
+        int newPosY = y;
+
         int distanceX = playerPosX - x;
         int distanceY = playerPosY - y;
         // Chooses a direction that sets their coordinates closer to the player
@@ -70,6 +75,7 @@ public class Enemy extends NonStationaryCharacter {
             if ((distanceX > 0) && (x + 1 <= dimX)) {
                 if (board[y][x + 1].isOpen()) {
                     checkedDirection = Direction.RIGHT;
+                    newPosX += Direction.RIGHT.getVal();
                     moved = true;
                 }
             }
@@ -78,6 +84,7 @@ public class Enemy extends NonStationaryCharacter {
             if ((distanceX < 0) && (x - 1 >= 0)) {
                 if (board[y][x - 1].isOpen()) {
                     checkedDirection = Direction.LEFT;
+                    newPosX += Direction.LEFT.getVal();
                     moved = true;
                 }
             }
@@ -86,6 +93,7 @@ public class Enemy extends NonStationaryCharacter {
             if ((distanceY > 0) && (y + 1 <= dimY)) {
                 if (board[y + 1][x].isOpen()) {
                     checkedDirection = Direction.DOWN;
+                    newPosY += Direction.DOWN.getVal();
                     moved = true;
                 }
             }
@@ -94,8 +102,16 @@ public class Enemy extends NonStationaryCharacter {
             if ((distanceY < 0) && (y - 1 >= 0)) {
                 if (board[y - 1][x].isOpen()) {
                     checkedDirection = Direction.UP;
+                    newPosY += Direction.UP.getVal();
                     moved = true;
                 }
+            }
+        }
+
+        for(Enemy e : enemyArrayList) {
+            if(e != this && e.getX() == newPosX && e.getY() == newPosY) {
+                checkedDirection = Direction.STAY;
+                return checkedDirection;
             }
         }
 

@@ -318,7 +318,7 @@ public class Game extends Application{
      */
     public static void updateGame() {
         for(Enemy e : enemyArrayList) {
-            e.move();
+            e.move(enemyArrayList);
             e.printPos();
         }
         Board.generateBonus();
