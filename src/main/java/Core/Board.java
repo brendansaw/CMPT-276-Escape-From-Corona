@@ -31,7 +31,109 @@ public class Board
         return board.clone(); // return a copy that they cannot edit
     }
 
-    public Board() {
+    public Board(String select) {
+        int [][] id;
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+        if (select.equals("first")) {
+            id = new int[][]{
+                    {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1},
+                    {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+                    {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
+                    {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
+                    {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
+                    {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
+            };
+        } else if (select.equals("second")) {
+            id = new int[][]{
+                    {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 2, 1},
+                    {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 2, 0, 0, 1, 0, 1},
+                    {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                    {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
+                    {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
+                    {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
+                    {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
+            };
+        } else if (select.equals("third")) {
+            id = new int[][]{
+                    {1, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                    {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
+                    {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
+                    {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+                    {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
+                    {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+                    {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
+                    {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            };
+        } else {
+            System.out.println("ERROR: Argument entered into Board constructor is not valid");
+            return;
+        }
+
+        boardID = id;
+        dimX = boardID[0].length; // number of columns
+        dimY = boardID.length; // number of rows
+        board = new Tile[dimY][dimX]; // y has to go first
+
+        for(int i = 0; i < dimY; i++) {
+            for(int j = 0; j < dimX; j++) {
+                //System.out.println();
+                int cur = boardID[i][j];
+
+                switch(cur) {
+                    case 0://Tile
+                        board[i][j] = new Tile();
+                        break;
+                    //System.out.println("Tile");
+                    case 1://Wall
+                        board[i][j] = new Wall();
+                        break;
+                    //System.out.println("Wall");
+                    case 2: //Tile with checkpoint
+                        board[i][j] = new Tile(1, j, i); // checkpoint is input 1
+                        break;
+                    case 3: //Tile with punishment
+                        board[i][j] = new Tile(2, j, i); // punishment is input 2
+                        break;
+                    case 4:
+                        board[i][j] = new Tile(3, j, i); // bonus is input 3
+                        break;
+                    case 5:
+                        board[i][j] = new Entrance();
+                        mainCharacter.setPos(j, i);
+                        break;
+                    case 6:
+                        board[i][j] = new Exit();
+                        exitYPos = i;
+                        exitXPos = j;
+                        break;
+
+                }
+            }
+        }
+
+        if (select.equals("first")) {
+            Game.generateEnemies();
+        } else if (select.equals("second")) {
+            Game.generateEnemies2();
+        } else if (select.equals("third")) {
+            Game.generateEnemies3();
+        } else {
+            System.out.println("ERROR: Argument entered into Board constructor is not valid");
+            return;
+        }
+    }
+
+
+    /*public Board() {
         int[][] id = {  {1, 5, 1, 1, 1, 1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 0, 0, 0, 1, 3, 1},
                         {1, 0, 1, 3, 1, 0, 1, 1, 0, 1},
@@ -44,10 +146,7 @@ public class Board
                         {1, 1, 1, 1, 1, 1, 1, 1, 6, 1},
                     };
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-        /**Takes a 2D array...
-     *... and initializes each co-ordinate to a Tile object determined by the id at each entry
-     *
-     */
+
 
         // assume id must be a rectangle, and thus each X is the same length
         boardID = id;
@@ -93,7 +192,7 @@ public class Board
         }
 
         Game.generateEnemies();
-    }
+    }*/
 
     public int getDimX(){
         return dimX;

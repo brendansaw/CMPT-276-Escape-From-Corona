@@ -80,14 +80,46 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
+    private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
+    private static Board boardGame;
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
+
+    /**
+     * Creates the first level of the game
+     */
+    private static Board firstStage() {
+        enemyArrayList.clear();
+        Board temp = createBoard("first");
+        return temp;
+    }
+
+    /**
+     * Creates the second level of the game
+     * Ensures that all enemies that were in the first level are cleared
+     */
+    private static Board secondStage() {
+        enemyArrayList.clear(); // delete old enemies
+        Board temp = createBoard("second");
+        return temp;
+    }
+
+    /**
+     * Creates the third and final level of the game
+     */
+    private static Board thirdStage() {
+        enemyArrayList.clear(); // delete old enemies
+        Board temp = createBoard("third");
+        return temp;
+    }
+
     public void start(Stage mainGame) {
         mainGame.setTitle("Maze Game");
 
         startGame();
-        Board boardGame = createBoard();
+        boardGame = firstStage();
         int squaredBoard = 10;
 
         AnchorPane root = new AnchorPane();
@@ -217,6 +249,26 @@ public class Game extends Application{
         Enemy e2 = new Enemy(3, 8);
         enemyArrayList.add(e1);
         enemyArrayList.add(e2);
+    }
+
+    public static void generateEnemies2() {
+        Enemy e1 = new Enemy(8, 8);
+        Enemy e2 = new Enemy(3, 8);
+        Enemy e3 = new Enemy(10, 3);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+        enemyArrayList.add(e3);
+    }
+
+    public static void generateEnemies3() {
+        Enemy e1 = new Enemy(4, 3);
+        Enemy e2 = new Enemy(13, 3);
+        Enemy e3 = new Enemy(4, 6);
+        Enemy e4 = new Enemy(13, 6);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+        enemyArrayList.add(e3);
+        enemyArrayList.add(e4);
     }
 
     /**
@@ -410,15 +462,46 @@ public class Game extends Application{
      * @param win true if player wins, else false
      */
     public static void endGame(boolean win){
-        if (winStatus == null) {    // prevents winStatus from changing
+        /*if (winStatus == null) {    // prevents winStatus from changing
             if(win) {
                 winStatus = "You win.";
             }
             else {
                 winStatus = "You lose.";
             }
+            //gameTicks.cancel();
+            //paused = true;
+        }*/
+        if (currentStage.equals("win") || currentStage.equals("lose")) {
+            // do nothing
             gameTicks.cancel();
             paused = true;
+        }
+        else {
+            if (win) {
+                if (currentStage.equals("first")) {
+                    currentStage = "second";
+                    boardGame = secondStage();
+                } else if (currentStage.equals("second")) {
+                    currentStage = "third";
+                    boardGame = thirdStage();
+                } else if (currentStage.equals("third")) {
+                    currentStage = "win";
+                    gameTicks.cancel();
+                    paused = true;
+                    winStatus = "You won!";
+                } else if (currentStage.equals("win")) {
+                    // do nothing
+                } else {
+                    System.out.println("Not a valid current stage");
+                }
+            }
+            else {
+                currentStage = "lose";
+                winStatus = "You lost. :(";
+                gameTicks.cancel();
+                paused = true;
+            }
         }
     }
 
@@ -453,9 +536,9 @@ public class Game extends Application{
         }
     }
 
-    private Board createBoard() {
+    private static Board createBoard(String input) {
 
-        Board boardGame = new Board();
+        Board boardGame = new Board(input);
         for (int i = 0; i < boardGame.dimY; i++) {
             for (int j = 0; j < boardGame.dimX; j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
