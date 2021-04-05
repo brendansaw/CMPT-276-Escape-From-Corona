@@ -204,10 +204,16 @@ public class Game extends Application{
         GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
-        Scene gameIsOver = new Scene(gameOverRoot);
+        BorderPane gameOverBorder = new BorderPane();
+        Group gameRoot2 = new Group(gameOverRoot);
+
+        gameOverBorder.setCenter(gameRoot2);
+        gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);
+        Scene gameIsOver = new Scene(gameOverBorder);
         //Gameover scene
 
         //MenuStart Scene
+
         Pane paneRoot = new Pane();
         paneRoot.setPrefSize(800,600);
         InputStream inputBackground;
@@ -232,11 +238,17 @@ public class Game extends Application{
         layout1.getChildren().addAll(label1, button1);*/
 
         paneRoot.getChildren().addAll(imgView, gameMenu);
-        Scene menuStart = new Scene(paneRoot);
+        BorderPane menuBorder = new BorderPane();
+        Group menuRoot = new Group(paneRoot);
+
+        menuBorder.setCenter(menuRoot);
+        menuBorder.setAlignment(menuRoot, Pos.CENTER);
+
+        Scene menuStart = new Scene(menuBorder);
         //End of MenuStart
 
         Group g2 = new Group();
-        Scene mainmenu = new Scene(g2, 150, 100);
+        //Scene mainmenu = new Scene(g2, 150, 100);
 
         Group g1 = new Group();
 
@@ -326,7 +338,13 @@ public class Game extends Application{
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
-                                    Scene gameIsOver2 = new Scene(gameOverRoot2);
+                                    BorderPane gameOverBorder2 = new BorderPane();
+                                    Group gameOver2 = new Group(gameOverRoot2);
+
+                                    gameOverBorder2.setCenter(gameOver2);
+                                    gameOverBorder2.setAlignment(gameOver2, Pos.CENTER);
+
+                                    Scene gameIsOver2 = new Scene(gameOverBorder2);
                                     mainGame.setScene(gameIsOver2);
                                     gameOver = true;
                                 }
@@ -530,8 +548,8 @@ public class Game extends Application{
             getChildren().addAll(menuR, text);
 
             setOnMouseEntered(event -> {
-                menuR.setTranslateX(30);
-                text.setTranslateX(30);
+                menuR.setTranslateX(40);
+                text.setTranslateX(40);
                 menuR.setFill(Color.WHITE);
                 text.setFill(Color.BLACK);
             });
@@ -546,7 +564,7 @@ public class Game extends Application{
             drop.setInput(new Glow());
 
             setOnMouseEntered(event -> setEffect(drop));
-            setOnMouseReleased(event -> setEffect(null));
+            setOnMouseExited(event -> setEffect(null));
 
         }
     }
