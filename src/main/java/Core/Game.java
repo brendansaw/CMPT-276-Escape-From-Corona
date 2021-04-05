@@ -103,6 +103,8 @@ public class Game extends Application{
     private static Image wallImage = null;
     private static Image checkpointImage = null;
 
+    private static boolean gameOver = false;
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
@@ -199,7 +201,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         Scene gameIsOver = new Scene(gameOverRoot);
@@ -318,8 +320,15 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
-                                if(winStatus.equals("You lost. :(")) {
-                                    mainGame.setScene(gameIsOver);
+                                int currentScore = getScore();
+                                if(winStatus.equals("You lost. :(") && !(gameOver)) {
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, currentScore);
+                                    Pane gameOverRoot2 = new Pane();
+                                    gameOverRoot2.setPrefSize(800,600);
+                                    gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
+                                    Scene gameIsOver2 = new Scene(gameOverRoot2);
+                                    mainGame.setScene(gameIsOver2);
+                                    gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!")) {
                                     mainGame.setScene(gameIsOver);
@@ -459,7 +468,7 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -473,10 +482,19 @@ public class Game extends Application{
 
             MenuButton resumeBtn = new MenuButton("RESTART");
             resumeBtn.setOnMouseClicked(event -> {
+
+                startGame();
+                winStatus = null;
                 mainGame.setScene(scene);
 
+
             });
-            MenuButton instructionsBtn = new MenuButton("SCORE");
+            //int endScore = getScore();
+            //System.out.println("score:");
+            //System.out.println(endScore);
+
+            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
+
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
