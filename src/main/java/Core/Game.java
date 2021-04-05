@@ -625,6 +625,28 @@ public class Game extends Application{
 
     }
 
+    void drawReward(AnchorPane root, Tile tile, int x, int y) {
+        //Rectangle rect = null;
+        Image image = null;
+        int height = yTileSize;
+        int width = xTileSize;
+        Rectangle rect = new Rectangle(width*x, height*y, width, height);
+        rect.toFront();
+        if (tile.typeOfReward.equals("Checkpoint")) {
+            image = checkpointImage;
+            rect.setFill(new ImagePattern(image));
+        } else if (tile.typeOfReward.equals("Punishment")) {
+//            image = punishmentImage;
+            rect.setFill(Color.PINK);
+        } else if (tile.typeOfReward.equals("Bonus")) {
+//            image = bonusImage;
+            rect.setFill(Color.YELLOW);
+        }
+//        rect.setFill(new ImagePattern(image));
+        root.getChildren().add(rect);
+
+    }
+
     /**
      * Draws the enemies.
      *
@@ -672,7 +694,6 @@ public class Game extends Application{
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
 
-
                 Image imageTile = groundImage;
                 Image imageWall = wallImage;
 
@@ -709,28 +730,18 @@ public class Game extends Application{
                         rect.setFill(Color.RED);
                         break;
                 }
-                boolean tileHasReward = currentTile.getHasReward();
-                if (tileHasReward) {
-                    rect.setStrokeWidth(5);
-                    rect.toFront();
-                    if (currentTile.typeOfReward.equals("Checkpoint")) {
-                        rect.setFill(Color.BLUE);
-                    } else if (currentTile.typeOfReward.equals("Punishment")) {
-                        rect.setFill(Color.PINK);
-                    } else if (currentTile.typeOfReward.equals("Bonus")) {
-                        rect.setFill(Color.YELLOW);
-                    }
-                }
-
-                drawMainCharacter(root, boardGame, mainCharacter);
-                drawEnemies(root, boardGame);
-                //Give rectangles an outline so I can see rectangles
 
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
+                boolean tileHasReward = currentTile.getHasReward();
+                if (tileHasReward) {
+                    drawReward(root, currentTile, j, i);
+                }
             }
         }
+        drawMainCharacter(root, boardGame, mainCharacter);
+        drawEnemies(root, boardGame);
     }
 
     /**
