@@ -80,66 +80,64 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
+    private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
+    private static Board boardGame;
+
+    private static InputStream spriteStream;
+    private static InputStream enemyStream;
+    private static InputStream groundStream;
+    private static InputStream wallStream;
+
+    private static Image spriteImage = null;
+    private static Image enemyImage = null;
+    private static Image groundImage = null;
+    private static Image wallImage = null;
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
+
+    /**
+     * Creates the first level of the game
+     */
+    private static Board firstStage() {
+        enemyArrayList.clear();
+        Board temp = createBoard("first");
+        return temp;
+    }
+
+    /**
+     * Creates the second level of the game
+     * Ensures that all enemies that were in the first level are cleared
+     */
+    private static Board secondStage() {
+        enemyArrayList.clear(); // delete old enemies
+        Board temp = createBoard("second");
+        return temp;
+    }
+
+    /**
+     * Creates the third and final level of the game
+     */
+    private static Board thirdStage() {
+        enemyArrayList.clear(); // delete old enemies
+        Board temp = createBoard("third");
+        return temp;
+    }
+
     public void start(Stage mainGame) {
         mainGame.setTitle("Maze Game");
 
         startGame();
-        Board boardGame = createBoard();
+        boardGame = firstStage();
         int squaredBoard = 10;
 
-//        Group root = new Group();
-//        Scene theScene = new Scene(root);
-//        mainGame.setScene(theScene);
-
-//        Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
-//        root.getChildren().add( canvas);
-
-//        Rectangle[][] rect = new Rectangle[height][width];
-//
-//        for(int i = 0; i < height; i++){
-//            for(int j = 0; j < width; j++){
-//                rect[i][j] = new Rectangle();
-//            }
-//        }
-
-        //Label labelCenter = new Label("this is BorderPane center");
-        //Label labelTop = new Label("this is BorderPane top");
-        //Label labelBottom = new Label("this is BorderPane bottom");
-        //Label labelLeft = new Label("this is BorderPane left");
-        //Label labelRight = new Label("this is BorderPane right");
-
         AnchorPane root = new AnchorPane();
-        //BorderPane positions = new BorderPane(root, labelTop, labelRight, labelBottom, labelLeft);
         BorderPane positions = new BorderPane();
-        //positions.setPrefSize(500,500);
-
-        //positions.setCenter(root);
-
-        //positions.setTop(labelTop);
-        //positions.setBottom(labelBottom);
-        //positions.setLeft(labelLeft);
-        //positions.setRight(labelRight);
-        //positions.setAlignment(labelTop, Pos.CENTER);
-        //positions.setAlignment(labelBottom, Pos.CENTER);
-        //positions.setAlignment(labelLeft, Pos.CENTER);
-        //positions.setAlignment(labelRight, Pos.CENTER);
-
-        //root.setMinWidth(squaredBoard*(boardGame.getDimX()));
-        //root.setMaxWidth(squaredBoard*(boardGame.getDimX()));
-        //root.setMinHeight(squaredBoard*(boardGame.getDimY()));
-        //root.setMaxHeight(squaredBoard*(boardGame.getDimY()));
-        //positions.setCenter(root);
 
         Group rootGroup = new Group(root);
         positions.setCenter(rootGroup);
         positions.setAlignment(rootGroup, Pos.CENTER);
-
-        //positions.setCenter(root);
-
-        //mainGame.setFullScreen(true);
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
@@ -149,60 +147,25 @@ public class Game extends Application{
 
         Group g1 = new Group();
 
-        //Label t1 = new Label("Maingame");
-        //Button b1 = new Button("Go to main menu");
-        //Label t2 = new Label("This is the main menu");
-        //Button b2 = new Button("Go to the maingame");
-        //t1.setTranslateY(15);
-        //t2.setTranslateY(15);
-        //b1.setTranslateY(50);
-        //b2.setTranslateY(50);
-        //positions.setLeft(b1);
-        //positions.setLeft(t1);
-        //positions.setAlignment(b1, Pos.CENTER);
-        //positions.setAlignment(t1, Pos.CENTER);
-        //g1.getChildren().addAll(t1, b1);
-        //g2.getChildren().addAll(t2, b2);
 
-        //positions.setLeft(g1);
-        //positions.setAlignment(g1, Pos.CENTER);
-   // positions.setLeft(b1);
-    //positions.setLeft(t1);
-
-        //b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
-        //b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
-        //                            positions.setLeft(g1);});
-        /*
-
-        StackPane stack = new StackPane();
-
-        stack.getChildren().add(root);
-        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
-        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
-
-        */
-        //positions.setCenter(stack);
-
-//        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
-//        Image image = new Image(inputStream);
-//        ImageView imageView = new ImageView(image);
-
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill( Color.GREEN );
-//        gc.setStroke( Color.GREEN );
-//        gc.setLineWidth(2);
-//        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-//        gc.setFont( theFont );
-//        gc.fillText( "Start Game", 60, 50 );
-//        gc.strokeText( "Start Game", 60, 50 );
-
-        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
-        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         scene.setRoot(positions);
         mainGame.setScene(scene);
 
-        //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
-        //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
+        try{
+            spriteStream = new FileInputStream("assets/spriteguy.png");
+            spriteImage = new Image(spriteStream);
+            enemyStream = new FileInputStream("assets/enemy.png");
+            enemyImage = new Image(enemyStream);
+            groundStream = new FileInputStream("assets/grass.png");
+            groundImage = new Image(groundStream);
+            wallStream = new FileInputStream("assets/wall.png");
+            wallImage = new Image(wallStream);
+        } catch(FileNotFoundException e) {
+            spriteStream = null; spriteImage = null;
+            enemyStream = null; enemyImage = null;
+            groundStream = null; groundImage = null;
+            wallStream = null; wallImage = null;
+        }
 
         drawRectangles(root, boardGame, mainCharacter);
 
@@ -312,6 +275,26 @@ public class Game extends Application{
         enemyArrayList.add(e2);
     }
 
+    public static void generateEnemies2() {
+        Enemy e1 = new Enemy(8, 8);
+        Enemy e2 = new Enemy(3, 8);
+        Enemy e3 = new Enemy(10, 3);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+        enemyArrayList.add(e3);
+    }
+
+    public static void generateEnemies3() {
+        Enemy e1 = new Enemy(4, 3);
+        Enemy e2 = new Enemy(13, 3);
+        Enemy e3 = new Enemy(4, 6);
+        Enemy e4 = new Enemy(13, 6);
+        enemyArrayList.add(e1);
+        enemyArrayList.add(e2);
+        enemyArrayList.add(e3);
+        enemyArrayList.add(e4);
+    }
+
     /**
      * Called every tick. Handles game updates including
      * enemy movement and Bonus reward generation.
@@ -335,11 +318,8 @@ public class Game extends Application{
 
         Rectangle rect = null;
         InputStream inputStream;
-        Image image = null;
-        try{
-            inputStream = new FileInputStream("assets/spriteguy.png");
-            image = new Image(inputStream);
-        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        Image image = spriteImage;
+
         int x = mainCharacter.getX();
         int y = mainCharacter.getY();
         int width = xTileSize;
@@ -361,12 +341,8 @@ public class Game extends Application{
      */
     void drawEnemies(AnchorPane root, Board boardGame) {
         Rectangle rect = null;
-        InputStream inputStream;
-        Image image = null;
-        try {
-            inputStream = new FileInputStream("assets/enemy.png");
-            image = new Image(inputStream);
-        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        Image image = enemyImage;
+
         int width = xTileSize;
         int height = yTileSize;
         for (int i = 0; i < enemyArrayList.size(); i++) {
@@ -403,15 +379,10 @@ public class Game extends Application{
                 //Create a new rectangle(PosY,PosX,width,height)
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
-                InputStream inputTile;
-                InputStream inputWall;
-                try {
-                    inputTile = new FileInputStream("assets/grass.png");
-                    inputWall = new FileInputStream("assets/wall.png");
-                } catch(FileNotFoundException e) { inputTile = null; inputWall = null;}
 
-                Image imageTile = new Image(inputTile);
-                Image imageWall = new Image(inputWall);
+
+                Image imageTile = groundImage;
+                Image imageWall = wallImage;
 
                 Tile currentTile = boardGame.getTile(i,j);
                 String currentTileString = currentTile.getClass().getSimpleName();
@@ -428,7 +399,7 @@ public class Game extends Application{
                     currentTileInt = 3;
                 }
 //                rect.setStrokeWidth(1);
-                rect.setStroke(Color.BLACK);
+                //rect.setStroke(Color.BLACK);
                 rect.setFill(Color.WHITE);
                 rect.toBack();
                 switch(currentTileInt)
@@ -484,7 +455,7 @@ public class Game extends Application{
             }
         };
         gameTicks = new Timer();
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
     }
 
     /**
@@ -503,15 +474,46 @@ public class Game extends Application{
      * @param win true if player wins, else false
      */
     public static void endGame(boolean win){
-        if (winStatus == null) {    // prevents winStatus from changing
+        /*if (winStatus == null) {    // prevents winStatus from changing
             if(win) {
                 winStatus = "You win.";
             }
             else {
                 winStatus = "You lose.";
             }
+            //gameTicks.cancel();
+            //paused = true;
+        }*/
+        if (currentStage.equals("win") || currentStage.equals("lose")) {
+            // do nothing
             gameTicks.cancel();
             paused = true;
+        }
+        else {
+            if (win) {
+                if (currentStage.equals("first")) {
+                    currentStage = "second";
+                    boardGame = secondStage();
+                } else if (currentStage.equals("second")) {
+                    currentStage = "third";
+                    boardGame = thirdStage();
+                } else if (currentStage.equals("third")) {
+                    currentStage = "win";
+                    gameTicks.cancel();
+                    paused = true;
+                    winStatus = "You won!";
+                } else if (currentStage.equals("win")) {
+                    // do nothing
+                } else {
+                    System.out.println("Not a valid current stage");
+                }
+            }
+            else {
+                currentStage = "lose";
+                winStatus = "You lost. :(";
+                gameTicks.cancel();
+                paused = true;
+            }
         }
     }
 
@@ -546,9 +548,9 @@ public class Game extends Application{
         }
     }
 
-    private Board createBoard() {
+    private static Board createBoard(String input) {
 
-        Board boardGame = new Board();
+        Board boardGame = new Board(input);
         for (int i = 0; i < boardGame.dimY; i++) {
             for (int j = 0; j < boardGame.dimX; j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
