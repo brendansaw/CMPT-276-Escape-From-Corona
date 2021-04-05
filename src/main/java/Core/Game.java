@@ -19,6 +19,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
@@ -157,6 +158,29 @@ public class Game extends Application{
         scene.setRoot(positions);
 
 
+
+
+        //Gameover Scene
+        Pane gameOverRoot = new Pane();
+        gameOverRoot.setPrefSize(800,600);
+        InputStream inputOverBackground;
+        try {
+            inputOverBackground = new FileInputStream("assets/Gameover.jpg");
+
+        } catch(FileNotFoundException e) { inputOverBackground = null;}
+
+        Image inputBackgroundOver = new Image(inputOverBackground);
+
+        ImageView imgView2 = new ImageView(inputBackgroundOver);
+        imgView2.setFitHeight(600);
+        imgView2.setFitWidth(800);
+
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene);
+
+        gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
+        Scene gameIsOver = new Scene(gameOverRoot);
+        //Gameover scene
+
         //MenuStart Scene
         Pane paneRoot = new Pane();
         paneRoot.setPrefSize(800,600);
@@ -173,7 +197,7 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
-        gameMenu = new GameMenu(mainGame, scene);
+        gameMenu = new GameMenu(mainGame, scene, gameIsOver);
 
         /*Label label1= new Label("This is the main menu");
         Button button1= new Button("Start Game");
@@ -182,13 +206,7 @@ public class Game extends Application{
         layout1.getChildren().addAll(label1, button1);*/
 
         paneRoot.getChildren().addAll(imgView, gameMenu);
-
-
         Scene menuStart = new Scene(paneRoot);
-
-
-
-
         //End of MenuStart
 
         Group g2 = new Group();
@@ -354,24 +372,67 @@ public class Game extends Application{
 
 
     private class GameMenu extends Parent{
-        public GameMenu(Stage mainGame, Scene scene) {
-            VBox menuOrig = new VBox(10);
+        //scene2 is passed for the gameendscreen DEBUG
+        public GameMenu(Stage mainGame, Scene scene, Scene scene2) {
+            VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
-            menuOrig.setTranslateX(100);
-            menuOrig.setTranslateY(200);
+            menuOrig.setTranslateX(250);
+            menuOrig.setTranslateY(250);
 
             menu2.setTranslateX(100);
             menu2.setTranslateY(200);
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("RESUME");
+            MenuButton resumeBtn = new MenuButton("START GAME");
             resumeBtn.setOnMouseClicked(event -> {
                 mainGame.setScene(scene);
 
             });
             MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+
+            MenuButton exitBtn = new MenuButton("EXIT");
+            exitBtn.setOnMouseClicked(event ->{
+                System.exit(0);
+            });
+
+            MenuButton debugOverBtn = new MenuButton("DEBUG GAME OVER OPTION");
+            debugOverBtn.setOnMouseClicked(event ->{
+                mainGame.setScene(scene2);
+            });
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
+
+            Rectangle background = new Rectangle(800,600);
+            background.setFill(Color.GREY);
+            background.setOpacity(0.4);
+
+            getChildren().addAll(background, menuOrig);
+
+
+        }
+    }
+
+
+    private class GameOverMenu extends Parent{
+        public GameOverMenu(Stage mainGame, Scene scene) {
+            VBox menuOrig = new VBox(40);
+            VBox menu2 = new VBox(10);
+
+            menuOrig.setTranslateX(250);
+            menuOrig.setTranslateY(250);
+
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
+            final int offset = 400;
+
+            MenuButton resumeBtn = new MenuButton("RESTART");
+            resumeBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene);
+
+            });
+            MenuButton instructionsBtn = new MenuButton("SCORE");
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
@@ -390,7 +451,6 @@ public class Game extends Application{
         }
     }
 
-
     //MenuButton template for buttons
     private static class MenuButton extends StackPane{
         private Text text;
@@ -400,7 +460,7 @@ public class Game extends Application{
             text.setFont(text.getFont().font(20));
             text.setFill(Color.GHOSTWHITE);
 
-            Rectangle menuR = new Rectangle(250, 30);
+            Rectangle menuR = new Rectangle(250, 50);
             menuR.setOpacity(0.7);
             menuR.setFill(Color.BLACK);
             menuR.setEffect(new GaussianBlur(3.5));
@@ -410,8 +470,8 @@ public class Game extends Application{
             getChildren().addAll(menuR, text);
 
             setOnMouseEntered(event -> {
-                menuR.setTranslateX(10);
-                text.setTranslateX(10);
+                menuR.setTranslateX(30);
+                text.setTranslateX(30);
                 menuR.setFill(Color.WHITE);
                 text.setFill(Color.BLACK);
             });
