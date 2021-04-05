@@ -202,7 +202,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         Scene gameIsOver = new Scene(gameOverRoot);
@@ -321,9 +321,9 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
-                                int currentScore = getScore();
+                                //int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(") && !(gameOver)) {
-                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, currentScore);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time);
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
@@ -469,7 +469,7 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene, int endScore) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -491,13 +491,14 @@ public class Game extends Application{
             //System.out.println(endScore);
 
             MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
+            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s");
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
                 System.exit(0);
             });
 
-            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, timeBtn, exitBtn);
 
             Rectangle background = new Rectangle(800,600);
             background.setFill(Color.GREY);
