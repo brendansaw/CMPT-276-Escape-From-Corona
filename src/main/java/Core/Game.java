@@ -536,10 +536,10 @@ public class Game extends Application{
         public MenuButton(String name){
             text = new Text(name);
             text.setFont(text.getFont().font(20));
-            text.setFill(Color.GHOSTWHITE);
+            text.setFill(Color.WHITE);
 
             Rectangle menuR = new Rectangle(250, 50);
-            menuR.setOpacity(0.7);
+            menuR.setOpacity(0.6);
             menuR.setFill(Color.BLACK);
             menuR.setEffect(new GaussianBlur(3.5));
 
@@ -548,8 +548,8 @@ public class Game extends Application{
             getChildren().addAll(menuR, text);
 
             setOnMouseEntered(event -> {
-                menuR.setTranslateX(40);
-                text.setTranslateX(40);
+                menuR.setTranslateX(30);
+                text.setTranslateX(30);
                 menuR.setFill(Color.WHITE);
                 text.setFill(Color.BLACK);
             });
@@ -563,8 +563,8 @@ public class Game extends Application{
             DropShadow drop = new DropShadow(50, Color.WHITE);
             drop.setInput(new Glow());
 
-            setOnMouseEntered(event -> setEffect(drop));
-            setOnMouseExited(event -> setEffect(null));
+            setOnMousePressed(event -> setEffect(drop));
+            setOnMouseReleased(event -> setEffect(null));
 
         }
     }
