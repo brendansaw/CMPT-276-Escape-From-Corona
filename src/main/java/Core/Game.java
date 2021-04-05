@@ -80,6 +80,8 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
+
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
@@ -89,6 +91,10 @@ public class Game extends Application{
         startGame();
         Board boardGame = createBoard();
         int squaredBoard = 10;
+
+
+
+
 
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
@@ -141,8 +147,21 @@ public class Game extends Application{
 
         //mainGame.setFullScreen(true);
 
+
+
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
+
+
+        //MenuStart Scene
+        Label label1= new Label("This is the main menu");
+        Button button1= new Button("Start Game");
+        button1.setOnAction(e -> mainGame.setScene(scene));
+        VBox layout1 = new VBox(20);
+        layout1.getChildren().addAll(label1, button1);
+        Scene menuStart = new Scene(layout1, 300, 250);
+
+        //End of MenuStart
 
         Group g2 = new Group();
         Scene mainmenu = new Scene(g2, 150, 100);
@@ -200,7 +219,7 @@ public class Game extends Application{
         //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
         scene.setRoot(positions);
-        mainGame.setScene(scene);
+        mainGame.setScene(menuStart);
 
         //root.setLayoutX((mainGame.getWidth()/2) - root.getWidth()/2);
         //root.setLayoutY((mainGame.getHeight()/2) - root.getHeight()/2);
@@ -300,6 +319,7 @@ public class Game extends Application{
                 mainCharacter.keyReleased(e);
             }
         });
+
         mainGame.show();
     }
 
