@@ -7,7 +7,15 @@ import TileAction.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+/**
+ * Board class represents the game board.
+ * This class generates and stores the tile
+ * composition.
+ *
+ * @author Peter
+ * @version 1.0
+ * @since 1.0
+ */
 public class Board
 {
 
@@ -25,14 +33,14 @@ public class Board
 
     public Board() {
         int[][] id = {  {1, 5, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {1, 0, 0, 3, 0, 0, 0, 1, 3, 1},
-                        {1, 0, 1, 0, 1, 1, 1, 1, 0, 1},
-                        {1, 2, 0, 0, 1, 2, 0, 0, 0, 1},
-                        {1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+                        {1, 0, 0, 0, 0, 0, 0, 1, 3, 1},
+                        {1, 0, 1, 3, 1, 0, 1, 1, 0, 1},
+                        {1, 2, 0, 0, 0, 2, 0, 0, 0, 1},
+                        {1, 1, 1, 0, 1, 0, 1, 1, 0, 1},
                         {1, 0, 0, 0, 2, 0, 0, 0, 0, 1},
-                        {1, 0, 1, 1, 1, 0, 1, 1, 1, 1},
-                        {1, 0, 0, 0, 1, 0, 1, 2, 1, 1},
-                        {1, 2, 1, 0, 1, 0, 0, 0, 0, 1},
+                        {1, 0, 1, 1, 1, 0, 1, 1, 0, 1},
+                        {1, 0, 0, 0, 1, 0, 1, 2, 0, 1},
+                        {1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
                         {1, 1, 1, 1, 1, 1, 1, 1, 6, 1},
                     };
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
