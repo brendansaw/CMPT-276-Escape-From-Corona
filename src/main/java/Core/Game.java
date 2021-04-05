@@ -86,7 +86,6 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
-
     private GameMenu gameMenu;
 
     private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
@@ -97,7 +96,6 @@ public class Game extends Application{
     private static InputStream groundStream;
     private static InputStream wallStream;
     private static InputStream checkpointStream;
-
 
     private static Image spriteImage = null;
     private static Image enemyImage = null;
@@ -151,11 +149,6 @@ public class Game extends Application{
         boardGame = firstStage();
         int squaredBoard = 10;
 
-
-
-
-
-
 //        Group root = new Group();
 //        Scene theScene = new Scene(root);
 //        mainGame.setScene(theScene);
@@ -177,7 +170,6 @@ public class Game extends Application{
         //Label labelLeft = new Label("this is BorderPane left");
         //Label labelRight = new Label("this is BorderPane right");
 
-
         AnchorPane root = new AnchorPane();
         BorderPane positions = new BorderPane();
 
@@ -185,19 +177,12 @@ public class Game extends Application{
         positions.setCenter(rootGroup);
         positions.setAlignment(rootGroup, Pos.CENTER);
 
-
         //positions.setCenter(root);
 
         //mainGame.setFullScreen(true);
 
-
-
-
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
-
-
-
 
         //Gameover Scene
         Pane gameOverRoot = new Pane();
@@ -252,7 +237,6 @@ public class Game extends Application{
         Scene mainmenu = new Scene(g2, 150, 100);
 
         Group g1 = new Group();
-
 
         //Label t1 = new Label("Maingame");
         //Button b1 = new Button("Go to main menu");
@@ -335,6 +319,9 @@ public class Game extends Application{
                             @Override
                             public void handle(ActionEvent event) {
                                 if(winStatus.equals("You lost. :(")) {
+                                    mainGame.setScene(gameIsOver);
+                                }
+                                else if(winStatus.equals("You won!")) {
                                     mainGame.setScene(gameIsOver);
                                 }
                                 Integer getScoreInt = new Integer(getScore());
@@ -566,11 +553,11 @@ public class Game extends Application{
     }
 
     public static void generateEnemies3() {
-        Enemy e1 = new Enemy(4, 3);
+        //Enemy e1 = new Enemy(4, 3);
         Enemy e2 = new Enemy(13, 3);
         Enemy e3 = new Enemy(4, 6);
         Enemy e4 = new Enemy(13, 6);
-        enemyArrayList.add(e1);
+        //enemyArrayList.add(e1);
         enemyArrayList.add(e2);
         enemyArrayList.add(e3);
         enemyArrayList.add(e4);
@@ -748,7 +735,7 @@ public class Game extends Application{
         };
         gameTicks = new Timer();
 
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 1000);
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
     }
 
     /**
