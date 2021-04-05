@@ -81,7 +81,7 @@ public class Game extends Application{
     private int yTileSize = 96;
     private boolean onFullSecondNextRound = false;
 
-    private static String winStatus;
+    private static String winStatus = "";
 
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
@@ -147,7 +147,7 @@ public class Game extends Application{
         });
         mainGame.setTitle("Maze Game");
 
-        startGame();
+        //startGame();
         boardGame = firstStage();
         int squaredBoard = 10;
 
@@ -334,7 +334,9 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
-
+                                if(winStatus.equals("You lost. :(")) {
+                                    mainGame.setScene(gameIsOver);
+                                }
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
                                 Integer getCheckpointsRemainingInt = new Integer(Checkpoint.getCheckpointsLeft());
@@ -444,7 +446,7 @@ public class Game extends Application{
             MenuButton resumeBtn = new MenuButton("START GAME");
             resumeBtn.setOnMouseClicked(event -> {
                 mainGame.setScene(scene);
-
+                startGame();
             });
             MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
 
@@ -468,7 +470,6 @@ public class Game extends Application{
 
         }
     }
-
 
     private class GameOverMenu extends Parent{
         public GameOverMenu(Stage mainGame, Scene scene) {
@@ -502,8 +503,6 @@ public class Game extends Application{
             background.setOpacity(0.4);
 
             getChildren().addAll(background, menuOrig);
-
-
         }
     }
 
@@ -546,10 +545,6 @@ public class Game extends Application{
 
         }
     }
-
-
-
-
 
     /**
      * Generates enemies on the in a static manner.
