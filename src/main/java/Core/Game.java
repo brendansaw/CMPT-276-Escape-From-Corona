@@ -6,6 +6,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -95,12 +96,14 @@ public class Game extends Application{
     private static InputStream enemyStream;
     private static InputStream groundStream;
     private static InputStream wallStream;
+    private static InputStream checkpointStream;
+
 
     private static Image spriteImage = null;
     private static Image enemyImage = null;
     private static Image groundImage = null;
     private static Image wallImage = null;
-
+    private static Image checkpointImage = null;
 
     // no constructor needed since this will contain the main for now
 
@@ -135,6 +138,13 @@ public class Game extends Application{
     }
 
     public void start(Stage mainGame) {
+        mainGame.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         mainGame.setTitle("Maze Game");
 
         startGame();
@@ -299,7 +309,7 @@ public class Game extends Application{
         mainGame.setScene(menuStart);
 
         try{
-            spriteStream = new FileInputStream("assets/spriteguy.png");
+            spriteStream = new FileInputStream("assets/bonnie.png");
             spriteImage = new Image(spriteStream);
             enemyStream = new FileInputStream("assets/enemy.png");
             enemyImage = new Image(enemyStream);
@@ -307,6 +317,8 @@ public class Game extends Application{
             groundImage = new Image(groundStream);
             wallStream = new FileInputStream("assets/wall.png");
             wallImage = new Image(wallStream);
+            checkpointStream = new FileInputStream("assets/chkpt.png");
+            checkpointImage = new Image(checkpointStream);
         } catch(FileNotFoundException e) {
             spriteStream = null; spriteImage = null;
             enemyStream = null; enemyImage = null;
