@@ -43,4 +43,13 @@ public class Checkpoint implements Reward {
         mainCharacter.increasePlayerScore(scoreIncreaseValue);
          */
     }
+
+    /**
+     * Setter for checkpointsleft.
+     *
+     * @param x an int corresponding to a number of checkpoints
+     */
+    public static void setCheckpointsLeft(int x) {
+        checkpointsLeft = x;
+    }
 }

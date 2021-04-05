@@ -75,6 +75,7 @@ public class Game extends Application{
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
     private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
+    private static int timeOfInput = 0;
     private static boolean paused = false;
 
     private int xTileSize = 96;
@@ -382,7 +383,6 @@ public class Game extends Application{
 
         //game timer
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            int timeOfInput = ticksElapsed;
             @Override
             public void handle(KeyEvent e) {
                 if (e.getCode() == KeyCode.ESCAPE) {
@@ -401,7 +401,7 @@ public class Game extends Application{
                         everySecond.play();
                         positions.setCenter(rootGroup);
                     }
-                    if (winStatus == null) {
+                    if (winStatus == "") {
                         paused = !paused;
                     }
 
@@ -440,6 +440,7 @@ public class Game extends Application{
             final int offset = 400;
 
             MenuButton resumeBtn = new MenuButton("START GAME");
+
             resumeBtn.setOnMouseClicked(event -> {
                 mainGame.setScene(scene);
                 startGame();
@@ -482,19 +483,14 @@ public class Game extends Application{
 
             MenuButton resumeBtn = new MenuButton("RESTART");
             resumeBtn.setOnMouseClicked(event -> {
-
-                startGame();
-                winStatus = null;
+                restartGame();
                 mainGame.setScene(scene);
-
-
             });
             //int endScore = getScore();
             //System.out.println("score:");
             //System.out.println(endScore);
 
             MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
-
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
@@ -546,7 +542,7 @@ public class Game extends Application{
             drop.setInput(new Glow());
 
             setOnMouseEntered(event -> setEffect(drop));
-            setOnMouseReleased(event -> setEffect(null));
+            setOnMouseExited(event -> setEffect(null));
 
         }
     }
@@ -813,6 +809,26 @@ public class Game extends Application{
                 paused = true;
             }
         }
+    }
+
+    /**
+     * Resets values and restarts the game to first stage.
+     */
+    private void restartGame() {
+        score = 0;
+        time = 0;
+        ticksElapsed = 0;
+        timeOfInput = 0;
+        winStatus = "";
+        currentStage = "first";
+        paused = false;
+        gameOver = false;
+
+        Checkpoint.setCheckpointsLeft(0);
+        
+        boardGame = firstStage();
+
+        startTimer();
     }
 
     /**
