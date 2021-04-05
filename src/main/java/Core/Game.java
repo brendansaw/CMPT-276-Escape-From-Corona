@@ -362,7 +362,7 @@ public class Game extends Application{
 
             setAlignment(Pos.CENTER_LEFT);
             setRotate(-0.5);
-            getChildren().addAll(menuR, text)
+            getChildren().addAll(menuR, text);
 
 
         }
