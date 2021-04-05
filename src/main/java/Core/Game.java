@@ -83,6 +83,16 @@ public class Game extends Application{
     private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
     private static Board boardGame;
 
+    private static InputStream spriteStream;
+    private static InputStream enemyStream;
+    private static InputStream groundStream;
+    private static InputStream wallStream;
+
+    private static Image spriteImage = null;
+    private static Image enemyImage = null;
+    private static Image groundImage = null;
+    private static Image wallImage = null;
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
@@ -141,7 +151,21 @@ public class Game extends Application{
         scene.setRoot(positions);
         mainGame.setScene(scene);
 
-
+        try{
+            spriteStream = new FileInputStream("assets/spriteguy.png");
+            spriteImage = new Image(spriteStream);
+            enemyStream = new FileInputStream("assets/enemy.png");
+            enemyImage = new Image(enemyStream);
+            groundStream = new FileInputStream("assets/grass.png");
+            groundImage = new Image(groundStream);
+            wallStream = new FileInputStream("assets/wall.png");
+            wallImage = new Image(wallStream);
+        } catch(FileNotFoundException e) {
+            spriteStream = null; spriteImage = null;
+            enemyStream = null; enemyImage = null;
+            groundStream = null; groundImage = null;
+            wallStream = null; wallImage = null;
+        }
 
         drawRectangles(root, boardGame, mainCharacter);
 
@@ -294,11 +318,8 @@ public class Game extends Application{
 
         Rectangle rect = null;
         InputStream inputStream;
-        Image image = null;
-        try{
-            inputStream = new FileInputStream("assets/spriteguy.png");
-            image = new Image(inputStream);
-        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        Image image = spriteImage;
+
         int x = mainCharacter.getX();
         int y = mainCharacter.getY();
         int width = xTileSize;
@@ -320,12 +341,8 @@ public class Game extends Application{
      */
     void drawEnemies(AnchorPane root, Board boardGame) {
         Rectangle rect = null;
-        InputStream inputStream;
-        Image image = null;
-        try {
-            inputStream = new FileInputStream("assets/enemy.png");
-            image = new Image(inputStream);
-        } catch(FileNotFoundException e) { inputStream = null; image = null;}
+        Image image = enemyImage;
+
         int width = xTileSize;
         int height = yTileSize;
         for (int i = 0; i < enemyArrayList.size(); i++) {
@@ -362,15 +379,10 @@ public class Game extends Application{
                 //Create a new rectangle(PosY,PosX,width,height)
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
-                InputStream inputTile;
-                InputStream inputWall;
-                try {
-                    inputTile = new FileInputStream("assets/grass.png");
-                    inputWall = new FileInputStream("assets/wall.png");
-                } catch(FileNotFoundException e) { inputTile = null; inputWall = null;}
 
-                Image imageTile = new Image(inputTile);
-                Image imageWall = new Image(inputWall);
+
+                Image imageTile = groundImage;
+                Image imageWall = wallImage;
 
                 Tile currentTile = boardGame.getTile(i,j);
                 String currentTileString = currentTile.getClass().getSimpleName();
@@ -443,7 +455,7 @@ public class Game extends Application{
             }
         };
         gameTicks = new Timer();
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 2000);
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
     }
 
     /**
