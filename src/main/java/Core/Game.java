@@ -18,6 +18,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.*;
@@ -154,12 +155,34 @@ public class Game extends Application{
 
 
         //MenuStart Scene
+        Pane paneRoot = new Pane();
+        paneRoot.setPrefSize(800,600);
+        InputStream inputBackground;
+
+        try {
+            inputBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+
+        } catch(FileNotFoundException e) { inputBackground = null;}
+
+        Image inputBackgroundImage = new Image(inputBackground);
+
+        ImageView imgView = new ImageView(inputBackgroundImage);
+        imgView.setFitHeight(600);
+        imgView.setFitWidth(800);
+
+
         Label label1= new Label("This is the main menu");
         Button button1= new Button("Start Game");
         button1.setOnAction(e -> mainGame.setScene(scene));
         VBox layout1 = new VBox(20);
         layout1.getChildren().addAll(label1, button1);
-        Scene menuStart = new Scene(layout1, 300, 250);
+        paneRoot.getChildren().addAll(imgView);
+
+
+        Scene menuStart = new Scene(paneRoot);
+
+
+
 
         //End of MenuStart
 
@@ -322,6 +345,29 @@ public class Game extends Application{
 
         mainGame.show();
     }
+
+    //MenuButton template for buttons
+    private static class MenuButton extends StackPane{
+        private Text text;
+
+        public MenuButton(String name){
+            text = new Text(name);
+            text.setFont(text.getFont().font(20));
+            text.setFill(Color.GHOSTWHITE);
+
+            Rectangle menuR = new Rectangle(250, 30);
+            menuR.setOpacity(0.7);
+            menuR.setFill(Color.BLACK);
+            menuR.setEffect(new GaussianBlur(3.5));
+
+            setAlignment(Pos.CENTER_LEFT);
+            setRotate(-0.5);
+            getChildren().addAll(menuR, text)
+
+
+        }
+    }
+
 
     /**
      * Generates enemies on the in a static manner.
