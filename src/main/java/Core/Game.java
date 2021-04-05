@@ -183,6 +183,7 @@ public class Game extends Application{
         */
         //positions.setCenter(stack);
 
+        //comment for new branch
 //        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
 //        Image image = new Image(inputStream);
 //        ImageView imageView = new ImageView(image);
