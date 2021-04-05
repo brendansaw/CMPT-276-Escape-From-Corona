@@ -214,7 +214,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         Scene gameIsOver = new Scene(gameOverRoot);
@@ -334,8 +334,11 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
+                                int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(")) {
-                                    mainGame.setScene(gameIsOver);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, currentScore);
+                                    Scene gameIsOver2 = new Scene(GameOverMenu2);
+                                    mainGame.setScene(gameIsOver2);
                                 }
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
@@ -472,7 +475,7 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -486,10 +489,19 @@ public class Game extends Application{
 
             MenuButton resumeBtn = new MenuButton("RESTART");
             resumeBtn.setOnMouseClicked(event -> {
+
+                startGame();
+                winStatus = null;
                 mainGame.setScene(scene);
 
+
             });
-            MenuButton instructionsBtn = new MenuButton("SCORE");
+            //int endScore = getScore();
+            //System.out.println("score:");
+            //System.out.println(endScore);
+
+            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
+
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
