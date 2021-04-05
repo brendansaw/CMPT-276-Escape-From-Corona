@@ -105,6 +105,8 @@ public class Game extends Application{
     private static Image wallImage = null;
     private static Image checkpointImage = null;
 
+    private static boolean gameOver = false;
+
     // no constructor needed since this will contain the main for now
 
     // launch automatically calls start
@@ -335,10 +337,14 @@ public class Game extends Application{
                             @Override
                             public void handle(ActionEvent event) {
                                 int currentScore = getScore();
-                                if(winStatus.equals("You lost. :(")) {
+                                if(winStatus.equals("You lost. :(") && !(gameOver)) {
                                     GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, currentScore);
-                                    Scene gameIsOver2 = new Scene(GameOverMenu2);
+                                    Pane gameOverRoot2 = new Pane();
+                                    gameOverRoot2.setPrefSize(800,600);
+                                    gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
+                                    Scene gameIsOver2 = new Scene(gameOverRoot2);
                                     mainGame.setScene(gameIsOver2);
+                                    gameOver = true;
                                 }
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
