@@ -68,12 +68,12 @@ import java.util.TimerTask;
  * @since 1.0
  */
 public class Game extends Application{
-    public static int score;
+    private static int score;
     private static int time;
 
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
-    private static int ticksElapsed = 0; // a tick is 2 seconds
+    private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
     private static boolean paused = false;
 
     private int xTileSize = 96;
@@ -325,7 +325,7 @@ public class Game extends Application{
 
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
-                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.checkpointsLeft);
+                                Integer getCheckpointsRemainingInt = new Integer(Checkpoint.getCheckpointsLeft());
                                 HBox statistics = new HBox();
                                 VBox firstChild = new VBox();
                                 VBox secondChild = new VBox();
@@ -403,12 +403,12 @@ public class Game extends Application{
             }
         });
 
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                mainCharacter.keyReleased(e);
-            }
-        });
+//        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent e) {
+//                mainCharacter.keyReleased(e);
+//            }
+//        });
 
         mainGame.show();
     }
@@ -570,14 +570,20 @@ public class Game extends Application{
     }
 
     /**
-     * Called every tick. Handles game updates including
-     * enemy movement and Bonus reward generation.
+     * Calls method to update all Enemy positions.
      */
-    public static void updateGame() {
+    public void moveEnemies() {
         for(Enemy e : enemyArrayList) {
-            e.move();
+            e.move(enemyArrayList);
             e.printPos();
         }
+    }
+
+    /**
+     * Called every tick. Handles game updates including
+     * Bonus reward generation.
+     */
+    public static void updateGame() {
         Board.generateBonus();
     }
 
@@ -720,16 +726,22 @@ public class Game extends Application{
      */
     private void startTimer() {
         gameTicksTask = new TimerTask() {
+            int prevTicksElapsed = 0;
             @Override
             public void run() {
                 if(!paused) {
-                    updateGame();
                     ticksElapsed += 1;
+                    if((ticksElapsed - prevTicksElapsed) >= 2) {
+                        prevTicksElapsed = ticksElapsed;
+                        moveEnemies();
+                    }
+                    updateGame();
                 }
             }
         };
         gameTicks = new Timer();
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
+
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 1000);
     }
 
     /**
@@ -825,8 +837,8 @@ public class Game extends Application{
     private static Board createBoard(String input) {
 
         Board boardGame = new Board(input);
-        for (int i = 0; i < boardGame.dimY; i++) {
-            for (int j = 0; j < boardGame.dimX; j++) {
+        for (int i = 0; i < boardGame.getDimY(); i++) {
+            for (int j = 0; j < boardGame.getDimX(); j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
             }
             System.out.println("");

@@ -15,12 +15,19 @@ import Core.Game;
  * @since 1.0
  */
 public class Checkpoint implements Reward {
-    public static int checkpointsLeft = 0;
+    private static int checkpointsLeft = 0;
     int scoreIncreaseValue = 50;
 
     public Checkpoint() {
         checkpointsLeft += 1;
         //System.out.println(checkpointsLeft);
+    }
+
+    /**
+     * Getter for number of checkpoints left.
+     */
+    public static int getCheckpointsLeft() {
+        return checkpointsLeft;
     }
 
     /**

@@ -27,11 +27,11 @@ public class Exit extends Wall {
      * @return true if exit is opened, else false
      */
     public boolean checkCheckpoints() { // essentially call this whenever checkpoints are updated
-        if (Checkpoint.checkpointsLeft == 0) {
+        if (Checkpoint.getCheckpointsLeft() == 0) {
             isOpen = true;
         }
 
-        if (mainCharacter.getX() == Board.exitXPos && mainCharacter.getY() == Board.exitYPos) {
+        if (mainCharacter.getX() == Board.getExitXPos() && mainCharacter.getY() == Board.getExitYPos()) {
             Game.endGame(true);
         }
 
