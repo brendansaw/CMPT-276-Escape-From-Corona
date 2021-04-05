@@ -2,6 +2,7 @@ package Core;
 import BoardDesign.*;
 import Characters.*;
 import TileAction.*;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,6 +19,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.*;
@@ -80,6 +85,9 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
+
+    private GameMenu gameMenu;
+
     private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
     private static Board boardGame;
 
@@ -92,6 +100,7 @@ public class Game extends Application{
     private static Image enemyImage = null;
     private static Image groundImage = null;
     private static Image wallImage = null;
+
 
     // no constructor needed since this will contain the main for now
 
@@ -132,6 +141,33 @@ public class Game extends Application{
         boardGame = firstStage();
         int squaredBoard = 10;
 
+
+
+
+
+
+//        Group root = new Group();
+//        Scene theScene = new Scene(root);
+//        mainGame.setScene(theScene);
+
+//        Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
+//        root.getChildren().add( canvas);
+
+//        Rectangle[][] rect = new Rectangle[height][width];
+//
+//        for(int i = 0; i < height; i++){
+//            for(int j = 0; j < width; j++){
+//                rect[i][j] = new Rectangle();
+//            }
+//        }
+
+        //Label labelCenter = new Label("this is BorderPane center");
+        //Label labelTop = new Label("this is BorderPane top");
+        //Label labelBottom = new Label("this is BorderPane bottom");
+        //Label labelLeft = new Label("this is BorderPane left");
+        //Label labelRight = new Label("this is BorderPane right");
+
+
         AnchorPane root = new AnchorPane();
         BorderPane positions = new BorderPane();
 
@@ -139,8 +175,68 @@ public class Game extends Application{
         positions.setCenter(rootGroup);
         positions.setAlignment(rootGroup, Pos.CENTER);
 
+
+        //positions.setCenter(root);
+
+        //mainGame.setFullScreen(true);
+
+
+
+
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
+
+
+
+
+        //Gameover Scene
+        Pane gameOverRoot = new Pane();
+        gameOverRoot.setPrefSize(800,600);
+        InputStream inputOverBackground;
+        try {
+            inputOverBackground = new FileInputStream("assets/Gameover.jpg");
+
+        } catch(FileNotFoundException e) { inputOverBackground = null;}
+
+        Image inputBackgroundOver = new Image(inputOverBackground);
+
+        ImageView imgView2 = new ImageView(inputBackgroundOver);
+        imgView2.setFitHeight(600);
+        imgView2.setFitWidth(800);
+
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene);
+
+        gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
+        Scene gameIsOver = new Scene(gameOverRoot);
+        //Gameover scene
+
+        //MenuStart Scene
+        Pane paneRoot = new Pane();
+        paneRoot.setPrefSize(800,600);
+        InputStream inputBackground;
+
+        try {
+            inputBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+
+        } catch(FileNotFoundException e) { inputBackground = null;}
+
+        Image inputBackgroundImage = new Image(inputBackground);
+
+        ImageView imgView = new ImageView(inputBackgroundImage);
+        imgView.setFitHeight(600);
+        imgView.setFitWidth(800);
+
+        gameMenu = new GameMenu(mainGame, scene, gameIsOver);
+
+        /*Label label1= new Label("This is the main menu");
+        Button button1= new Button("Start Game");
+        button1.setOnAction(e -> mainGame.setScene(scene));
+        VBox layout1 = new VBox(20);
+        layout1.getChildren().addAll(label1, button1);*/
+
+        paneRoot.getChildren().addAll(imgView, gameMenu);
+        Scene menuStart = new Scene(paneRoot);
+        //End of MenuStart
 
         Group g2 = new Group();
         Scene mainmenu = new Scene(g2, 150, 100);
@@ -148,8 +244,59 @@ public class Game extends Application{
         Group g1 = new Group();
 
 
+        //Label t1 = new Label("Maingame");
+        //Button b1 = new Button("Go to main menu");
+        //Label t2 = new Label("This is the main menu");
+        //Button b2 = new Button("Go to the maingame");
+        //t1.setTranslateY(15);
+        //t2.setTranslateY(15);
+        //b1.setTranslateY(50);
+        //b2.setTranslateY(50);
+        //positions.setLeft(b1);
+        //positions.setLeft(t1);
+        //positions.setAlignment(b1, Pos.CENTER);
+        //positions.setAlignment(t1, Pos.CENTER);
+        //g1.getChildren().addAll(t1, b1);
+        //g2.getChildren().addAll(t2, b2);
+
+        //positions.setLeft(g1);
+        //positions.setAlignment(g1, Pos.CENTER);
+   // positions.setLeft(b1);
+    //positions.setLeft(t1);
+
+        //b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
+        //b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
+        //                            positions.setLeft(g1);});
+        /*
+
+        StackPane stack = new StackPane();
+
+        stack.getChildren().add(root);
+        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
+        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
+
+        */
+        //positions.setCenter(stack);
+
+        //comment for new branch
+//        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
+//        Image image = new Image(inputStream);
+//        ImageView imageView = new ImageView(image);
+
+//        GraphicsContext gc = canvas.getGraphicsContext2D();
+//        gc.setFill( Color.GREEN );
+//        gc.setStroke( Color.GREEN );
+//        gc.setLineWidth(2);
+//        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
+//        gc.setFont( theFont );
+//        gc.fillText( "Start Game", 60, 50 );
+//        gc.strokeText( "Start Game", 60, 50 );
+
+        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
+
         scene.setRoot(positions);
-        mainGame.setScene(scene);
+        mainGame.setScene(menuStart);
 
         try{
             spriteStream = new FileInputStream("assets/spriteguy.png");
@@ -262,8 +409,135 @@ public class Game extends Application{
                 mainCharacter.keyReleased(e);
             }
         });
+
         mainGame.show();
     }
+
+
+
+    private class GameMenu extends Parent{
+        //scene2 is passed for the gameendscreen DEBUG
+        public GameMenu(Stage mainGame, Scene scene, Scene scene2) {
+            VBox menuOrig = new VBox(40);
+            VBox menu2 = new VBox(10);
+
+            menuOrig.setTranslateX(250);
+            menuOrig.setTranslateY(250);
+
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
+            final int offset = 400;
+
+            MenuButton resumeBtn = new MenuButton("START GAME");
+            resumeBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene);
+
+            });
+            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+
+            MenuButton exitBtn = new MenuButton("EXIT");
+            exitBtn.setOnMouseClicked(event ->{
+                System.exit(0);
+            });
+
+            MenuButton debugOverBtn = new MenuButton("DEBUG GAME OVER OPTION");
+            debugOverBtn.setOnMouseClicked(event ->{
+                mainGame.setScene(scene2);
+            });
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
+
+            Rectangle background = new Rectangle(800,600);
+            background.setFill(Color.GREY);
+            background.setOpacity(0.4);
+
+            getChildren().addAll(background, menuOrig);
+
+
+        }
+    }
+
+
+    private class GameOverMenu extends Parent{
+        public GameOverMenu(Stage mainGame, Scene scene) {
+            VBox menuOrig = new VBox(40);
+            VBox menu2 = new VBox(10);
+
+            menuOrig.setTranslateX(250);
+            menuOrig.setTranslateY(250);
+
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
+            final int offset = 400;
+
+            MenuButton resumeBtn = new MenuButton("RESTART");
+            resumeBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene);
+
+            });
+            MenuButton instructionsBtn = new MenuButton("SCORE");
+
+            MenuButton exitBtn = new MenuButton("EXIT");
+            exitBtn.setOnMouseClicked(event ->{
+                System.exit(0);
+            });
+
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
+
+            Rectangle background = new Rectangle(800,600);
+            background.setFill(Color.GREY);
+            background.setOpacity(0.4);
+
+            getChildren().addAll(background, menuOrig);
+
+
+        }
+    }
+
+    //MenuButton template for buttons
+    private static class MenuButton extends StackPane{
+        private Text text;
+
+        public MenuButton(String name){
+            text = new Text(name);
+            text.setFont(text.getFont().font(20));
+            text.setFill(Color.GHOSTWHITE);
+
+            Rectangle menuR = new Rectangle(250, 50);
+            menuR.setOpacity(0.7);
+            menuR.setFill(Color.BLACK);
+            menuR.setEffect(new GaussianBlur(3.5));
+
+            setAlignment(Pos.CENTER_LEFT);
+            setRotate(-0.5);
+            getChildren().addAll(menuR, text);
+
+            setOnMouseEntered(event -> {
+                menuR.setTranslateX(30);
+                text.setTranslateX(30);
+                menuR.setFill(Color.WHITE);
+                text.setFill(Color.BLACK);
+            });
+            setOnMouseExited(event -> {
+                menuR.setTranslateX(0);
+                text.setTranslateX(0);
+                menuR.setFill(Color.BLACK);
+                text.setFill(Color.WHITE);
+            });
+
+            DropShadow drop = new DropShadow(50, Color.WHITE);
+            drop.setInput(new Glow());
+
+            setOnMouseEntered(event -> setEffect(drop));
+            setOnMouseReleased(event -> setEffect(null));
+
+        }
+    }
+
+
+
+
 
     /**
      * Generates enemies on the in a static manner.
