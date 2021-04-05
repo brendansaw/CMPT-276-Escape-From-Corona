@@ -2,6 +2,7 @@ package Core;
 import BoardDesign.*;
 import Characters.*;
 import TileAction.*;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,7 +19,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.*;
@@ -81,7 +84,7 @@ public class Game extends Application{
     private static MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<>();
 
-
+    private GameMenu gameMenu;
 
     // no constructor needed since this will contain the main for now
 
@@ -170,13 +173,15 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
+        gameMenu = new GameMenu(mainGame, scene);
 
-        Label label1= new Label("This is the main menu");
+        /*Label label1= new Label("This is the main menu");
         Button button1= new Button("Start Game");
         button1.setOnAction(e -> mainGame.setScene(scene));
         VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1);
-        paneRoot.getChildren().addAll(imgView);
+        layout1.getChildren().addAll(label1, button1);*/
+
+        paneRoot.getChildren().addAll(imgView, gameMenu);
 
 
         Scene menuStart = new Scene(paneRoot);
@@ -346,6 +351,46 @@ public class Game extends Application{
         mainGame.show();
     }
 
+
+
+    private class GameMenu extends Parent{
+        public GameMenu(Stage mainGame, Scene scene) {
+            VBox menuOrig = new VBox(10);
+            VBox menu2 = new VBox(10);
+
+            menuOrig.setTranslateX(100);
+            menuOrig.setTranslateY(200);
+
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
+            final int offset = 400;
+
+            MenuButton resumeBtn = new MenuButton("RESUME");
+            resumeBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene);
+
+            });
+            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+
+            MenuButton exitBtn = new MenuButton("EXIT");
+            exitBtn.setOnMouseClicked(event ->{
+                System.exit(0);
+            });
+
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
+
+            Rectangle background = new Rectangle(800,600);
+            background.setFill(Color.GREY);
+            background.setOpacity(0.4);
+
+            getChildren().addAll(background, menuOrig);
+
+
+        }
+    }
+
+
     //MenuButton template for buttons
     private static class MenuButton extends StackPane{
         private Text text;
@@ -364,9 +409,30 @@ public class Game extends Application{
             setRotate(-0.5);
             getChildren().addAll(menuR, text);
 
+            setOnMouseEntered(event -> {
+                menuR.setTranslateX(10);
+                text.setTranslateX(10);
+                menuR.setFill(Color.WHITE);
+                text.setFill(Color.BLACK);
+            });
+            setOnMouseExited(event -> {
+                menuR.setTranslateX(0);
+                text.setTranslateX(0);
+                menuR.setFill(Color.BLACK);
+                text.setFill(Color.WHITE);
+            });
+
+            DropShadow drop = new DropShadow(50, Color.WHITE);
+            drop.setInput(new Glow());
+
+            setOnMouseEntered(event -> setEffect(drop));
+            setOnMouseReleased(event -> setEffect(null));
 
         }
     }
+
+
+
 
 
     /**
