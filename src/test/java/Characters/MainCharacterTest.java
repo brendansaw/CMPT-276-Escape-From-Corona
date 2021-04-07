@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sun.applet.Main;
 
 import static javafx.scene.input.KeyEvent.KEY_PRESSED;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +26,20 @@ public class MainCharacterTest {
     @BeforeEach
     public void initMainCharacter() {
         mainCharacter = MainCharacter.restartMainCharacter(0, 0);
+    }
+
+    @Test
+    public void testGetMainCharacter() {
+        mainCharacter = MainCharacter.getMainCharacter(3, 7);
+        assertEquals(0, mainCharacter.getX(), "x coordinate should still be 0");
+        assertEquals(0, mainCharacter.getY(), "y coordinate should still be 0");
+    }
+    
+    @Test
+    public void testRestartMainCharacter() {
+        mainCharacter = MainCharacter.restartMainCharacter(3, 7);
+        assertEquals(3, mainCharacter.getX(), "x coordinate should be reset to 3");
+        assertEquals(7, mainCharacter.getY(), "y coordinate should be reset to 7");
     }
 
     @Test
