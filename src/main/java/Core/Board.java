@@ -271,7 +271,7 @@ public class Board
         boardID[i][j] = val;
     }
 
-    public void setBoard(int[][] id) {
+    public static void setBoard(int[][] id) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
         dimX = id[0].length; // number of columns

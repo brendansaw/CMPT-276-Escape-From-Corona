@@ -24,8 +24,7 @@ public class Enemy extends NonStationaryCharacter {
     /**
      * Updates the position of the enemy.
      */
-    public void move(ArrayList<Enemy> enemyArrayList) {
-        Direction direction = checkBestMovement(enemyArrayList);
+    public void move(Direction direction) {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
@@ -54,7 +53,7 @@ public class Enemy extends NonStationaryCharacter {
      *
      * @return an enum corresponding to a direction of movement
      */
-    private Direction checkBestMovement(ArrayList<Enemy> enemyArrayList) {
+    public Direction checkBestMovement(ArrayList<Enemy> enemyArrayList) {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
@@ -123,7 +122,7 @@ public class Enemy extends NonStationaryCharacter {
      *
      * @return true if the player is on the same tile, else false
      */
-    private boolean isColliding() {
+    protected boolean isColliding() {
         if((player.getX() == x) && (player.getY() == y)) {
             return true;
         }
@@ -135,7 +134,7 @@ public class Enemy extends NonStationaryCharacter {
     /**
      * Causes the player to lose the game by calling Game method endGame().
      */
-    private void onPlayerEntered() {
+    protected void onPlayerEntered() {
         Game.endGame(false);
     }
 }
