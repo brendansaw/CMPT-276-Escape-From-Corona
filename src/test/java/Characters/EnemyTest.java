@@ -8,9 +8,6 @@ import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class EnemyTest {
     Enemy enemy = new Enemy(1, 1);
 
