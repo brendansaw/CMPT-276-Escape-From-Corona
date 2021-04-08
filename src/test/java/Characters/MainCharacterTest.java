@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import sun.applet.Main;
 
@@ -22,10 +23,12 @@ public class MainCharacterTest {
             {0, 0, 0}
     };
 
-    Board board = new Board(id);
+    @Mock
+    Board board;
 
     @BeforeEach
     public void initMainCharacter() {
+        board.setBoard(id);
         mainCharacter.setPos(0, 0);
     }
 

@@ -271,11 +271,11 @@ public class Board
         boardID[i][j] = val;
     }
 
-    public void setBoard(int[][] id) {
+    public static void setBoard(int[][] id) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
-        dimX = boardID[0].length; // number of columns
-        dimY = boardID.length; // number of rows
+        dimX = id[0].length; // number of columns
+        dimY = id.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first
 
         for(int i = 0; i < dimY; i++) {
