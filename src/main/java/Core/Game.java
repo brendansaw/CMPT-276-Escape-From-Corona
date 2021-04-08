@@ -583,7 +583,7 @@ public class Game extends Application{
      */
     public void moveEnemies() {
         for(Enemy e : enemyArrayList) {
-            e.move(enemyArrayList);
+            e.move(e.checkBestMovement(enemyArrayList));
             e.printPos();
         }
     }
