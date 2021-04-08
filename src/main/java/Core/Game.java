@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 
@@ -30,11 +31,15 @@ import javafx.scene.*;
 
 import javafx.scene.layout.*;
 import javafx.scene.input.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.stage.*;
 import javafx.scene.text.*;
 import javafx.scene.image.*;
+
+import java.io.File;
 import java.lang.*;
 
 import java.io.FileInputStream;
@@ -51,6 +56,9 @@ import java.util.Locale;
 import javafx.scene.Node.*;
 import javafx.scene.control.Button;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -104,6 +112,8 @@ public class Game extends Application{
     private static Image checkpointImage = null;
 
     private static boolean gameOver = false;
+
+
 
     // no constructor needed since this will contain the main for now
 
@@ -566,10 +576,39 @@ public class Game extends Application{
         }
     }
 
+    private static class Music {
+        public void playMusic(String musicLocation) {
+            try {
+                File musicPath = new File(musicLocation);
+
+                if (musicPath.exists()) {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                    Clip clip = AudioSystem.getClip();
+                    clip.start();
+                } else {
+                    System.out.println("Cant find file");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     //MenuButton template for buttons
     private static class MenuButton extends StackPane{
         private Text text;
 
+        String coronapath = "assets/coronatime.mp3";
+
+
+        //Music musicObject = new Music();
+       // musicObject.playMusic(coronapath);
+
+
+
+
+        /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
+        MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
         public MenuButton(String name){
             text = new Text(name);
             text.setFont(text.getFont().font(20));
@@ -589,19 +628,24 @@ public class Game extends Application{
                 text.setTranslateX(30);
                 menuR.setFill(Color.WHITE);
                 text.setFill(Color.BLACK);
+                //clickPlayer.play();
             });
             setOnMouseExited(event -> {
                 menuR.setTranslateX(0);
                 text.setTranslateX(0);
                 menuR.setFill(Color.BLACK);
                 text.setFill(Color.WHITE);
+                //clickPlayer.play();
             });
 
             DropShadow drop = new DropShadow(50, Color.WHITE);
             drop.setInput(new Glow());
 
             setOnMousePressed(event -> setEffect(drop));
-            setOnMouseReleased(event -> setEffect(null));
+            setOnMouseReleased(event -> {
+                setEffect(null);
+                /*coronaPlayer.play();*/
+            });
 
         }
     }
