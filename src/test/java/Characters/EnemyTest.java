@@ -146,4 +146,16 @@ public class EnemyTest {
 
         assertEquals(Direction.STAY, enemy.checkBestMovement(enemyArrayList), "should return Direction.STAY");
     }
+
+    @Test
+    public void testIsCollidingTrue() {
+        mainCharacter.setPos(enemy.getX(), enemy.getY());
+        assertTrue(enemy.isColliding(), "should return true");
+    }
+
+    @Test
+    public void testIsCollidingFalse() {
+        mainCharacter.setPos(0, 0);
+        assertFalse(enemy.isColliding(), "should return false");
+    }
 }
