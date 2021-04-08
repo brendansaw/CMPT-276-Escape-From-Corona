@@ -186,12 +186,12 @@ public class Game extends Application{
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
 
-        //Gameover Scene
+        //Lose Gameover Scene
         Pane gameOverRoot = new Pane();
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("assets/Gameover.jpg");
+            inputOverBackground = new FileInputStream("assets/YouLost.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -210,10 +210,35 @@ public class Game extends Application{
         gameOverBorder.setCenter(gameRoot2);
         gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);
         Scene gameIsOver = new Scene(gameOverBorder);
-        //Gameover scene
+        //Lose Gameover scene
+
+        //Win Gameover Scene
+        Pane wgameOverRoot = new Pane();
+        wgameOverRoot.setPrefSize(800,600);
+        InputStream winputOverBackground;
+        try {
+            winputOverBackground = new FileInputStream("assets/YouWon.jpg");
+
+        } catch(FileNotFoundException e) { winputOverBackground = null;}
+
+        Image winputBackgroundOver = new Image(winputOverBackground);
+
+        ImageView wimgView2 = new ImageView(winputBackgroundOver);
+        wimgView2.setFitHeight(600);
+        wimgView2.setFitWidth(800);
+
+        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score);
+
+        wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
+        BorderPane wgameOverBorder = new BorderPane();
+        Group wgameRoot2 = new Group(wgameOverRoot);
+
+        gameOverBorder.setCenter(wgameRoot2);
+        gameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
+        Scene wgameIsOver = new Scene(wgameOverBorder);
+        //Win Gameover scene
 
         //MenuStart Scene
-
         Pane paneRoot = new Pane();
         paneRoot.setPrefSize(800,600);
         InputStream inputBackground;
@@ -348,8 +373,20 @@ public class Game extends Application{
                                     mainGame.setScene(gameIsOver2);
                                     gameOver = true;
                                 }
-                                else if(winStatus.equals("You won!")) {
-                                    mainGame.setScene(gameIsOver);
+                                else if(winStatus.equals("You won!") && !(gameOver)) {
+                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, currentScore);
+                                    Pane wingameOverRoot = new Pane();
+                                    wingameOverRoot.setPrefSize(800, 600);
+                                    wingameOverRoot.getChildren().addAll(wimgView2, WinGameOverMenu);
+                                    BorderPane wingameOverBorder = new BorderPane();
+                                    Group wingameOver = new Group(wingameOverRoot);
+
+                                    wingameOverBorder.setCenter(wingameOver);
+                                    wingameOverBorder.setAlignment(wingameOver, Pos.CENTER);
+
+                                    Scene winGameIsOver = new Scene(wingameOverBorder);
+                                    mainGame.setScene(winGameIsOver);
+                                    gameOver = true;
                                 }
                                 Integer getScoreInt = new Integer(getScore());
                                 Integer getTimeInt = new Integer(time);
@@ -469,7 +506,7 @@ public class Game extends Application{
                 System.exit(0);
             });
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG GAME OVER OPTION");
+            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME OVER");
             debugOverBtn.setOnMouseClicked(event ->{
                 mainGame.setScene(scene2);
             });
