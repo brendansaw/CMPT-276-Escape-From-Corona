@@ -13,4 +13,8 @@ public class Wall extends Tile {
     public Wall() {
         isOpen = false;
     }
+
+    public boolean getIsOpen() {
+        return isOpen;
+    }
 }
