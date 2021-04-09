@@ -57,6 +57,10 @@ public class CheckpointTest {
         assertEquals(Checkpoint.getCheckpointsLeft(), countCheckpoints);
     }
 
+    /**
+     * Test that the updatePlayerScore is actually updating the game score
+     * Test that the checkpoint count is actually being decremented on update score
+     */
     @Test
     public void testScoreIncreaseValid() {
         int tempScore = Game.getScoreStatic();
@@ -66,6 +70,7 @@ public class CheckpointTest {
         * we have to take that into consideration
         */
         checkpoint.updatePlayerScore();
+        assertEquals(Checkpoint.getCheckpointsLeft(), countCheckpoints-1);
         countCheckpoints--;
         assertEquals(Game.getScoreStatic(), tempScore + checkpoint.getScoreIncreaseValue());
     }

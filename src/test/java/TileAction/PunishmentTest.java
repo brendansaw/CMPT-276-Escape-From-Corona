@@ -29,6 +29,9 @@ public class PunishmentTest {
         assertTrue(punishment.getScoreIncreaseValue() <= 0);
     }
 
+    /**
+     * Test that the updatePlayerScore is actually updating the game score
+     */
     @Test
     public void testScoreIncreaseValid() {
         int tempScore = Game.getScoreStatic();
