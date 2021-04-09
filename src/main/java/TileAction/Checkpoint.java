@@ -37,7 +37,7 @@ public class Checkpoint implements Reward {
     @Override
     public void updatePlayerScore() {
         Game.updateScore(scoreIncreaseValue);
-        checkpointsLeft -= 1;
+        decrementCheckpointsLeft();
         //System.out.println(Game.score);
         /*
         mainCharacter.increasePlayerScore(scoreIncreaseValue);
@@ -45,14 +45,24 @@ public class Checkpoint implements Reward {
     }
 
     /**
-     * Setter for checkpointsleft.
-     *
+     * Reduces number of checkpoints by 1
+     */
+    public void decrementCheckpointsLeft() {
+        checkpointsLeft -= 1;
+    }
+
+    /**
+     * Setter for checkpoints left.
      * @param x an int corresponding to a number of checkpoints
      */
     public static void setCheckpointsLeft(int x) {
         checkpointsLeft = x;
     }
 
+    /**
+     * Getter for the score increase value of the object
+     * @return an int corresponding to how much an interaction with the object will increase the player score
+     */
     public int getScoreIncreaseValue() {
         return scoreIncreaseValue;
     }

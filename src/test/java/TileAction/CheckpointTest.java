@@ -32,7 +32,6 @@ public class CheckpointTest {
     }
 
 
-
     @Test
     public void testPositiveScoreIncrease() {
         assertTrue(checkpoint.getScoreIncreaseValue() >= 0);

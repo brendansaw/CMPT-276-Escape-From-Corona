@@ -30,6 +30,10 @@ public class Punishment implements Reward {
          */
     }
 
+    /**
+     * Getter for the score increase value of the object
+     * @return an int corresponding to how much an interaction with the object will increase the player score
+     */
     public int getScoreIncreaseValue() {
         return scoreIncreaseValue;
     }
