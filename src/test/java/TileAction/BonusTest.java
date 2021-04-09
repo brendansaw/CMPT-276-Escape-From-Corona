@@ -14,6 +14,9 @@ public class BonusTest {
     int x;
     int y;
 
+    /**
+     * Create random number between 1 and 1000 for the bonus coordinates
+     */
     @BeforeEach
     public void setup() {
         int max = 1000;
@@ -24,16 +27,25 @@ public class BonusTest {
         assertNotNull(bonus);
     }
 
+    /**
+     * Check that the random numbers match for X from initialization to the getter
+     */
     @RepeatedTest(10)
     public void testX() {
         assertEquals(bonus.getX(), x);
     }
 
+    /**
+     * Check that the random numbers match for Y from initialization to the getter
+     */
     @RepeatedTest(10)
     public void testY() {
         assertEquals(bonus.getY(), y);
     }
 
+    /**
+     * Check that tick decrementing works as intended
+     */
     @RepeatedTest(10)
     public void testDecrement() {
         int init = bonus.getTicksRemaining();
@@ -44,6 +56,9 @@ public class BonusTest {
         }
     }
 
+    /**
+     * Ensure that the score is being increased by a positive value
+     */
     @Test
     public void testPositiveScoreIncrease() {
         assertTrue(bonus.getScoreIncreaseValue() >= 0);

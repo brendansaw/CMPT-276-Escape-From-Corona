@@ -18,7 +18,7 @@ public class CheckpointTest {
      * Set checkpoints left has to be called just in-case a checkpoint was made beforehand in another test
      */
     @BeforeAll
-    public void testFirstCheckpointCreation() {
+    public void setup() {
         Checkpoint.setCheckpointsLeft(0);
         countCheckpoints = 0;
         assertEquals(Checkpoint.getCheckpointsLeft(), countCheckpoints);

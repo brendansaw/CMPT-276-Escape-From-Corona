@@ -11,11 +11,18 @@ import static org.junit.Assert.*;
 public class PunishmentTest {
     Punishment punishment;
 
+    /**
+     * Create the punishment object for setup
+     */
     @BeforeAll
-    public void testFirstCheckpointCreation() {
+    public void setup() {
         punishment = new Punishment();
     }
 
+    /**
+     * Ensure that the score is being increased by a negative value,
+     * or that score is being decreased
+     */
     @Test
     public void testNegativeScoreIncrease() {
         assertTrue(punishment.getScoreIncreaseValue() <= 0);
