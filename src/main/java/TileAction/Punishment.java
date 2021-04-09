@@ -14,7 +14,6 @@ import Core.Game;
  */
 public class Punishment implements Reward {
     int scoreIncreaseValue = -100;
-    MainCharacter mainCharacter;
 
     public Punishment() {
     }
@@ -29,5 +28,9 @@ public class Punishment implements Reward {
         /*
         mainCharacter.increasePlayerScore(scoreIncreaseValue);
          */
+    }
+
+    public int getScoreIncreaseValue() {
+        return scoreIncreaseValue;
     }
 }

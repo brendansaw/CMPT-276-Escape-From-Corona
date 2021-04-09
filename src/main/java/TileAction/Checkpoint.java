@@ -52,4 +52,8 @@ public class Checkpoint implements Reward {
     public static void setCheckpointsLeft(int x) {
         checkpointsLeft = x;
     }
+
+    public int getScoreIncreaseValue() {
+        return scoreIncreaseValue;
+    }
 }

@@ -21,6 +21,12 @@ public class Bonus implements Reward {
     private int x;
     private int y;
 
+    /**
+     * Creates a bonus at a specific coordinate position.
+     * Also creates a random lifetime of the bonus, between 5 and 20 ticks
+     * @param x x-coordinate
+     * @param y y-coordinate
+     */
     public Bonus(int x, int y) { // constructor sets bonus coordinates and lifetime
         ticksRemaining = (int)((Math.random() * 15) + 5); // max lifetime = 20, min lifetime = 5
         this.x = x;
@@ -67,6 +73,14 @@ public class Bonus implements Reward {
         return ticksRemaining;
     }
 
+    /**
+     * Getter for the score increase value of the object
+     *
+     * @return an int corresponding to how much an interaction with the object will increase the player score
+     */
+    public int getScoreIncreaseValue() {
+        return scoreIncreaseValue;
+    }
     /**
      * Method to decrement the lifetime of the object by 1 tick.
      */
