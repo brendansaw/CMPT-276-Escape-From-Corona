@@ -1,4 +1,5 @@
 package TileAction;
+import Core.Game;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,5 +55,18 @@ public class CheckpointTest {
         checkpoint.decrementCheckpointsLeft();
         countCheckpoints--;
         assertEquals(Checkpoint.getCheckpointsLeft(), countCheckpoints);
+    }
+
+    @Test
+    public void testScoreIncreaseValid() {
+        int tempScore = Game.getScoreStatic();
+
+        /*
+        * Note that since checkpoint's updatePlayerScore() automatically decrements the checkpoint count,
+        * we have to take that into consideration
+        */
+        checkpoint.updatePlayerScore();
+        countCheckpoints--;
+        assertEquals(Game.getScoreStatic(), tempScore + checkpoint.getScoreIncreaseValue());
     }
 }

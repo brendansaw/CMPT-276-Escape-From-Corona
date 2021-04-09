@@ -1,4 +1,5 @@
 package TileAction;
+import Core.Game;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,5 +27,12 @@ public class PunishmentTest {
     @Test
     public void testNegativeScoreIncrease() {
         assertTrue(punishment.getScoreIncreaseValue() <= 0);
+    }
+
+    @Test
+    public void testScoreIncreaseValid() {
+        int tempScore = Game.getScoreStatic();
+        punishment.updatePlayerScore();
+        assertEquals(Game.getScoreStatic(), tempScore + punishment.getScoreIncreaseValue());
     }
 }
