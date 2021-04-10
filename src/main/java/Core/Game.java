@@ -196,6 +196,23 @@ public class Game extends Application{
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
 
+        //INstructions scene
+        Pane instructionsRoot = new Pane();
+        instructionsRoot.setPrefSize(800,600);
+        InputStream inputInstructionsBackground;
+        try {
+            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+
+        } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
+
+        Image inputBackgroundInstructions = new Image(inputInstructionsBackground);
+
+        ImageView imgView3 = new ImageView(inputBackgroundInstructions);
+        imgView3.setFitHeight(600);
+        imgView3.setFitWidth(800);
+
+         GameMenu InstructionsMenu = new GameMenu(mainGame, scene, gameIsOver, );
+
         //Lose Gameover Scene
         Pane gameOverRoot = new Pane();
         gameOverRoot.setPrefSize(800,600);
@@ -492,7 +509,7 @@ public class Game extends Application{
 
     private class GameMenu extends Parent{
         //scene2 is passed for the gameendscreen DEBUG
-        public GameMenu(Stage mainGame, Scene scene, Scene scene2) {
+        public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -510,6 +527,9 @@ public class Game extends Application{
                 startGame();
             });
             MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+            instructionsBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene3);
+            });
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
