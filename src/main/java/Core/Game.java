@@ -97,12 +97,14 @@ public class Game extends Application{
     private static InputStream groundStream;
     private static InputStream wallStream;
     private static InputStream checkpointStream;
+    private static InputStream punishStream;
 
     private static Image spriteImage = null;
     private static Image enemyImage = null;
     private static Image groundImage = null;
     private static Image wallImage = null;
     private static Image checkpointImage = null;
+    private static Image punishImage = null;
 
     private static boolean gameOver = false;
 
@@ -306,11 +308,14 @@ public class Game extends Application{
             wallImage = new Image(wallStream);
             checkpointStream = new FileInputStream("assets/chkpt.png");
             checkpointImage = new Image(checkpointStream);
+            punishStream = new FileInputStream("assets/punish.png");
+            punishImage = new Image(punishStream);
         } catch(FileNotFoundException e) {
             spriteStream = null; spriteImage = null;
             enemyStream = null; enemyImage = null;
             groundStream = null; groundImage = null;
             wallStream = null; wallImage = null;
+            punishStream = null; punishImage = null;
         }
 
         drawRectangles(root, boardGame, mainCharacter);
@@ -632,10 +637,17 @@ public class Game extends Application{
         if (tile.typeOfReward.equals("Checkpoint")) {
             image = checkpointImage;
             rect.setFill(new ImagePattern(image));
-        } else if (tile.typeOfReward.equals("Punishment")) {
-//            image = punishmentImage;
-            rect.setFill(Color.PINK);
-        } else if (tile.typeOfReward.equals("Bonus")) {
+
+        }
+        else if (tile.typeOfReward.equals("Punishment")) {
+            if(punishImage != null) {
+            image = punishImage;
+            rect.setFill(new ImagePattern(image));
+            }
+            else
+                rect.setFill(Color.PINK);
+        }
+        else if (tile.typeOfReward.equals("Bonus")) {
 //            image = bonusImage;
             rect.setFill(Color.YELLOW);
         }
