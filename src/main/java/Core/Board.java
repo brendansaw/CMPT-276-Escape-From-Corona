@@ -7,6 +7,8 @@ import TileAction.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.util.Random;
+
 /**
  * Board class represents the game board.
  * This class generates and stores the tile
@@ -73,10 +75,20 @@ public class Board
                     {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
             };
-        } else {
+        } else if(select.equals("test")) {
+            Random rand = new Random();
+            id = new int[dimX][dimY];
+                for(int i = 0; i < dimX; i++){
+                    for(int j = 0; j < dimY; j++){
+                        id[i][j] = rand.nextInt(7);
+                    }
+                }
+            }
+         else {
             System.out.println("ERROR: Argument entered into Board constructor is not valid");
             return;
         }
+
 
         boardID = id;
         dimX = boardID[0].length; // number of columns
