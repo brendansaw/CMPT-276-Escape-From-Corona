@@ -194,6 +194,10 @@ public class Board
         Game.generateEnemies();
     }*/
 
+    public int getBoardID(int i, int j) {
+        return boardID[i][j];
+    }
+
     public int getDimX(){
         return dimX;
     }

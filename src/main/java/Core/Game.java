@@ -98,6 +98,9 @@ public class Game extends Application{
     private static InputStream wallStream;
     private static InputStream checkpointStream;
     private static InputStream punishStream;
+    private static InputStream exitStream;
+    private static InputStream entryStream;
+
 
     private static Image spriteImage = null;
     private static Image enemyImage = null;
@@ -105,6 +108,8 @@ public class Game extends Application{
     private static Image wallImage = null;
     private static Image checkpointImage = null;
     private static Image punishImage = null;
+    private static Image exitImage = null;
+    private static Image entryImage = null;
 
     private static boolean gameOver = false;
 
@@ -310,12 +315,18 @@ public class Game extends Application{
             checkpointImage = new Image(checkpointStream);
             punishStream = new FileInputStream("assets/punish.png");
             punishImage = new Image(punishStream);
+            exitStream = new FileInputStream("assets/exit.png");
+            exitImage = new Image(exitStream);
+            entryStream = new FileInputStream("assets/entry.png");
+            entryImage = new Image (entryStream);
         } catch(FileNotFoundException e) {
             spriteStream = null; spriteImage = null;
             enemyStream = null; enemyImage = null;
             groundStream = null; groundImage = null;
             wallStream = null; wallImage = null;
             punishStream = null; punishImage = null;
+            exitStream = null; exitImage = null;
+            entryStream = null; entryImage = null;
         }
 
         drawRectangles(root, boardGame, mainCharacter);
@@ -693,6 +704,7 @@ public class Game extends Application{
         int height = boardGame.getDimY();
         int horizontal = xTileSize, vertical = yTileSize;
         Rectangle rect = null;
+        Rectangle rectSupp = null;
         for(int i = 0; i < height; ++i)
         {//Iterate through columns
             for(int j = 0; j < width; ++j)
@@ -701,6 +713,7 @@ public class Game extends Application{
                 //Method that chooses a color
                 //Create a new rectangle(PosY,PosX,width,height)
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
+                rectSupp = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
 
                 Image imageTile = groundImage;
@@ -733,14 +746,19 @@ public class Game extends Application{
                         rect.setFill(new ImagePattern(imageWall));
                         break;
                     case 2: // entrance
-                        rect.setFill(Color.GREEN);
+                        rect.setFill(new ImagePattern(imageTile));
+//                        rectSupp.setFill(new ImagePattern(entryImage));
                         break;
                     case 3: // exit
-                        rect.setFill(Color.RED);
+                        rect.setFill(new ImagePattern(imageTile));
+//                        rectSupp.setFill(new ImagePattern(exitImage));
                         break;
                 }
 
+
                 root.getChildren().add(rect);
+//                if(rectSupp != null)
+//                    root.getChildren().add(rectSupp);
                 //Add Rectangle to board
 
                 boolean tileHasReward = currentTile.getHasReward();
