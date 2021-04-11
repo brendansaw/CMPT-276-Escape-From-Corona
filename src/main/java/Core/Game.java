@@ -196,22 +196,6 @@ public class Game extends Application{
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
 
-        //INstructions scene
-        Pane instructionsRoot = new Pane();
-        instructionsRoot.setPrefSize(800,600);
-        InputStream inputInstructionsBackground;
-        try {
-            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
-
-        } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
-
-        Image inputBackgroundInstructions = new Image(inputInstructionsBackground);
-
-        ImageView imgView3 = new ImageView(inputBackgroundInstructions);
-        imgView3.setFitHeight(600);
-        imgView3.setFitWidth(800);
-
-         GameMenu InstructionsMenu = new GameMenu(mainGame, scene, gameIsOver, );
 
         //Lose Gameover Scene
         Pane gameOverRoot = new Pane();
@@ -265,6 +249,31 @@ public class Game extends Application{
         Scene wgameIsOver = new Scene(wgameOverBorder);
         //Win Gameover scene
 
+        //INstructions scene
+        Pane instructionsRoot = new Pane();
+        instructionsRoot.setPrefSize(800,600);
+        InputStream inputInstructionsBackground;
+        try {
+            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+
+        } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
+
+        Image inputBackgroundInstructions = new Image(inputInstructionsBackground);
+
+        ImageView imgView3 = new ImageView(inputBackgroundInstructions);
+        imgView3.setFitHeight(600);
+        imgView3.setFitWidth(800);
+
+        InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene);
+        instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
+        BorderPane instructionsBorder = new BorderPane();
+        Group instructionsGroup = new Group(wgameOverRoot);
+
+        instructionsBorder.setCenter(instructionsRoot);
+        instructionsBorder.setAlignment(instructionsRoot, Pos.CENTER);
+        Scene instructionScene = new Scene(instructionsBorder);
+
+
         //MenuStart Scene
         Pane paneRoot = new Pane();
         paneRoot.setPrefSize(800,600);
@@ -281,7 +290,7 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
-        gameMenu = new GameMenu(mainGame, scene, gameIsOver);
+        gameMenu = new GameMenu(mainGame, scene, gameIsOver, instructionScene);
 
         /*Label label1= new Label("This is the main menu");
         Button button1= new Button("Start Game");
@@ -551,6 +560,59 @@ public class Game extends Application{
 
         }
     }
+    private class InstructionsScreen extends Parent{
+        private Text text;
+        //scene2 is passed for the gameendscreen DEBUG
+        public InstructionsScreen(Stage mainGame, Scene scene) {
+            VBox menuOrig = new VBox(40);
+            //VBox menu2 = new VBox(10);
+
+            menuOrig.setTranslateX(250);
+            menuOrig.setTranslateY(100);
+
+           // menu2.setTranslateX(100);
+           // menu2.setTranslateY(200);
+
+            //final int offset = 400;
+
+
+            MenuButton resumeBtn = new MenuButton("START GAME");
+            resumeBtn.setOnMouseClicked(event -> {
+                mainGame.setScene(scene);
+                startGame();
+            });
+
+            MenuButton exitBtn = new MenuButton("EXIT");
+            exitBtn.setOnMouseClicked(event ->{
+                System.exit(0);
+            });
+
+            //Label label1= new Label("This is the instructions");
+            //label1.setPrefSize(1000,250);
+            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the Coronavirus: Your objective is to pick up all blue checkpoints, and then proceed to the red exit to advance to the next level. Move the character with arrow keys, and avoid squares with needles to avoid score punishments. Pick up PPE to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
+            text.setFont(text.getFont().font(20));
+            text.setFill(Color.BLACK);
+            text.setTextAlignment(TextAlignment.LEFT);
+            text.setWrappingWidth(600);
+            text.setTranslateX(-150);
+
+            /*Rectangle menuR = new Rectangle(250, 50);
+            menuR.setOpacity(0.6);
+            menuR.setFill(Color.BLACK);
+            getChildren().addAll(menuR, text);*/
+
+
+            menuOrig.getChildren().addAll(resumeBtn, exitBtn, text);
+
+            Rectangle background = new Rectangle(800,600);
+            background.setFill(Color.GREY);
+            background.setOpacity(0.4);
+
+            getChildren().addAll(background, menuOrig);
+
+
+        }
+    }
 
     private class GameOverMenu extends Parent{
         public GameOverMenu(Stage mainGame, Scene scene, int endScore) {
@@ -623,9 +685,6 @@ public class Game extends Application{
 
         //Music musicObject = new Music();
        // musicObject.playMusic(coronapath);
-
-
-
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
