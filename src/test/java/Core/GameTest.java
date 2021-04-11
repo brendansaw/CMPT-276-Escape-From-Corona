@@ -19,9 +19,14 @@ public class GameTest {
 
     @BeforeEach
     public void initGame() {
+        Game.setScore(0);
+        Game.setTime(0);
+        Game.setTicksElapsed(0);
+        Game.setTimeOfInput(0);
         Game.setCurrentStage("first");
         Game.setWinStatus("");
         Game.setPaused(false);
+        Game.setGameOver(false);
     }
 
     @Test
@@ -86,5 +91,15 @@ public class GameTest {
         assertEquals("first", Game.getCurrentStage(), "currentStage should be first");
         assertFalse(Game.getPaused(), "paused should be false");
         assertFalse(Game.getGameOver(), "gameOver should be false");
+    }
+
+    @Test
+    public void testUpdateScore() {
+        Game.updateScore(76);
+        assertEquals(76, Game.getScoreStatic(), "0 + 76 should be 76");
+        Game.updateScore(24);
+        assertEquals(100, Game.getScoreStatic(), "76 + 24 should be 100");
+        Game.updateScore(-34);
+        assertEquals(66, Game.getScoreStatic(), "100 + (-34) should be 66");
     }
 }
