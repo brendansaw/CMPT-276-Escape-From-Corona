@@ -1130,7 +1130,7 @@ public class Game extends Application{
     /**
      * Resets values and restarts the game to first stage.
      */
-    private void restartGame() {
+    protected void restartGame() {
         score = 0;
         time = 0;
         ticksElapsed = 0;
@@ -1164,13 +1164,8 @@ public class Game extends Application{
         return score;
     }
 
-    /**
-     * Getter for time.
-     *
-     * @return the current game time
-     */
-    public int getTime(){
-        return time;
+    public static void setScore(int x) {
+        score = x;
     }
 
     /**
@@ -1186,28 +1181,65 @@ public class Game extends Application{
         }
     }
 
-    public static void setCurrentStage(String stage) {
-        currentStage = stage;
+    /**
+     * Getter for time.
+     *
+     * @return the current game time
+     */
+    public static int getTime(){
+        return time;
+    }
+
+    public static void setTime(int x) {
+        time = x;
     }
 
     public static String getCurrentStage() {
         return currentStage;
     }
 
-    public static void setWinStatus(String status) {
-        winStatus = status;
+    public static void setCurrentStage(String stage) {
+        currentStage = stage;
     }
 
     public static String getWinStatus() {
         return winStatus;
     }
 
-    public static void setPaused(boolean pause) {
-        paused = pause;
+    public static void setWinStatus(String status) {
+        winStatus = status;
     }
 
     public static boolean getPaused() {
         return paused;
+    }
+
+    public static void setPaused(boolean pause) {
+        paused = pause;
+    }
+
+    public static int getTicksElapsed() {
+        return ticksElapsed;
+    }
+
+    public static void setTicksElapsed(int x) {
+        ticksElapsed = x;
+    }
+
+    public static int getTimeOfInput() {
+        return timeOfInput;
+    }
+
+    public static void setTimeOfInput(int x) {
+        timeOfInput = x;
+    }
+
+    public static boolean getGameOver() {
+        return gameOver;
+    }
+
+    public static void setGameOver(boolean x) {
+        gameOver = x;
     }
 
     private static Board createBoard(int[][] lvl) {

@@ -64,4 +64,27 @@ public class GameTest {
         assertEquals("You lost. :(", Game.getWinStatus(), "should be set to You lost. :(");
         assertTrue(Game.getPaused(), "should be true");
     }
+
+    @Test
+    public void testRestartGame() {
+        Game.setScore(1);
+        Game.setTime(2);
+        Game.setTicksElapsed(100);
+        Game.setTimeOfInput(4);
+        Game.setWinStatus("win");
+        Game.setCurrentStage("second");
+        Game.setPaused(true);
+        Game.setGameOver(true);
+
+        game.restartGame();
+
+        assertEquals(0, Game.getScoreStatic(), "score should be 0");
+        assertEquals(0, Game.getTime(), "time should be 0");
+        assertTrue(Game.getTicksElapsed() < 100, "ticksElapsed should have been reset");
+        assertEquals(0, Game.getTimeOfInput(), "timeOfInput should be 0");
+        assertEquals("", Game.getWinStatus(), "winStatus should be empty");
+        assertEquals("first", Game.getCurrentStage(), "currentStage should be first");
+        assertFalse(Game.getPaused(), "paused should be false");
+        assertFalse(Game.getGameOver(), "gameOver should be false");
+    }
 }
