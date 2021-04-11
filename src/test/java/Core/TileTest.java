@@ -24,6 +24,7 @@ public class TileTest {
             public void execute() throws Throwable {
                 Tile myTile = new Tile(4, 5, 8);
                 assertNull(myTile.reward);
+                assertFalse(myTile.getHasReward());
             }
         });
         //assertTrue(myTile.getHasReward());
@@ -33,8 +34,11 @@ public class TileTest {
     {
         Tile myTile2 = new Tile(1, 5, 8);
         Reward Tile2reward = myTile2.getReward();
+        Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Checkpoint", rewardType);
+        assertNotNull(Tile2reward);
+        assertTrue(isRewardPresent);
         //System.out.println(rewardType);
     }
     @Test
@@ -42,8 +46,11 @@ public class TileTest {
     {
         Tile myTile2 = new Tile(2, 5, 8);
         Reward Tile2reward = myTile2.getReward();
+        Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Punishment", rewardType);
+        assertNotNull(Tile2reward);
+        assertTrue(isRewardPresent);
         //System.out.println(rewardType);
     }
     @Test
@@ -51,8 +58,24 @@ public class TileTest {
     {
         Tile myTile2 = new Tile(3, 5, 8);
         Reward Tile2reward = myTile2.getReward();
+        Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Bonus", rewardType);
+        assertNotNull(Tile2reward);
+        assertTrue(isRewardPresent);
         //System.out.println(rewardType);
     }
+
+    @Test
+    public void removeRewardTest()
+    {
+        Tile myTile2 = new Tile(3, 5, 8);
+        myTile2.removeReward();
+        assertNull(myTile2.getReward());
+        assertFalse(myTile2.getHasReward());
+        assertEquals("", myTile2.getClass().getSimpleName());
+
+    }
 }
+
+
