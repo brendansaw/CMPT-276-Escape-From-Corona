@@ -1,7 +1,9 @@
 package Characters;
 
+import BoardDesign.Exit;
 import Core.Board;
 import Core.Tile;
+import TileAction.Checkpoint;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +48,7 @@ public class MainCharacterTest {
 
     @Test
     public void testMove() {
-        // idk
+       // idk
     }
 
     @Test

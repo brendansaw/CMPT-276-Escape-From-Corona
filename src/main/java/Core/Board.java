@@ -260,6 +260,14 @@ public class Board
         return exitYPos;
     }
 
+    public static void setExitXPos(int x) {
+        exitXPos = x;
+    }
+
+    public static void setExitYPos(int y) {
+        exitYPos = y;
+    }
+
     public Tile getTile(int i, int j)
     {
         return board[i][j];
@@ -277,12 +285,12 @@ public class Board
         dimX = id[0].length; // number of columns
         dimY = id.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first
-
+        exitXPos = 0;
+        exitYPos = 0;
         for(int i = 0; i < dimY; i++) {
             for(int j = 0; j < dimX; j++) {
                 //System.out.println();
                 int cur = id[i][j];
-
                 switch(cur) {
                     case 0://Tile
                         board[i][j] = new Tile();
