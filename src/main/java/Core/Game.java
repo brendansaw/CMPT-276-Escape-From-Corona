@@ -1186,6 +1186,18 @@ public class Game extends Application{
         }
     }
 
+    public static void setCurrentStage(String stage) {
+        currentStage = stage;
+    }
+
+    public static String getCurrentStage() {
+        return currentStage;
+    }
+
+    public static String getWinStatus() {
+        return winStatus;
+    }
+
     private static Board createBoard(int[][] lvl) {
 
         Board boardGame = new Board(lvl);
