@@ -112,6 +112,7 @@ public class Board
     public static void setBoard(int[][] id) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
+        boardID = id;
         dimX = id[0].length; // number of columns
         dimY = id.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first
