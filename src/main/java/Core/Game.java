@@ -1194,8 +1194,20 @@ public class Game extends Application{
         return currentStage;
     }
 
+    public static void setWinStatus(String status) {
+        winStatus = status;
+    }
+
     public static String getWinStatus() {
         return winStatus;
+    }
+
+    public static void setPaused(boolean pause) {
+        paused = pause;
+    }
+
+    public static boolean getPaused() {
+        return paused;
     }
 
     private static Board createBoard(int[][] lvl) {

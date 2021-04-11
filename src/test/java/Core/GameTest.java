@@ -19,7 +19,9 @@ public class GameTest {
 
     @BeforeEach
     public void initGame() {
-        game = new Game();
+        Game.setCurrentStage("first");
+        Game.setWinStatus("");
+        Game.setPaused(false);
     }
 
     @Test
@@ -34,5 +36,32 @@ public class GameTest {
         Game.endGame(true);
         assertEquals("second", Game.getCurrentStage(), "should be set to second");
         assertEquals("", Game.getWinStatus(), "should not have been set");
+        assertFalse(Game.getPaused(), "should be false");
+    }
+
+    @Test
+    public void testEndGameWinSecond() {
+        Game.setCurrentStage("second");
+        Game.endGame(true);
+        assertEquals("third", Game.getCurrentStage(), "should be set to third");
+        assertEquals("", Game.getWinStatus(), "should not have been set");
+        assertFalse(Game.getPaused(), "should be false");
+    }
+
+    @Test
+    public void testEndGameWinThird() {
+        Game.setCurrentStage("third");
+        Game.endGame(true);
+        assertEquals("win", Game.getCurrentStage(), "should be set to win");
+        assertEquals("You won!", Game.getWinStatus(), "should be set to You won!");
+        assertTrue(Game.getPaused(), "should be true");
+    }
+
+    @Test
+    public void testEndGameLose() {
+        Game.endGame(false);
+        assertEquals("lose", Game.getCurrentStage(), "should be set to lose");
+        assertEquals("You lost. :(", Game.getWinStatus(), "should be set to You lost. :(");
+        assertTrue(Game.getPaused(), "should be true");
     }
 }
