@@ -308,6 +308,34 @@ public class Game extends Application{
         Scene menuStart = new Scene(menuBorder);
         //End of MenuStart
 
+        //Pause Screen
+        Pane pauseRoot = new Pane();
+        pauseRoot.setPrefSize(800,600);
+        InputStream pauseBackground;
+
+        try {
+            pauseBackground = new FileInputStream("assets/PauseScreen.jpg");
+
+        } catch(FileNotFoundException e) { pauseBackground = null;}
+
+        Image pauseImage = new Image(pauseBackground);
+
+        ImageView pauseView = new ImageView(pauseImage);
+        pauseView.setFitHeight(600);
+        pauseView.setFitWidth(800);
+
+        //InstructionsScreen pauseMenu = new InstructionsScreen(mainGame, scene);
+
+        pauseRoot.getChildren().addAll(pauseView);
+        BorderPane pauseBorder = new BorderPane();
+        Group rootPause = new Group(pauseRoot);
+
+        pauseBorder.setCenter(rootPause);
+        pauseBorder.setAlignment(rootPause, Pos.CENTER);
+
+        Scene pauseScene = new Scene(pauseBorder);
+
+        //End of PaueScreen
         Group g2 = new Group();
         //Scene mainmenu = new Scene(g2, 150, 100);
 
@@ -479,18 +507,28 @@ public class Game extends Application{
                 if (e.getCode() == KeyCode.ESCAPE) {
                     if (!paused) {
                         everySecond.pause();
+                        //mainGame.setScene(pauseScene);
+                        //OLD CODE THAT WORKS
                         Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
                         Button b2 = new Button("Go to the maingame");
                         t2.setTranslateY(15);
+
+                        //OLD CODE THAT WORKS ENDING
+
                         //b2.setTranslateY(50);
                         //b2.setOnMouseClicked(f -> { positions.setCenter(rootGroup);});
+
+                        //Old code that works part2
                         g2.getChildren().clear();
-                        //g2.getChildren().addAll(t2, b2);
-                        g2.getChildren().add(t2);
+                        g2.getChildren().addAll(t2, pauseView);
                         positions.setCenter(g2);
+                        //Old Code that works partending
                     } else {
                         everySecond.play();
-                        positions.setCenter(rootGroup);
+                        //old code that works
+                       positions.setCenter(rootGroup);
+                        //old code that works ending
+                       /* mainGame.setScene(scene);*/
                     }
                     if (winStatus == null) {
                         paused = !paused;
