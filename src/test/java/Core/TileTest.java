@@ -37,6 +37,7 @@ public class TileTest {
         Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Checkpoint", rewardType);
+        assertEquals("Checkpoint", myTile2.getTypeReward());
         assertNotNull(Tile2reward);
         assertTrue(isRewardPresent);
         //System.out.println(rewardType);
