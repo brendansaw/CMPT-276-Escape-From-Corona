@@ -108,6 +108,7 @@ public class Game extends Application{
     private static InputStream punishStream;
     private static InputStream exitStream;
     private static InputStream entryStream;
+    private static InputStream bonusStream;
 
 
     private static Image spriteImage = null;
@@ -118,6 +119,7 @@ public class Game extends Application{
     private static Image punishImage = null;
     private static Image exitImage = null;
     private static Image entryImage = null;
+    private static Image bonusImage = null;
 
     private static boolean gameOver = false;
 
@@ -460,6 +462,8 @@ public class Game extends Application{
             exitImage = new Image(exitStream);
             entryStream = new FileInputStream("assets/entry.png");
             entryImage = new Image (entryStream);
+            bonusStream = new FileInputStream("assets/bonus.png");
+            bonusImage = new Image(bonusStream);
         } catch(FileNotFoundException e) {
             spriteStream = null; spriteImage = null;
             enemyStream = null; enemyImage = null;
@@ -468,6 +472,7 @@ public class Game extends Application{
             punishStream = null; punishImage = null;
             exitStream = null; exitImage = null;
             entryStream = null; entryImage = null;
+            bonusStream = null; bonusImage = null;
         }
 
         drawRectangles(root, boardGame, mainCharacter);
@@ -898,27 +903,23 @@ public class Game extends Application{
 
     void drawReward(AnchorPane root, Tile tile, int x, int y) {
         //Rectangle rect = null;
-        Image image = null;
         int height = yTileSize;
         int width = xTileSize;
         Rectangle rect = new Rectangle(width*x, height*y, width, height);
         rect.toFront();
         if (tile.typeOfReward.equals("Checkpoint")) {
-            image = checkpointImage;
-            rect.setFill(new ImagePattern(image));
+            rect.setFill(new ImagePattern(checkpointImage));
 
         }
         else if (tile.typeOfReward.equals("Punishment")) {
             if(punishImage != null) {
-            image = punishImage;
-            rect.setFill(new ImagePattern(image));
+            rect.setFill(new ImagePattern(punishImage));
             }
             else
                 rect.setFill(Color.PINK);
         }
         else if (tile.typeOfReward.equals("Bonus")) {
-//            image = bonusImage;
-            rect.setFill(Color.YELLOW);
+            rect.setFill(new ImagePattern(bonusImage));
         }
 //        rect.setFill(new ImagePattern(image));
         root.getChildren().add(rect);
