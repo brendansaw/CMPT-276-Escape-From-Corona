@@ -1115,6 +1115,14 @@ public class Game extends Application{
     }
 
     /**
+     * Static getter for score.
+     * @return the current game score
+     */
+    public static int getScoreStatic() {
+        return score;
+    }
+
+    /**
      * Getter for time.
      *
      * @return the current game time
