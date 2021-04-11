@@ -76,6 +76,10 @@ public class Board
         }
     }
 
+    public int getBoardID(int i, int j) {
+        return boardID[i][j];
+    }
+
     public int getDimX(){
         return dimX;
     }
@@ -90,6 +94,14 @@ public class Board
 
     public static int getExitYPos() {
         return exitYPos;
+    }
+
+    public static void setExitXPos(int x) {
+        exitXPos = x;
+    }
+
+    public static void setExitYPos(int y) {
+        exitYPos = y;
     }
 
     public Tile getTile(int i, int j)

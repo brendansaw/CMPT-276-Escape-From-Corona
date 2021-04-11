@@ -63,7 +63,7 @@ public class MainCharacter extends NonStationaryCharacter {
     /**
      * Handles game behaviour when player changes position.
      */
-    private void move() {
+    protected void move() {
         Tile[][] board = Board.getBoard();
         int dimX = board[0].length;
         int dimY = board.length;
@@ -88,7 +88,7 @@ public class MainCharacter extends NonStationaryCharacter {
      * @param currentTile a Tile object corresponding to the player's current position
      * @return true if the player is on a reward tile, else false
      */
-    private boolean isColliding(Tile currentTile) {
+    protected boolean isColliding(Tile currentTile) {
         if(currentTile.getHasReward()) {
             return true;
         }
