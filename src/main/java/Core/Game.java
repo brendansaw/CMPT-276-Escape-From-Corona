@@ -215,7 +215,7 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("assets/YouLost.jpg");
+            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLost.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -241,7 +241,7 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("assets/YouWon.jpg");
+            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWon.jpg");
 
         } catch(FileNotFoundException e) { winputOverBackground = null;}
 
@@ -267,7 +267,7 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
 
         } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
 
@@ -294,7 +294,7 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
 
         } catch(FileNotFoundException e) { inputBackground = null;}
 
@@ -322,7 +322,7 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("assets/PauseScreen.jpg");
+            pauseBackground = new FileInputStream("src/main/resources/assets/PauseScreen.jpg");
 
         } catch(FileNotFoundException e) { pauseBackground = null;}
 
@@ -644,7 +644,7 @@ public class Game extends Application{
     private static class MenuButton extends StackPane{
         private Text text;
 
-        String coronapath = "assets/coronatime.mp3";
+        String coronapath = "src/main/resources/assets/coronatime.mp3";
 
 
         //Music musicObject = new Music();
