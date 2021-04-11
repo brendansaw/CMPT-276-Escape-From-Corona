@@ -751,14 +751,14 @@ public class Game extends Application{
         }
     }
 
-    private static class Music {
-        public void playMusic(String musicLocation) {
+    protected static class gameSoundEffect {
+        public static void playSoundeff(String musicLocation) {
             try {
                 File musicPath = new File(musicLocation);
 
                 if (musicPath.exists()) {
                     AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                    Clip clip = AudioSystem.getClip();
+                    Clip clip = audioInput.getClip();
                     clip.start();
                 } else {
                     System.out.println("Cant find file");
@@ -776,8 +776,8 @@ public class Game extends Application{
         String coronapath = "assets/coronatime.mp3";
 
 
-        //Music musicObject = new Music();
-       // musicObject.playMusic(coronapath);
+        gameSoundEffect musicObject = new gameSoundEffect();
+        musicObject.playSoundeff(coronapath);
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
