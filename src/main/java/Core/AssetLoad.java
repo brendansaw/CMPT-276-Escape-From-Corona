@@ -31,7 +31,7 @@ public class AssetLoad {
     }
 
     public void reloadAssets() {
-        loadMCImage("assets/bonnie.png");
+        loadSpriteImage("assets/bonnie.png");
         loadEnemyImage("assets/enemy.png");
         loadGroundImage("assets/grass.png");
         loadWallImage("assets/wall.png");
@@ -41,7 +41,7 @@ public class AssetLoad {
         loadEntranceImage("assets/entry.png");
     }
 
-    public Image loadMCImage(String path) {
+    public Image loadSpriteImage(String path) {
         try {
             spriteStream = new FileInputStream(path);
             spriteImage = new Image(spriteStream);
