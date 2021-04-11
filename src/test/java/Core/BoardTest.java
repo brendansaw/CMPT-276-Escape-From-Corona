@@ -1,6 +1,6 @@
 package Core;
 import java.util.ArrayList;
-
+import java.util.Random;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -12,14 +12,21 @@ public class BoardTest {
     @Before
     public void setup() {
         boards = new ArrayList<>();
-        options = new String[]{"first", "second", "third"};
-        for(int i = 0; i < options.length; i++){
-
-//            boards.add(new Board(options[i]));
-
+        int numBoards = 1;
+        int x = 100;
+        int y = 100;
+        Random rand = new Random();
+        for (int k = 0; k < numBoards; k++) {
+            int[][] cur = new int[y][x];
+            for (int i = 0; i < y; i++) {
+                for (int j = 0; j < x; j++) {
+                    cur[i][j] = rand.nextInt();
+                    System.out.println(cur[i][j]);
+                }
+            }
+            boards.add(new Board(cur));
         }
     }
-
 //    @Test
 //    public void helper() {
 ////        setup();
@@ -46,9 +53,19 @@ public class BoardTest {
     }
 
     @Test
-    public void invalidBoardInput() {
-        String test = "wee hoo I'm an invalid input";
-//        Board probe = new Board(test);
+    public void assertTiles() {
+        for(int k = 0; k < boards.size(); k++) {
+
+            Board cur = boards.get(k);
+            Tile[][] boardTile = cur.getBoard();
+
+            for (int i = 0; i < cur.getDimY(); i++) {
+                for (int j = 0; j < cur.getDimX(); j++) {
+
+                }
+            }
+        }
+    }
     }
 
-}
+

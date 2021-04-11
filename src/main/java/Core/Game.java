@@ -154,7 +154,7 @@ public class Game extends Application{
      */
     private static Board firstStage() {
         enemyArrayList.clear();
-        Board temp = createBoard(lvl1, "first");
+        Board temp = createBoard(lvl1);
         Game.generateEnemies();
         return temp;
     }
@@ -165,7 +165,7 @@ public class Game extends Application{
      */
     private static Board secondStage() {
         enemyArrayList.clear(); // delete old enemies
-        Board temp = createBoard(lvl2, "second");
+        Board temp = createBoard(lvl2);
         Game.generateEnemies2();
         return temp;
     }
@@ -175,7 +175,7 @@ public class Game extends Application{
      */
     private static Board thirdStage() {
         enemyArrayList.clear(); // delete old enemies
-        Board temp = createBoard(lvl3, "third");
+        Board temp = createBoard(lvl3);
         Game.generateEnemies3();
         return temp;
     }
@@ -926,9 +926,9 @@ public class Game extends Application{
         }
     }
 
-    private static Board createBoard(int[][] lvl, String input) {
+    private static Board createBoard(int[][] lvl) {
 
-        Board boardGame = new Board(lvl, input);
+        Board boardGame = new Board(lvl);
         for (int i = 0; i < boardGame.getDimY(); i++) {
             for (int j = 0; j < boardGame.getDimX(); j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");

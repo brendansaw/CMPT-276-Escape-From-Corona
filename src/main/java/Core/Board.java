@@ -7,8 +7,6 @@ import TileAction.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import java.util.Random;
-
 /**
  * Board class represents the game board.
  * This class generates and stores the tile
@@ -33,7 +31,7 @@ public class Board
         return board.clone(); // return a copy that they cannot edit
     }
 
-    public Board(int[][] lvl, String select) {
+    public Board(int[][] lvl) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
         boardID = lvl;
