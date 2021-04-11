@@ -1,28 +1,49 @@
 package Core;
-
+import java.util.ArrayList;
 
 import org.junit.Test;
+import org.junit.Before;
 
 public class BoardTest {
 
-    static String[] options = {"test", "first", "second", "third"};
+    static ArrayList<Board> boards;
+    static String[] options;
 
-    static Board board = new Board(options[2]);
+    @Before
+    public void setup() {
+        boards = new ArrayList<>();
+        options = new String[]{"first", "second", "third"};
+        for(int i = 0; i < options.length; i++){
 
-    static Tile[][] boardTest = board.getBoard();
+            boards.add(new Board(options[i]));
+
+        }
+    }
+
+//    @Test
+//    public void helper() {
+////        setup();
+//    }
 
     @Test
     public void testNullTiles(){
+        /**
+         * is every tile instantiated?
+         */
+        for(int k = 0; k < boards.size(); k++) {
 
-        for(int i = 0; i < board.getDimY(); i++) {
-            for(int j = 0; j < board.getDimX(); j++) {
-                assert(boardTest[i][j] != null);
+            Board cur = boards.get(k);
+            Tile[][] boardTile = cur.getBoard();
 
+            for (int i = 0; i < cur.getDimY(); i++) {
+                for (int j = 0; j < cur.getDimX(); j++) {
+                    assert (boardTile[i][j] != null);
+
+                }
             }
         }
 
+
     }
-
-
 
 }
