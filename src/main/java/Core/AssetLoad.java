@@ -31,14 +31,14 @@ public class AssetLoad {
     }
 
     public void reloadAssets() {
-        loadSpriteImage("assets/bonnie.png");
-        loadEnemyImage("assets/enemy.png");
-        loadGroundImage("assets/grass.png");
-        loadWallImage("assets/wall.png");
-        loadCheckpointImage("assets/chkpt.png");
-        loadPunishmentImage("assets/punish.png");
-        loadExitImage("assets/exit.png");
-        loadEntranceImage("assets/entry.png");
+        loadSpriteImage("src/main/resources/assets/bonnie.png");
+        loadEnemyImage("src/main/resources/assets/enemy.png");
+        loadGroundImage("src/main/resources/assets/grass.png");
+        loadWallImage("src/main/resources/assets/wall.png");
+        loadCheckpointImage("src/main/resources/assets/chkpt.png");
+        loadPunishmentImage("src/main/resources/assets/punish.png");
+        loadExitImage("src/main/resources/assets/exit.png");
+        loadEntranceImage("src/main/resources/assets/entry.png");
     }
 
     public Image loadSpriteImage(String path) {
