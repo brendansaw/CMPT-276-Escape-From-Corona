@@ -662,15 +662,15 @@ public class Game extends Application{
         //scene2 is passed for the gameendscreen DEBUG
         public InstructionsScreen(Stage mainGame, Scene scene) {
             VBox menuOrig = new VBox(40);
-            //VBox menu2 = new VBox(10);
+            VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
             menuOrig.setTranslateY(100);
 
-           // menu2.setTranslateX(100);
-           // menu2.setTranslateY(200);
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
 
-            //final int offset = 400;
+            final int offset = 400;
 
 
             MenuButton resumeBtn = new MenuButton("START GAME");
@@ -689,9 +689,9 @@ public class Game extends Application{
             text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the Coronavirus: Your objective is to pick up all blue checkpoints, and then proceed to the red exit to advance to the next level. Move the character with arrow keys, and avoid squares with needles to avoid score punishments. Pick up PPE to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
             text.setFont(text.getFont().font(20));
             text.setFill(Color.BLACK);
-            text.setTextAlignment(TextAlignment.LEFT);
-            text.setWrappingWidth(600);
-            text.setTranslateX(-150);
+            text.setTextAlignment(TextAlignment.CENTER);
+            text.setWrappingWidth(550);
+            text.setTranslateX(-125);
 
             /*Rectangle menuR = new Rectangle(250, 50);
             menuR.setOpacity(0.6);
