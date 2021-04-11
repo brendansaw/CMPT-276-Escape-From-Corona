@@ -83,6 +83,7 @@ public class Game extends Application{
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
     private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
+    private static int timeOfInput = 0;
     private static boolean paused = false;
 
     private int xTileSize = 96;
@@ -212,7 +213,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         BorderPane gameOverBorder = new BorderPane();
@@ -421,9 +422,9 @@ public class Game extends Application{
 
                             @Override
                             public void handle(ActionEvent event) {
-                                int currentScore = getScore();
+                                //int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(") && !(gameOver)) {
-                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, currentScore);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time);
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
@@ -501,7 +502,6 @@ public class Game extends Application{
 
         //game timer
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            int timeOfInput = ticksElapsed;
             @Override
             public void handle(KeyEvent e) {
                 if (e.getCode() == KeyCode.ESCAPE) {
@@ -530,7 +530,7 @@ public class Game extends Application{
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
                     }
-                    if (winStatus == null) {
+                    if (winStatus == "") {
                         paused = !paused;
                     }
 
@@ -569,6 +569,7 @@ public class Game extends Application{
             final int offset = 400;
 
             MenuButton resumeBtn = new MenuButton("START GAME");
+
             resumeBtn.setOnMouseClicked(event -> {
                 mainGame.setScene(scene);
                 startGame();
@@ -653,7 +654,7 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene, int endScore) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -667,26 +668,22 @@ public class Game extends Application{
 
             MenuButton resumeBtn = new MenuButton("RESTART");
             resumeBtn.setOnMouseClicked(event -> {
-
-                startGame();
-                winStatus = null;
+                restartGame();
                 mainGame.setScene(scene);
-
-
             });
             //int endScore = getScore();
             //System.out.println("score:");
             //System.out.println(endScore);
 
             MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
-
+            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s");
 
             MenuButton exitBtn = new MenuButton("EXIT");
             exitBtn.setOnMouseClicked(event ->{
                 System.exit(0);
             });
 
-            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, timeBtn, exitBtn);
 
             Rectangle background = new Rectangle(800,600);
             background.setFill(Color.GREY);
@@ -758,11 +755,13 @@ public class Game extends Application{
             DropShadow drop = new DropShadow(50, Color.WHITE);
             drop.setInput(new Glow());
 
+
             setOnMousePressed(event -> setEffect(drop));
             setOnMouseReleased(event -> {
                 setEffect(null);
                 /*coronaPlayer.play();*/
             });
+
 
         }
     }
@@ -841,6 +840,28 @@ public class Game extends Application{
 
     }
 
+    void drawReward(AnchorPane root, Tile tile, int x, int y) {
+        //Rectangle rect = null;
+        Image image = null;
+        int height = yTileSize;
+        int width = xTileSize;
+        Rectangle rect = new Rectangle(width*x, height*y, width, height);
+        rect.toFront();
+        if (tile.typeOfReward.equals("Checkpoint")) {
+            image = checkpointImage;
+            rect.setFill(new ImagePattern(image));
+        } else if (tile.typeOfReward.equals("Punishment")) {
+//            image = punishmentImage;
+            rect.setFill(Color.PINK);
+        } else if (tile.typeOfReward.equals("Bonus")) {
+//            image = bonusImage;
+            rect.setFill(Color.YELLOW);
+        }
+//        rect.setFill(new ImagePattern(image));
+        root.getChildren().add(rect);
+
+    }
+
     /**
      * Draws the enemies.
      *
@@ -888,7 +909,6 @@ public class Game extends Application{
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; should eventually be done from one file and be more elegant
 
-
                 Image imageTile = groundImage;
                 Image imageWall = wallImage;
 
@@ -925,28 +945,18 @@ public class Game extends Application{
                         rect.setFill(Color.RED);
                         break;
                 }
-                boolean tileHasReward = currentTile.getHasReward();
-                if (tileHasReward) {
-                    rect.setStrokeWidth(5);
-                    rect.toFront();
-                    if (currentTile.typeOfReward.equals("Checkpoint")) {
-                        rect.setFill(Color.BLUE);
-                    } else if (currentTile.typeOfReward.equals("Punishment")) {
-                        rect.setFill(Color.PINK);
-                    } else if (currentTile.typeOfReward.equals("Bonus")) {
-                        rect.setFill(Color.YELLOW);
-                    }
-                }
-
-                drawMainCharacter(root, boardGame, mainCharacter);
-                drawEnemies(root, boardGame);
-                //Give rectangles an outline so I can see rectangles
 
                 root.getChildren().add(rect);
                 //Add Rectangle to board
 
+                boolean tileHasReward = currentTile.getHasReward();
+                if (tileHasReward) {
+                    drawReward(root, currentTile, j, i);
+                }
             }
         }
+        drawMainCharacter(root, boardGame, mainCharacter);
+        drawEnemies(root, boardGame);
     }
 
     /**
@@ -1029,6 +1039,26 @@ public class Game extends Application{
                 paused = true;
             }
         }
+    }
+
+    /**
+     * Resets values and restarts the game to first stage.
+     */
+    private void restartGame() {
+        score = 0;
+        time = 0;
+        ticksElapsed = 0;
+        timeOfInput = 0;
+        winStatus = "";
+        currentStage = "first";
+        paused = false;
+        gameOver = false;
+
+        Checkpoint.setCheckpointsLeft(0);
+        
+        boardGame = firstStage();
+
+        startTimer();
     }
 
     /**
