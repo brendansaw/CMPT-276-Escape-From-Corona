@@ -112,12 +112,50 @@ public class Game extends Application{
 
     // launch automatically calls start
 
+    private static int[][] lvl1 = new int[][]{
+        {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1},
+        {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1},
+        {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
+        {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
+        {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
+        {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
+        {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
+    };
+    private static int[][] lvl2 = new int[][]{
+            {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 2, 1},
+            {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 2, 0, 0, 1, 0, 1},
+            {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+            {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
+            {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
+            {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
+            {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
+            {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
+    };
+    private static int[][] lvl3 = new int[][]{
+            {1, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
+            {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
+            {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+            {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
+            {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+            {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
+            {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    };
+
     /**
      * Creates the first level of the game
      */
     private static Board firstStage() {
         enemyArrayList.clear();
-        Board temp = createBoard("first");
+        Board temp = createBoard(lvl1, "first");
+        Game.generateEnemies();
         return temp;
     }
 
@@ -127,7 +165,8 @@ public class Game extends Application{
      */
     private static Board secondStage() {
         enemyArrayList.clear(); // delete old enemies
-        Board temp = createBoard("second");
+        Board temp = createBoard(lvl2, "second");
+        Game.generateEnemies2();
         return temp;
     }
 
@@ -136,7 +175,8 @@ public class Game extends Application{
      */
     private static Board thirdStage() {
         enemyArrayList.clear(); // delete old enemies
-        Board temp = createBoard("third");
+        Board temp = createBoard(lvl3, "third");
+        Game.generateEnemies3();
         return temp;
     }
 
@@ -886,9 +926,9 @@ public class Game extends Application{
         }
     }
 
-    private static Board createBoard(String input) {
+    private static Board createBoard(int[][] lvl, String input) {
 
-        Board boardGame = new Board(input);
+        Board boardGame = new Board(lvl, input);
         for (int i = 0; i < boardGame.getDimY(); i++) {
             for (int j = 0; j < boardGame.getDimX(); j++) {
                 System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");

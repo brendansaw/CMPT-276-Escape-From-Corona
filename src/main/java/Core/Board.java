@@ -33,61 +33,17 @@ public class Board
         return board.clone(); // return a copy that they cannot edit
     }
 
-    public Board(String select) {
-        int [][] id;
+    public Board(int[][] lvl, String select) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-        if (select.equals("first")) {
-            id = new int[][]{
-                    {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1},
-                    {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1},
-                    {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
-                    {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
-                    {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
-                    {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
-                    {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
-            };
-        } else if (select.equals("second")) {
-            id = new int[][]{
-                    {1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 2, 1},
-                    {1, 0, 1, 3, 1, 0, 1, 1, 0, 0, 2, 0, 0, 1, 0, 1},
-                    {1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-                    {1, 1, 1, 0, 1, 0, 1, 1, 0, 3, 0, 3, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1},
-                    {1, 0, 1, 1, 1, 0, 1, 1, 3, 0, 0, 3, 0, 1, 0, 1},
-                    {1, 3, 0, 0, 1, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
-                    {1, 0, 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, 0, 1, 0, 1},
-                    {1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1}
-            };
-        } else if (select.equals("third")) {
-            id = new int[][]{
-                    {1, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                    {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
-                    {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
-                    {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
-                    {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
-                    {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
-                    {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
-                    {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
-                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-            };
-            } else {
-            System.out.println("ERROR: Argument entered into Board constructor is not valid");
-            return;
-        }
 
-        boardID = id;
+        boardID = lvl;
+
         dimX = boardID[0].length; // number of columns
         dimY = boardID.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first
 
         for(int i = 0; i < dimY; i++) {
             for(int j = 0; j < dimX; j++) {
-                //System.out.println();
                 int cur = boardID[i][j];
 
                 switch(cur) {
@@ -120,17 +76,6 @@ public class Board
                 }
             }
         }
-
-        if (select.equals("first")) {
-            Game.generateEnemies();
-        } else if (select.equals("second")) {
-            Game.generateEnemies2();
-        } else if (select.equals("third")) {
-            Game.generateEnemies3();
-        } else {
-            System.out.println("ERROR: Argument entered into Board constructor is not valid");
-            return;
-        }
     }
 
     public int getDimX(){
@@ -157,9 +102,9 @@ public class Board
     public static void printBoard() { // print board to console
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
-                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + "  ");
+//                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + "  ");
             }
-            System.out.println("");
+//            System.out.println("");
         }
     }
 

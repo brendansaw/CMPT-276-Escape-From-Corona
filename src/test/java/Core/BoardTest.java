@@ -15,7 +15,7 @@ public class BoardTest {
         options = new String[]{"first", "second", "third"};
         for(int i = 0; i < options.length; i++){
 
-            boards.add(new Board(options[i]));
+//            boards.add(new Board(options[i]));
 
         }
     }
@@ -38,12 +38,17 @@ public class BoardTest {
             for (int i = 0; i < cur.getDimY(); i++) {
                 for (int j = 0; j < cur.getDimX(); j++) {
                     assert (boardTile[i][j] != null);
+                    //more tests
 
                 }
             }
         }
+    }
 
-
+    @Test
+    public void invalidBoardInput() {
+        String test = "wee hoo I'm an invalid input";
+//        Board probe = new Board(test);
     }
 
 }
