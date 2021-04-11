@@ -109,6 +109,52 @@ public class Board
         return board[i][j];
     }
 
+    public static void setBoard(int[][] id) {
+        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
+
+        dimX = id[0].length; // number of columns
+        dimY = id.length; // number of rows
+        board = new Tile[dimY][dimX]; // y has to go first
+        exitXPos = 0;
+        exitYPos = 0;
+        for(int i = 0; i < dimY; i++) {
+            for(int j = 0; j < dimX; j++) {
+                //System.out.println();
+                int cur = id[i][j];
+                switch(cur) {
+                    case 0://Tile
+                        board[i][j] = new Tile();
+                        break;
+                    //System.out.println("Tile");
+                    case 1://Wall
+                        board[i][j] = new Wall();
+                        break;
+                    //System.out.println("Wall");
+                    case 2: //Tile with checkpoint
+                        board[i][j] = new Tile(1, j, i); // checkpoint is input 1
+                        break;
+                    case 3: //Tile with punishment
+                        board[i][j] = new Tile(2, j, i); // punishment is input 2
+                        break;
+                    case 4:
+                        board[i][j] = new Tile(3, j, i); // bonus is input 3
+                        break;
+                    case 5:
+                        board[i][j] = new Entrance();
+                        mainCharacter.setPos(j, i);
+                        break;
+                    case 6:
+                        board[i][j] = new Exit();
+                        exitYPos = i;
+                        exitXPos = j;
+                        break;
+
+                }
+            }
+        }
+    }
+
+
     public static void printBoard() { // print board to console
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {

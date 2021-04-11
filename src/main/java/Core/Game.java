@@ -286,7 +286,7 @@ public class Game extends Application{
         wimgView2.setFitHeight(600);
         wimgView2.setFitWidth(800);
 
-        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score);
+        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time);
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
         BorderPane wgameOverBorder = new BorderPane();
@@ -495,7 +495,7 @@ public class Game extends Application{
                                     gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!") && !(gameOver)) {
-                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, currentScore);
+                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time);
                                     Pane wingameOverRoot = new Pane();
                                     wingameOverRoot.setPrefSize(800, 600);
                                     wingameOverRoot.getChildren().addAll(wimgView2, WinGameOverMenu);
