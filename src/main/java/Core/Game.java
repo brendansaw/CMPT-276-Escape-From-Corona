@@ -292,8 +292,8 @@ public class Game extends Application{
         BorderPane wgameOverBorder = new BorderPane();
         Group wgameRoot2 = new Group(wgameOverRoot);
 
-        gameOverBorder.setCenter(wgameRoot2);
-        gameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
+        wgameOverBorder.setCenter(wgameRoot2);
+        wgameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
         Scene wgameIsOver = new Scene(wgameOverBorder);
         //Win Gameover scene
 
@@ -313,12 +313,13 @@ public class Game extends Application{
         imgView3.setFitWidth(800);
 
         InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene);
+
         instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
         BorderPane instructionsBorder = new BorderPane();
-        Group instructionsGroup = new Group(wgameOverRoot);
+        Group instructionsGroup = new Group(instructionsRoot);
 
-        instructionsBorder.setCenter(instructionsRoot);
-        instructionsBorder.setAlignment(instructionsRoot, Pos.CENTER);
+        instructionsBorder.setCenter(instructionsGroup);
+        instructionsBorder.setAlignment(instructionsGroup, Pos.CENTER);
         Scene instructionScene = new Scene(instructionsBorder);
 
 
@@ -338,7 +339,7 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
-        gameMenu = new GameMenu(mainGame, scene, gameIsOver, instructionScene);
+        gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene);
 
         /*Label label1= new Label("This is the main menu");
         Button button1= new Button("Start Game");
@@ -640,10 +641,11 @@ public class Game extends Application{
                 System.exit(0);
             });
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME OVER");
+            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME");
             debugOverBtn.setOnMouseClicked(event ->{
                 mainGame.setScene(scene2);
             });
+
             menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
 
             Rectangle background = new Rectangle(800,600);
