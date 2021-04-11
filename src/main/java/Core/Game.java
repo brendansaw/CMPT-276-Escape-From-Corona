@@ -468,7 +468,7 @@ public class Game extends Application{
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
                     }
-                    if (winStatus == "") {
+                    if (winStatus.equals("")) {
                         paused = !paused;
                     }
 
