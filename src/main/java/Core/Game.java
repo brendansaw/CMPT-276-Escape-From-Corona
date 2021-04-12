@@ -82,7 +82,7 @@ public class Game extends Application{
 
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
-    private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
+    private static int ticksElapsed = 0; // a tick is 0.25 seconds, enemies move per 2 ticks
     private static int timeOfInput = 0;
     private static boolean paused = false;
 
@@ -566,9 +566,9 @@ public class Game extends Application{
                         everySecond.pause();
                         //mainGame.setScene(pauseScene);
                         //OLD CODE THAT WORKS
-                        Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
-                        Button b2 = new Button("Go to the maingame");
-                        t2.setTranslateY(15);
+//                        Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
+//                        Button b2 = new Button("Go to the maingame");
+//                        t2.setTranslateY(15);
 
                         //OLD CODE THAT WORKS ENDING
 
@@ -577,13 +577,13 @@ public class Game extends Application{
 
                         //Old code that works part2
                         g2.getChildren().clear();
-                        g2.getChildren().addAll(t2, pauseView);
+                        g2.getChildren().addAll(pauseView);
                         positions.setCenter(g2);
                         //Old Code that works partending
                     } else {
                         everySecond.play();
                         //old code that works
-                       positions.setCenter(rootGroup);
+                        positions.setCenter(rootGroup);
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
                     }
@@ -860,7 +860,7 @@ public class Game extends Application{
     public void moveEnemies() {
         for(Enemy e : enemyArrayList) {
             e.move(e.checkBestMovement(enemyArrayList));
-            e.printPos();
+            //e.printPos();
         }
     }
 
@@ -1048,7 +1048,7 @@ public class Game extends Application{
     /**
      * Starts the gameTicks timer.
      */
-    private void startTimer() {
+    protected void startTimer() {
         gameTicksTask = new TimerTask() {
             int prevTicksElapsed = 0;
             @Override
@@ -1065,7 +1065,7 @@ public class Game extends Application{
         };
         gameTicks = new Timer();
 
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 250);
     }
 
     /**
@@ -1130,7 +1130,7 @@ public class Game extends Application{
     /**
      * Resets values and restarts the game to first stage.
      */
-    protected void restartGame() {
+    public void restartGame() {
         score = 0;
         time = 0;
         ticksElapsed = 0;
@@ -1249,12 +1249,12 @@ public class Game extends Application{
     private static Board createBoard(int[][] lvl) {
 
         Board boardGame = new Board(lvl);
-        for (int i = 0; i < boardGame.getDimY(); i++) {
-            for (int j = 0; j < boardGame.getDimX(); j++) {
-                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
-            }
-            System.out.println("");
-        }
+//        for (int i = 0; i < boardGame.getDimY(); i++) {
+//            for (int j = 0; j < boardGame.getDimX(); j++) {
+//                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
+//            }
+//            System.out.println("");
+//        }
         return boardGame;
     }
 

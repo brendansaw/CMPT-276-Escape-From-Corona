@@ -1,21 +1,11 @@
 package Core;
 
-import BoardDesign.Exit;
 import Characters.Enemy;
-import Core.Board;
-import Core.Tile;
-import TileAction.Checkpoint;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
-import java.util.ArrayList;
-
-import static javafx.scene.input.KeyEvent.KEY_PRESSED;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
 
 public class GameTest {
     Game game = new Game();
@@ -110,18 +100,27 @@ public class GameTest {
     @Test
     public void testGenerateEnemies() {
         Game.generateEnemies();
-        assertEquals(2, Game.getEnemyArrayList().size());
+        assertEquals(2, Game.getEnemyArrayList().size(), "should contain 2 objects");
+        for (Enemy e: Game.getEnemyArrayList()) {
+            assertNotNull(e, "should not be null");
+        }
     }
 
     @Test
     public void testGenerateEnemies2() {
         Game.generateEnemies2();
-        assertEquals(3, Game.getEnemyArrayList().size());
+        assertEquals(3, Game.getEnemyArrayList().size(), "should contain 3 objects");
+        for (Enemy e: Game.getEnemyArrayList()) {
+            assertNotNull(e, "should not be null");
+        }
     }
 
     @Test
     public void testGenerateEnemies3() {
         Game.generateEnemies3();
-        assertEquals(3, Game.getEnemyArrayList().size());
+        assertEquals(3, Game.getEnemyArrayList().size(), "should contain 3 objects");
+        for (Enemy e: Game.getEnemyArrayList()) {
+            assertNotNull(e, "should not be null");
+        }
     }
 }
