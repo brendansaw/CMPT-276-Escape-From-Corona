@@ -1,6 +1,7 @@
 package Core;
 
 import BoardDesign.Exit;
+import Characters.Enemy;
 import Core.Board;
 import Core.Tile;
 import TileAction.Checkpoint;
@@ -9,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+
+import java.util.ArrayList;
 
 import static javafx.scene.input.KeyEvent.KEY_PRESSED;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +30,7 @@ public class GameTest {
         Game.setWinStatus("");
         Game.setPaused(false);
         Game.setGameOver(false);
+        Game.getEnemyArrayList().clear();
     }
 
     @Test
@@ -101,5 +105,23 @@ public class GameTest {
         assertEquals(100, Game.getScoreStatic(), "76 + 24 should be 100");
         Game.updateScore(-34);
         assertEquals(66, Game.getScoreStatic(), "100 + (-34) should be 66");
+    }
+
+    @Test
+    public void testGenerateEnemies() {
+        Game.generateEnemies();
+        assertEquals(2, Game.getEnemyArrayList().size());
+    }
+
+    @Test
+    public void testGenerateEnemies2() {
+        Game.generateEnemies2();
+        assertEquals(3, Game.getEnemyArrayList().size());
+    }
+
+    @Test
+    public void testGenerateEnemies3() {
+        Game.generateEnemies3();
+        assertEquals(3, Game.getEnemyArrayList().size());
     }
 }

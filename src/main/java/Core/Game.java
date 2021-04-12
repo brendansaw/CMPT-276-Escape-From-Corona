@@ -1242,6 +1242,10 @@ public class Game extends Application{
         gameOver = x;
     }
 
+    public static ArrayList<Enemy> getEnemyArrayList() {
+        return enemyArrayList;
+    }
+
     private static Board createBoard(int[][] lvl) {
 
         Board boardGame = new Board(lvl);
