@@ -205,6 +205,10 @@ public class Game extends Application{
         });
         mainGame.setTitle("Maze Game");
 
+        /*String coronapath2 = "assets/coronatime.mp3";
+        Media coronamedia = new Media(new File(coronapath2).toURI().toString());
+        MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);
+        coronaPlayer.play();*/
         //startGame();
         boardGame = firstStage();
         int squaredBoard = 10;
@@ -629,6 +633,7 @@ public class Game extends Application{
 
             resumeBtn.setOnMouseClicked(event -> {
                 mainGame.setScene(scene);
+                //mp.play();
                 startGame();
             });
             MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
@@ -758,8 +763,8 @@ public class Game extends Application{
 
                 if (musicPath.exists()) {
                     AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                    Clip clip = audioInput.getClip();
-                    clip.start();
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
                 } else {
                     System.out.println("Cant find file");
                 }
@@ -773,11 +778,14 @@ public class Game extends Application{
     private static class MenuButton extends StackPane{
         private Text text;
 
-        String coronapath = "assets/coronatime.mp3";
+        String coronapath = "assets/coronatime.wav";
 
 
-        gameSoundEffect musicObject = new gameSoundEffect();
-        musicObject.playSoundeff(coronapath);
+
+        public void createMusic(){
+            gameSoundEffect musicObject = new gameSoundEffect();
+            musicObject.playSoundeff(coronapath);
+        }
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
@@ -800,6 +808,8 @@ public class Game extends Application{
                 text.setTranslateX(30);
                 menuR.setFill(Color.WHITE);
                 text.setFill(Color.BLACK);
+                //createMusic();
+                /*coronaPlayer.setAutoPlay(true);*/
                 //clickPlayer.play();
             });
             setOnMouseExited(event -> {
@@ -814,9 +824,13 @@ public class Game extends Application{
             drop.setInput(new Glow());
 
 
-            setOnMousePressed(event -> setEffect(drop));
+            setOnMousePressed(event -> {
+                setEffect(drop);
+                //createMusic();
+            });
             setOnMouseReleased(event -> {
                 setEffect(null);
+
                 /*coronaPlayer.play();*/
             });
 
