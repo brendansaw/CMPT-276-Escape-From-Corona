@@ -31,22 +31,30 @@ public class AssetLoad {
     }
 
     public void reloadAssets() {
-        loadSpriteImage("src/main/resources/assets/bonnie.png");
+        /*loadSpriteImage("src/main/resources/assets/bonnie.png");
         loadEnemyImage("src/main/resources/assets/enemy.png");
         loadGroundImage("src/main/resources/assets/grass.png");
         loadWallImage("src/main/resources/assets/wall.png");
         loadCheckpointImage("src/main/resources/assets/chkpt.png");
         loadPunishmentImage("src/main/resources/assets/punish.png");
         loadExitImage("src/main/resources/assets/exit.png");
-        loadEntranceImage("src/main/resources/assets/entry.png");
+        loadEntranceImage("src/main/resources/assets/entry.png");*/
+        loadSpriteImage("/assets/bonnie.png");
+        loadEnemyImage("/assets/enemy.png");
+        loadGroundImage("/assets/grass.png");
+        loadWallImage("/assets/wall.png");
+        loadCheckpointImage("/assets/chkpt.png");
+        loadPunishmentImage("/assets/punish.png");
+        loadExitImage("/assets/exit.png");
+        loadEntranceImage("/assets/entry.png");
     }
 
     public Image loadSpriteImage(String path) {
         try {
-            spriteStream = new FileInputStream(path);
+            spriteStream = getClass().getResourceAsStream(path);
             spriteImage = new Image(spriteStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             spriteStream = null;
             spriteImage = null;
             return spriteImage;
@@ -56,10 +64,10 @@ public class AssetLoad {
 
     public Image loadEnemyImage(String path) {
         try {
-            enemyStream = new FileInputStream(path);
+            enemyStream = getClass().getResourceAsStream(path);
             enemyImage = new Image(enemyStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             enemyStream = null;
             enemyImage = null;
             return enemyImage;
@@ -69,10 +77,10 @@ public class AssetLoad {
 
     public Image loadGroundImage(String path) {
         try {
-            groundStream = new FileInputStream(path);
+            groundStream = getClass().getResourceAsStream(path);
             groundImage = new Image(groundStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             groundStream = null;
             groundImage = null;
             return groundImage;
@@ -82,10 +90,10 @@ public class AssetLoad {
 
     public Image loadWallImage(String path) {
         try {
-            wallStream = new FileInputStream(path);
+            wallStream = getClass().getResourceAsStream(path);
             wallImage = new Image(wallStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             wallStream = null;
             wallImage = null;
             return wallImage;
@@ -95,10 +103,10 @@ public class AssetLoad {
 
     public Image loadCheckpointImage(String path) {
         try {
-            checkpointStream = new FileInputStream(path);
+            checkpointStream = getClass().getResourceAsStream(path);
             checkpointImage = new Image(checkpointStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             checkpointStream = null;
             checkpointImage = null;
             return checkpointImage;
@@ -108,10 +116,10 @@ public class AssetLoad {
 
     public Image loadPunishmentImage(String path) {
         try {
-            punishStream = new FileInputStream(path);
+            punishStream = getClass().getResourceAsStream(path);
             punishImage = new Image(punishStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             punishStream = null;
             punishImage = null;
             return punishImage;
@@ -121,10 +129,10 @@ public class AssetLoad {
 
     public Image loadExitImage(String path) {
         try {
-            exitStream = new FileInputStream(path);
+            exitStream = getClass().getResourceAsStream(path);
             exitImage = new Image(exitStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             exitStream = null;
             exitImage = null;
             return exitImage;
@@ -134,10 +142,10 @@ public class AssetLoad {
 
     public Image loadEntranceImage(String path) {
         try {
-            entryStream = new FileInputStream(path);
+            entryStream = this.getClass().getResourceAsStream(path);
             entryImage = new Image(entryStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             entryStream = null;
             entryImage = null;
             return entryImage;

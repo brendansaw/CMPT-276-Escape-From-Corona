@@ -215,9 +215,8 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLost.jpg");
-
-        } catch(FileNotFoundException e) { inputOverBackground = null;}
+            inputOverBackground = getClass().getResourceAsStream("/assets/YouLost.jpg");
+        } catch(NullPointerException e) { inputOverBackground = null;}
 
         Image inputBackgroundOver = new Image(inputOverBackground);
 
@@ -241,9 +240,9 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWon.jpg");
+            winputOverBackground = getClass().getResourceAsStream("/assets/YouWon.jpg");
 
-        } catch(FileNotFoundException e) { winputOverBackground = null;}
+        } catch(NullPointerException e) { winputOverBackground = null;}
 
         Image winputBackgroundOver = new Image(winputOverBackground);
 
@@ -267,9 +266,9 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = getClass().getResourceAsStream("/assets/EscapeCorona2.jpg");
 
-        } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
+        } catch(NullPointerException e) { inputInstructionsBackground = null;}
 
         Image inputBackgroundInstructions = new Image(inputInstructionsBackground);
 
@@ -294,9 +293,9 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputBackground = getClass().getResourceAsStream("/assets/EscapeCorona2.jpg");
 
-        } catch(FileNotFoundException e) { inputBackground = null;}
+        } catch(NullPointerException e) { inputBackground = null;}
 
         Image inputBackgroundImage = new Image(inputBackground);
 
@@ -322,9 +321,9 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("src/main/resources/assets/PauseScreen.jpg");
+            pauseBackground = getClass().getResourceAsStream("/assets/PauseScreen.jpg");
 
-        } catch(FileNotFoundException e) { pauseBackground = null;}
+        } catch(NullPointerException e) { pauseBackground = null;}
 
         Image pauseImage = new Image(pauseBackground);
 
@@ -644,7 +643,7 @@ public class Game extends Application{
     private static class MenuButton extends StackPane{
         private Text text;
 
-        String coronapath = "src/main/resources/assets/coronatime.mp3";
+        String coronapath = "/assets/coronatime.mp3";
 
 
         //Music musicObject = new Music();

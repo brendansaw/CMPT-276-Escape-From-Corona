@@ -56,49 +56,49 @@ public class AssetLoadTest {
 
     @Test
     public void nullValidMCTest() {
-        assetLoad.loadSpriteImage("");
+        assetLoad.loadSpriteImage(null);
         assertNull(assetLoad.getSpriteImage());
     }
 
     @Test
     public void nullValidEnemyTest() {
-        assetLoad.loadEnemyImage("");
+        assetLoad.loadEnemyImage(null);
         assertNull(assetLoad.getEnemyImage());
     }
 
     @Test
     public void nullValidGroundTest() {
-        assetLoad.loadGroundImage("");
+        assetLoad.loadGroundImage(null);
         assertNull(assetLoad.getGroundImage());
     }
 
     @Test
     public void nullValidWallTest() {
-        assetLoad.loadWallImage("");
+        assetLoad.loadWallImage(null);
         assertNull(assetLoad.getWallImage());
     }
 
     @Test
     public void nullValidCheckpointTest() {
-        assetLoad.loadCheckpointImage("");
+        assetLoad.loadCheckpointImage(null);
         assertNull(assetLoad.getCheckpointImage());
     }
 
     @Test
     public void nullValidPunishmentTest() {
-        assetLoad.loadPunishmentImage("");
+        assetLoad.loadPunishmentImage(null);
         assertNull(assetLoad.getPunishImage());
     }
 
     @Test
     public void nullValidExitTest() {
-        assetLoad.loadExitImage("");
+        assetLoad.loadExitImage(null);
         assertNull(assetLoad.getExitImage());
     }
 
     @Test
     public void nullValidEntryTest() {
-        assetLoad.loadEntranceImage("");
+        assetLoad.loadEntranceImage(null);
         assertNull(assetLoad.getEntryImage());
     }
 }
