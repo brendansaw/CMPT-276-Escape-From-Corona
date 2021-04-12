@@ -24,6 +24,8 @@ public class Board
     private static Tile[][] board;
     private static int exitXPos;
     private static int exitYPos;
+    private static int entranceXPos;
+    private static int entranceYPos;
 
     private static ArrayList<Bonus> bonusArrayList = new ArrayList<>(); // list of bonus rewards currently on board
 
@@ -76,8 +78,8 @@ public class Board
         }
     }
 
-    public int getBoardID(int i, int j) {
-        return boardID[i][j];
+    public ArrayList<Bonus> getBonusArrayList() {
+        return bonusArrayList;
     }
 
     public int getDimX(){
@@ -96,17 +98,20 @@ public class Board
         return exitYPos;
     }
 
-    public static void setExitXPos(int x) {
-        exitXPos = x;
+    public static int getEntranceXPos() {
+        return entranceXPos;
     }
-
-    public static void setExitYPos(int y) {
-        exitYPos = y;
+    public static int getEntranceYPos() {
+        return entranceYPos;
     }
 
     public Tile getTile(int i, int j)
     {
         return board[i][j];
+    }
+
+    public void setBoardID(int x, int y, int val) {
+        boardID[y][x] = val;
     }
 
     public static void printBoard() { // print board to console
