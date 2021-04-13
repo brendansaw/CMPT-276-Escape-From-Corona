@@ -39,7 +39,7 @@ public class Board
         dimX = boardID[0].length; // number of columns
         dimY = boardID.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first
-
+        bonusArrayList.clear();
         for(int i = 0; i < dimY; i++) {
             for(int j = 0; j < dimX; j++) {
                 int cur = boardID[i][j];
@@ -112,6 +112,7 @@ public class Board
     public static void setBoard(int[][] id) {
         MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
 
+        boardID = id;
         dimX = id[0].length; // number of columns
         dimY = id.length; // number of rows
         board = new Tile[dimY][dimX]; // y has to go first

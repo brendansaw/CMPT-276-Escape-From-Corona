@@ -37,6 +37,7 @@ public class TileTest {
         Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Checkpoint", rewardType);
+        assertEquals("Checkpoint", myTile2.getTypeReward());
         assertNotNull(Tile2reward);
         assertTrue(isRewardPresent);
         //System.out.println(rewardType);
@@ -49,6 +50,7 @@ public class TileTest {
         Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Punishment", rewardType);
+        assertEquals("Punishment", myTile2.getTypeReward());
         assertNotNull(Tile2reward);
         assertTrue(isRewardPresent);
         //System.out.println(rewardType);
@@ -61,6 +63,7 @@ public class TileTest {
         Boolean isRewardPresent = myTile2.getHasReward();
         String rewardType = Tile2reward.getClass().getSimpleName();
         assertEquals("Bonus", rewardType);
+        assertEquals("Bonus", myTile2.getTypeReward());
         assertNotNull(Tile2reward);
         assertTrue(isRewardPresent);
         //System.out.println(rewardType);
@@ -73,9 +76,28 @@ public class TileTest {
         myTile2.removeReward();
         assertNull(myTile2.getReward());
         assertFalse(myTile2.getHasReward());
-        assertEquals("", myTile2.getClass().getSimpleName());
+        assertEquals("", myTile2.getTypeReward());
 
     }
+    /*@Test
+    public void xandyCoordinateTest()
+    {
+        Tile myTile2 = new Tile(3, 5, 8);
+        assertEquals(5, myTile2.getXCoordinate());
+        assertEquals(8, myTile2.getYCoordinate());
+        Tile myTile3 = new Tile(1, 60, 50);
+        Tile myTile1 = new Tile(2, 40, 41);
+        assertEquals(60, myTile3.getXCoordinate());
+        assertEquals(50, myTile3.getYCoordinate());
+        assertEquals(40, myTile1.getXCoordinate());
+        assertEquals(41, myTile1.getYCoordinate());
+    }*/
+    @Test
+    public void testOpen(){
+        Tile myTile2 = new Tile(3,5,8);
+        assertTrue(myTile2.isOpen());
+    }
+
 }
 
 
