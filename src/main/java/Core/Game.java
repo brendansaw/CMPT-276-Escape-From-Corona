@@ -790,20 +790,18 @@ public class Game extends Application{
         Rectangle rect = new Rectangle(width*x, height*y, width, height);
         rect.toFront();
         if (tile.typeOfReward.equals("Checkpoint")) {
-            image = assetLoad.getCheckpointImage();
-            rect.setFill(new ImagePattern(image));
+            rect.setFill(new ImagePattern(assetLoad.getCheckpointImage()));
 
         }
         else if (tile.typeOfReward.equals("Punishment")) {
             if(assetLoad.getPunishImage() != null) {
-            image = assetLoad.getPunishImage();
-            rect.setFill(new ImagePattern(image));
+            rect.setFill(new ImagePattern(assetLoad.getPunishImage()));
             }
             else
                 rect.setFill(Color.PINK);
         }
         else if (tile.typeOfReward.equals("Bonus")) {
-            rect.setFill(new ImagePattern(bonusImage));
+            rect.setFill(new ImagePattern(assetLoad.getBonusImage()));
         }
 //        rect.setFill(new ImagePattern(image));
         root.getChildren().add(rect);
