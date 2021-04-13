@@ -234,7 +234,7 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLost.jpg");
+            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLostFinal.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -244,7 +244,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose");
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         BorderPane gameOverBorder = new BorderPane();
@@ -260,7 +260,7 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWon.jpg");
+            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWonFinal.jpg");
 
         } catch(FileNotFoundException e) { winputOverBackground = null;}
 
@@ -270,7 +270,7 @@ public class Game extends Application{
         wimgView2.setFitHeight(600);
         wimgView2.setFitWidth(800);
 
-        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect);
+        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win");
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
         BorderPane wgameOverBorder = new BorderPane();
@@ -286,7 +286,7 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
 
@@ -313,7 +313,7 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputBackground = null;}
 
@@ -381,7 +381,7 @@ public class Game extends Application{
                             public void handle(ActionEvent event) {
                                 //int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(") && !(gameOver)) {
-                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose");
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
@@ -396,7 +396,7 @@ public class Game extends Application{
                                     gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!") && !(gameOver)) {
-                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect);
+                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win");
                                     Pane wingameOverRoot = new Pane();
                                     wingameOverRoot.setPrefSize(800, 600);
                                     wingameOverRoot.getChildren().addAll(wimgView2, WinGameOverMenu);
@@ -518,7 +518,7 @@ public class Game extends Application{
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3);
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
 
             resumeBtn.setOnMouseClicked(event -> {
                 clip1.setMicrosecondPosition(0);
@@ -528,7 +528,7 @@ public class Game extends Application{
                 startGame();
 
             });
-            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS", clip2, clip3);
+            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS", clip2, clip3, Color.SEAGREEN);
             instructionsBtn.setOnMouseClicked(event -> {
                 clip2.stop();
                 clip3.setMicrosecondPosition(0);
@@ -537,7 +537,7 @@ public class Game extends Application{
 
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3);
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
                 clip2.stop();
                 clip3.setMicrosecondPosition(0);
@@ -547,7 +547,7 @@ public class Game extends Application{
             });
 
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3);
+            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
             debugOverBtn.setOnMouseClicked(event ->{
                 clip2.stop();
                 clip3.setMicrosecondPosition(0);
@@ -583,7 +583,7 @@ public class Game extends Application{
             final int offset = 400;
 
 
-            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3);
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
             resumeBtn.setOnMouseClicked(event -> {
                 clip1.setMicrosecondPosition(0);
                 clip1.start();
@@ -592,7 +592,7 @@ public class Game extends Application{
 
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3);
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
                 System.exit(0);
             });
@@ -622,19 +622,26 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime, Clip clip1, Clip clip2, Clip clip3) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime, Clip clip1, Clip clip2, Clip clip3, String winorlose) {
+            Paint colour = Color.FIREBRICK;
+            if (winorlose == "win"){
+                colour = Color.MEDIUMPURPLE;
+            }
+
+
+
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
-            menuOrig.setTranslateY(250);
+            menuOrig.setTranslateY(150);
 
             menu2.setTranslateX(100);
             menu2.setTranslateY(200);
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("RESTART", clip2, clip3 );
+            MenuButton resumeBtn = new MenuButton("RESTART", clip2, clip3, colour );
             resumeBtn.setOnMouseClicked(event -> {
                 restartGame();
                 clip1.setMicrosecondPosition(0);
@@ -646,10 +653,10 @@ public class Game extends Application{
             //System.out.println("score:");
             //System.out.println(endScore);
 
-            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore, clip2, clip3);
-            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s", clip2, clip3);
+            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore, clip2, clip3, colour);
+            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s", clip2, clip3, colour);
 
-            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3);
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, colour);
             exitBtn.setOnMouseClicked(event ->{
                 clip3.setMicrosecondPosition(0);
                 clip3.start();
@@ -699,11 +706,14 @@ public class Game extends Application{
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
-        public MenuButton(String name, Clip audio, Clip audio2){
+        public MenuButton(String name, Clip audio, Clip audio2, Paint paint){
             audio2.setMicrosecondPosition(0);
             text = new Text(name);
-            text.setFont(text.getFont().font(20));
-            text.setFill(Color.WHITE);
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,25));;
+            //text.setFont(Font.font("Dubai", FontWeight.BOLD,20));
+            //text.setFont(text.getFont().font(20));
+            text.setFill(paint);
+
 
             Rectangle menuR = new Rectangle(250, 50);
             menuR.setOpacity(0.6);
@@ -717,7 +727,7 @@ public class Game extends Application{
             setOnMouseEntered(event -> {
                 menuR.setTranslateX(30);
                 text.setTranslateX(30);
-                menuR.setFill(Color.WHITE);
+                menuR.setFill(paint);
                 text.setFill(Color.BLACK);
                 audio.setMicrosecondPosition(0);
                 audio.start();
@@ -729,7 +739,7 @@ public class Game extends Application{
                 menuR.setTranslateX(0);
                 text.setTranslateX(0);
                 menuR.setFill(Color.BLACK);
-                text.setFill(Color.WHITE);
+                text.setFill(paint);
                 audio.stop();
 
                 //clickPlayer.play();
