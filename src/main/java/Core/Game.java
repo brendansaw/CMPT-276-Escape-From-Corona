@@ -198,11 +198,24 @@ public class Game extends Application{
         AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
         Clip menuhover = AudioSystem.getClip();
         menuhover.open(audioStream2);
+
         //swooshselect audio
         File file3 = new File("assets/swoosh.wav");
-        AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file2);
+        AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file3);
         Clip swooshselect = AudioSystem.getClip();
         swooshselect.open(audioStream3);
+
+        //gamover audio
+        File file4 = new File("assets/gameover.wav");
+        AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(file4);
+        Clip gameOverAudio = AudioSystem.getClip();
+        gameOverAudio.open(audioStream4);
+
+        //victory audio
+        File file5 = new File("assets/victory.wav");
+        AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(file5);
+        Clip victoryAudio = AudioSystem.getClip();
+        victoryAudio.open(audioStream5);
 
 
         /*String coronapath2 = "src/main/java/resources/assets/coronatime.mp3";
@@ -393,6 +406,8 @@ public class Game extends Application{
 
                                     Scene gameIsOver2 = new Scene(gameOverBorder2);
                                     mainGame.setScene(gameIsOver2);
+                                    gameOverAudio.setMicrosecondPosition(0);
+                                    gameOverAudio.start();
                                     gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!") && !(gameOver)) {
@@ -408,6 +423,8 @@ public class Game extends Application{
 
                                     Scene winGameIsOver = new Scene(wingameOverBorder);
                                     mainGame.setScene(winGameIsOver);
+                                    victoryAudio.setMicrosecondPosition(0);
+                                    victoryAudio.start();
                                     gameOver = true;
                                 }
                                 Integer getScoreInt = new Integer(getScore());
