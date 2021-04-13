@@ -354,7 +354,7 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("src/main/resources/assets/PauseScreen.jpg");
+            pauseBackground = new FileInputStream("src/main/resources/assets/pauseFinal.jpg");
 
         } catch(FileNotFoundException e) { pauseBackground = null;}
 
@@ -616,8 +616,8 @@ public class Game extends Application{
 
             //Label label1= new Label("This is the instructions");
             //label1.setPrefSize(1000,250);
-            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the Coronavirus: Your objective is to pick up all blue checkpoints, and then proceed to the red exit to advance to the next level. Move the character with arrow keys, and avoid squares with needles to avoid score punishments. Pick up PPE to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
-            text.setFont(text.getFont().font(20));
+            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the 3 levels of Coronavirus: Your objective is to pick up all Vaccine checkpoints, and then proceed to the podium exit to advance to the next level. Move the character with arrow keys, and avoid tiles with Geese to prevent score punishments. Pick up Masks to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,22));
             text.setFill(Color.BLACK);
             text.setTextAlignment(TextAlignment.CENTER);
             text.setWrappingWidth(550);
