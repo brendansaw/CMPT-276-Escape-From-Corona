@@ -79,6 +79,25 @@ public class TileTest {
         assertEquals("", myTile2.getTypeReward());
 
     }
+    /*@Test
+    public void xandyCoordinateTest()
+    {
+        Tile myTile2 = new Tile(3, 5, 8);
+        assertEquals(5, myTile2.getXCoordinate());
+        assertEquals(8, myTile2.getYCoordinate());
+        Tile myTile3 = new Tile(1, 60, 50);
+        Tile myTile1 = new Tile(2, 40, 41);
+        assertEquals(60, myTile3.getXCoordinate());
+        assertEquals(50, myTile3.getYCoordinate());
+        assertEquals(40, myTile1.getXCoordinate());
+        assertEquals(41, myTile1.getYCoordinate());
+    }*/
+    @Test
+    public void testOpen(){
+        Tile myTile2 = new Tile(3,5,8);
+        assertTrue(myTile2.isOpen());
+    }
+
 }
 
 
