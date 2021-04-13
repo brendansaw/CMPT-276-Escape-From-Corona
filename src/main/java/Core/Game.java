@@ -39,26 +39,20 @@ import javafx.stage.*;
 import javafx.scene.text.*;
 import javafx.scene.image.*;
 
-import java.io.File;
+import java.io.*;
 import java.lang.*;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 
 import javafx.util.Duration;
 //import org.graalvm.compiler.nodeinfo.StructuralInput;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import javafx.scene.Node.*;
 import javafx.scene.control.Button;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -177,7 +171,7 @@ public class Game extends Application{
         return temp;
     }
 
-    public void start(Stage mainGame) {
+    public void start(Stage mainGame)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         mainGame.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -188,9 +182,43 @@ public class Game extends Application{
 
         assetLoad = new AssetLoad();
 
+
         mainGame.setTitle("Maze Game");
 
-        /*String coronapath2 = "assets/coronatime.mp3";
+
+        //coronatime audio
+        File file = new File("assets/coronatime.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip coronat = AudioSystem.getClip();
+        coronat.open(audioStream);
+
+
+        //menuhover audio
+        File file2 = new File("assets/click.wav");
+        AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
+        Clip menuhover = AudioSystem.getClip();
+        menuhover.open(audioStream2);
+
+        //swooshselect audio
+        File file3 = new File("assets/swoosh.wav");
+        AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file3);
+        Clip swooshselect = AudioSystem.getClip();
+        swooshselect.open(audioStream3);
+
+        //gamover audio
+        File file4 = new File("assets/gameover.wav");
+        AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(file4);
+        Clip gameOverAudio = AudioSystem.getClip();
+        gameOverAudio.open(audioStream4);
+
+        //victory audio
+        File file5 = new File("assets/victory.wav");
+        AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(file5);
+        Clip victoryAudio = AudioSystem.getClip();
+        victoryAudio.open(audioStream5);
+
+
+        /*String coronapath2 = "src/main/java/resources/assets/coronatime.mp3";
         Media coronamedia = new Media(new File(coronapath2).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);
         coronaPlayer.play();*/
@@ -219,7 +247,7 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLost.jpg");
+            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLostFinal.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -229,7 +257,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose");
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         BorderPane gameOverBorder = new BorderPane();
@@ -245,7 +273,7 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWon.jpg");
+            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWonFinal.jpg");
 
         } catch(FileNotFoundException e) { winputOverBackground = null;}
 
@@ -255,7 +283,7 @@ public class Game extends Application{
         wimgView2.setFitHeight(600);
         wimgView2.setFitWidth(800);
 
-        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time);
+        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win");
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
         BorderPane wgameOverBorder = new BorderPane();
@@ -271,7 +299,7 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
 
@@ -281,7 +309,7 @@ public class Game extends Application{
         imgView3.setFitHeight(600);
         imgView3.setFitWidth(800);
 
-        InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene);
+        InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene, coronat, menuhover, swooshselect);
 
         instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
         BorderPane instructionsBorder = new BorderPane();
@@ -298,7 +326,7 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
+            inputBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputBackground = null;}
 
@@ -308,7 +336,7 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
-        gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene);
+        gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene, coronat, menuhover, swooshselect);
 
         paneRoot.getChildren().addAll(imgView, gameMenu);
         BorderPane menuBorder = new BorderPane();
@@ -326,7 +354,7 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("src/main/resources/assets/PauseScreen.jpg");
+            pauseBackground = new FileInputStream("src/main/resources/assets/pauseFinal.jpg");
 
         } catch(FileNotFoundException e) { pauseBackground = null;}
 
@@ -366,7 +394,7 @@ public class Game extends Application{
                             public void handle(ActionEvent event) {
                                 //int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(") && !(gameOver)) {
-                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose");
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
@@ -378,10 +406,12 @@ public class Game extends Application{
 
                                     Scene gameIsOver2 = new Scene(gameOverBorder2);
                                     mainGame.setScene(gameIsOver2);
+                                    gameOverAudio.setMicrosecondPosition(0);
+                                    gameOverAudio.start();
                                     gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!") && !(gameOver)) {
-                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time);
+                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win");
                                     Pane wingameOverRoot = new Pane();
                                     wingameOverRoot.setPrefSize(800, 600);
                                     wingameOverRoot.getChildren().addAll(wimgView2, WinGameOverMenu);
@@ -393,6 +423,8 @@ public class Game extends Application{
 
                                     Scene winGameIsOver = new Scene(wingameOverBorder);
                                     mainGame.setScene(winGameIsOver);
+                                    victoryAudio.setMicrosecondPosition(0);
+                                    victoryAudio.start();
                                     gameOver = true;
                                 }
                                 Integer getScoreInt = new Integer(getScore());
@@ -491,7 +523,7 @@ public class Game extends Application{
 
     private class GameMenu extends Parent{
         //scene2 is passed for the gameendscreen DEBUG
-        public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3) {
+        public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3, Clip clip1, Clip clip2, Clip clip3) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -503,27 +535,43 @@ public class Game extends Application{
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("START GAME");
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
 
             resumeBtn.setOnMouseClicked(event -> {
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
                 mainGame.setScene(scene);
                 //mp.play();
                 startGame();
+
             });
-            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS", clip2, clip3, Color.SEAGREEN);
             instructionsBtn.setOnMouseClicked(event -> {
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 mainGame.setScene(scene3);
+
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 System.exit(0);
+
             });
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME");
+
+            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
             debugOverBtn.setOnMouseClicked(event ->{
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 mainGame.setScene(scene2);
             });
+
 
             menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
 
@@ -539,7 +587,7 @@ public class Game extends Application{
     private class InstructionsScreen extends Parent{
         private Text text;
         //scene2 is passed for the gameendscreen DEBUG
-        public InstructionsScreen(Stage mainGame, Scene scene) {
+        public InstructionsScreen(Stage mainGame, Scene scene, Clip clip1, Clip clip2, Clip clip3) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -552,21 +600,24 @@ public class Game extends Application{
             final int offset = 400;
 
 
-            MenuButton resumeBtn = new MenuButton("START GAME");
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
             resumeBtn.setOnMouseClicked(event -> {
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
                 mainGame.setScene(scene);
                 startGame();
+
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
                 System.exit(0);
             });
 
             //Label label1= new Label("This is the instructions");
             //label1.setPrefSize(1000,250);
-            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the Coronavirus: Your objective is to pick up all blue checkpoints, and then proceed to the red exit to advance to the next level. Move the character with arrow keys, and avoid squares with needles to avoid score punishments. Pick up PPE to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
-            text.setFont(text.getFont().font(20));
+            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the 3 levels of Coronavirus: Your objective is to pick up all Vaccine checkpoints, and then proceed to the podium exit to advance to the next level. Move the character with arrow keys, and avoid tiles with Geese to prevent score punishments. Pick up Masks to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,22));
             text.setFill(Color.BLACK);
             text.setTextAlignment(TextAlignment.CENTER);
             text.setWrappingWidth(550);
@@ -588,32 +639,44 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime, Clip clip1, Clip clip2, Clip clip3, String winorlose) {
+            Paint colour = Color.FIREBRICK;
+            if (winorlose == "win"){
+                colour = Color.MEDIUMPURPLE;
+            }
+
+
+
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
-            menuOrig.setTranslateY(250);
+            menuOrig.setTranslateY(150);
 
             menu2.setTranslateX(100);
             menu2.setTranslateY(200);
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("RESTART");
+            MenuButton resumeBtn = new MenuButton("RESTART", clip2, clip3, colour );
             resumeBtn.setOnMouseClicked(event -> {
                 restartGame();
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
                 mainGame.setScene(scene);
+
             });
             //int endScore = getScore();
             //System.out.println("score:");
             //System.out.println(endScore);
 
-            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
-            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s");
+            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore, clip2, clip3, colour);
+            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s", clip2, clip3, colour);
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, colour);
             exitBtn.setOnMouseClicked(event ->{
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 System.exit(0);
             });
 
@@ -660,10 +723,14 @@ public class Game extends Application{
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
-        public MenuButton(String name){
+        public MenuButton(String name, Clip audio, Clip audio2, Paint paint){
+            audio2.setMicrosecondPosition(0);
             text = new Text(name);
-            text.setFont(text.getFont().font(20));
-            text.setFill(Color.WHITE);
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,25));;
+            //text.setFont(Font.font("Dubai", FontWeight.BOLD,20));
+            //text.setFont(text.getFont().font(20));
+            text.setFill(paint);
+
 
             Rectangle menuR = new Rectangle(250, 50);
             menuR.setOpacity(0.6);
@@ -677,8 +744,10 @@ public class Game extends Application{
             setOnMouseEntered(event -> {
                 menuR.setTranslateX(30);
                 text.setTranslateX(30);
-                menuR.setFill(Color.WHITE);
+                menuR.setFill(paint);
                 text.setFill(Color.BLACK);
+                audio.setMicrosecondPosition(0);
+                audio.start();
                 //createMusic();
                 /*coronaPlayer.setAutoPlay(true);*/
                 //clickPlayer.play();
@@ -687,7 +756,9 @@ public class Game extends Application{
                 menuR.setTranslateX(0);
                 text.setTranslateX(0);
                 menuR.setFill(Color.BLACK);
-                text.setFill(Color.WHITE);
+                text.setFill(paint);
+                audio.stop();
+
                 //clickPlayer.play();
             });
 
@@ -697,11 +768,14 @@ public class Game extends Application{
 
             setOnMousePressed(event -> {
                 setEffect(drop);
+                audio.stop();
+                audio2.setMicrosecondPosition(0);
+                audio2.start();
                 //createMusic();
             });
             setOnMouseReleased(event -> {
+                audio.stop();
                 setEffect(null);
-
                 /*coronaPlayer.play();*/
             });
 

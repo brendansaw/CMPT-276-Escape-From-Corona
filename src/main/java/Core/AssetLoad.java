@@ -16,7 +16,7 @@ public class AssetLoad {
     private InputStream exitStream;
     private InputStream entryStream;
     private InputStream bonusStream;
-
+    private InputStream mainMenuStream;
 
     private Image spriteImage = null;
     private Image enemyImage = null;
@@ -27,6 +27,7 @@ public class AssetLoad {
     private Image exitImage = null;
     private Image entryImage = null;
     private Image bonusImage = null;
+    private Image mainMenuImage = null;
 
     public AssetLoad() {
         reloadAssets();
@@ -42,6 +43,7 @@ public class AssetLoad {
         loadExitImage("src/main/resources/assets/exit.png");
         loadEntranceImage("src/main/resources/assets/entry.png");
         loadBonusImage("src/main/resources/assets/bonusimage.png");
+        loadMainMenuImage("src/main/resources/assets/newmainmenu.jpg");
     }
 
     public Image loadSpriteImage(String path) {
@@ -161,6 +163,18 @@ public class AssetLoad {
         return bonusImage;
 
     }
+    public Image loadMainMenuImage(String path) {
+        try {
+            mainMenuStream = new FileInputStream(path);
+            mainMenuImage = new Image(mainMenuStream);
+        }
+        catch (FileNotFoundException e) {
+            mainMenuStream = null;
+            mainMenuImage = null;
+            return mainMenuImage;
+        }
+        return mainMenuImage;
+    }
 
     public Image getSpriteImage() {
         return spriteImage;
@@ -197,4 +211,6 @@ public class AssetLoad {
     public Image getBonusImage() {
         return bonusImage;
     }
+
+    public Image getMainMenuImage(){return mainMenuImage;}
 }
