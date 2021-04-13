@@ -100,26 +100,8 @@ public class Game extends Application{
     private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
     private static Board boardGame;
 
-    private static InputStream spriteStream;
-    private static InputStream enemyStream;
-    private static InputStream groundStream;
-    private static InputStream wallStream;
-    private static InputStream checkpointStream;
-    private static InputStream punishStream;
-    private static InputStream exitStream;
-    private static InputStream entryStream;
-
-
-    private static Image spriteImage = null;
-    private static Image enemyImage = null;
-    private static Image groundImage = null;
-    private static Image wallImage = null;
-    private static Image checkpointImage = null;
-    private static Image punishImage = null;
-    private static Image exitImage = null;
-    private static Image entryImage = null;
-
     private static boolean gameOver = false;
+    private static AssetLoad assetLoad;
 
 
 
@@ -203,6 +185,9 @@ public class Game extends Application{
                 System.exit(0);
             }
         });
+
+        assetLoad = new AssetLoad();
+
         mainGame.setTitle("Maze Game");
 
         /*String coronapath2 = "assets/coronatime.mp3";
@@ -213,26 +198,6 @@ public class Game extends Application{
         boardGame = firstStage();
         int squaredBoard = 10;
 
-//        Group root = new Group();
-//        Scene theScene = new Scene(root);
-//        mainGame.setScene(theScene);
-
-//        Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
-//        root.getChildren().add( canvas);
-
-//        Rectangle[][] rect = new Rectangle[height][width];
-//
-//        for(int i = 0; i < height; i++){
-//            for(int j = 0; j < width; j++){
-//                rect[i][j] = new Rectangle();
-//            }
-//        }
-
-        //Label labelCenter = new Label("this is BorderPane center");
-        //Label labelTop = new Label("this is BorderPane top");
-        //Label labelBottom = new Label("this is BorderPane bottom");
-        //Label labelLeft = new Label("this is BorderPane left");
-        //Label labelRight = new Label("this is BorderPane right");
 
         AnchorPane root = new AnchorPane();
         BorderPane positions = new BorderPane();
@@ -254,7 +219,7 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("assets/YouLost.jpg");
+            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLost.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -280,7 +245,7 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("assets/YouWon.jpg");
+            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWon.jpg");
 
         } catch(FileNotFoundException e) { winputOverBackground = null;}
 
@@ -306,7 +271,7 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
 
         } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
 
@@ -333,7 +298,7 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputBackground = new FileInputStream("src/main/resources/assets/EscapeCorona2.jpg");
 
         } catch(FileNotFoundException e) { inputBackground = null;}
 
@@ -344,12 +309,6 @@ public class Game extends Application{
         imgView.setFitWidth(800);
 
         gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene);
-
-        /*Label label1= new Label("This is the main menu");
-        Button button1= new Button("Start Game");
-        button1.setOnAction(e -> mainGame.setScene(scene));
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1);*/
 
         paneRoot.getChildren().addAll(imgView, gameMenu);
         BorderPane menuBorder = new BorderPane();
@@ -367,7 +326,7 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("assets/PauseScreen.jpg");
+            pauseBackground = new FileInputStream("src/main/resources/assets/PauseScreen.jpg");
 
         } catch(FileNotFoundException e) { pauseBackground = null;}
 
@@ -388,92 +347,14 @@ public class Game extends Application{
 
         Scene pauseScene = new Scene(pauseBorder);
 
-        //End of PaueScreen
+        //End of PauseScreen
         Group g2 = new Group();
         //Scene mainmenu = new Scene(g2, 150, 100);
 
         Group g1 = new Group();
 
-        //Label t1 = new Label("Maingame");
-        //Button b1 = new Button("Go to main menu");
-        //Label t2 = new Label("This is the main menu");
-        //Button b2 = new Button("Go to the maingame");
-        //t1.setTranslateY(15);
-        //t2.setTranslateY(15);
-        //b1.setTranslateY(50);
-        //b2.setTranslateY(50);
-        //positions.setLeft(b1);
-        //positions.setLeft(t1);
-        //positions.setAlignment(b1, Pos.CENTER);
-        //positions.setAlignment(t1, Pos.CENTER);
-        //g1.getChildren().addAll(t1, b1);
-        //g2.getChildren().addAll(t2, b2);
-
-        //positions.setLeft(g1);
-        //positions.setAlignment(g1, Pos.CENTER);
-   // positions.setLeft(b1);
-    //positions.setLeft(t1);
-
-        //b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
-        //b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
-        //                            positions.setLeft(g1);});
-        /*
-
-        StackPane stack = new StackPane();
-
-        stack.getChildren().add(root);
-        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
-        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
-
-        */
-        //positions.setCenter(stack);
-
-        //comment for new branch
-//        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
-//        Image image = new Image(inputStream);
-//        ImageView imageView = new ImageView(image);
-
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill( Color.GREEN );
-//        gc.setStroke( Color.GREEN );
-//        gc.setLineWidth(2);
-//        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-//        gc.setFont( theFont );
-//        gc.fillText( "Start Game", 60, 50 );
-//        gc.strokeText( "Start Game", 60, 50 );
-
-        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
-        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
-
         scene.setRoot(positions);
         mainGame.setScene(menuStart);
-
-        try{
-            spriteStream = new FileInputStream("assets/bonnie.png");
-            spriteImage = new Image(spriteStream);
-            enemyStream = new FileInputStream("assets/enemy.png");
-            enemyImage = new Image(enemyStream);
-            groundStream = new FileInputStream("assets/grass.png");
-            groundImage = new Image(groundStream);
-            wallStream = new FileInputStream("assets/wall.png");
-            wallImage = new Image(wallStream);
-            checkpointStream = new FileInputStream("assets/chkpt.png");
-            checkpointImage = new Image(checkpointStream);
-            punishStream = new FileInputStream("assets/punish.png");
-            punishImage = new Image(punishStream);
-            exitStream = new FileInputStream("assets/exit.png");
-            exitImage = new Image(exitStream);
-            entryStream = new FileInputStream("assets/entry.png");
-            entryImage = new Image (entryStream);
-        } catch(FileNotFoundException e) {
-            spriteStream = null; spriteImage = null;
-            enemyStream = null; enemyImage = null;
-            groundStream = null; groundImage = null;
-            wallStream = null; wallImage = null;
-            punishStream = null; punishImage = null;
-            exitStream = null; exitImage = null;
-            entryStream = null; entryImage = null;
-        }
 
         drawRectangles(root, boardGame, mainCharacter);
 
@@ -591,7 +472,7 @@ public class Game extends Application{
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
                     }
-                    if (winStatus == "") {
+                    if (winStatus.equals("")) {
                         paused = !paused;
                     }
 
@@ -602,13 +483,6 @@ public class Game extends Application{
                 }
             }
         });
-
-//        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent e) {
-//                mainCharacter.keyReleased(e);
-//            }
-//        });
 
         mainGame.show();
     }
@@ -698,10 +572,7 @@ public class Game extends Application{
             text.setWrappingWidth(550);
             text.setTranslateX(-125);
 
-            /*Rectangle menuR = new Rectangle(250, 50);
-            menuR.setOpacity(0.6);
-            menuR.setFill(Color.BLACK);
-            getChildren().addAll(menuR, text);*/
+
 
 
             menuOrig.getChildren().addAll(resumeBtn, exitBtn, text);
@@ -897,7 +768,7 @@ public class Game extends Application{
 
         Rectangle rect = null;
         InputStream inputStream;
-        Image image = spriteImage;
+        Image image = assetLoad.getSpriteImage();
 
         int x = mainCharacter.getX();
         int y = mainCharacter.getY();
@@ -920,13 +791,13 @@ public class Game extends Application{
         Rectangle rect = new Rectangle(width*x, height*y, width, height);
         rect.toFront();
         if (tile.typeOfReward.equals("Checkpoint")) {
-            image = checkpointImage;
+            image = assetLoad.getCheckpointImage();
             rect.setFill(new ImagePattern(image));
 
         }
         else if (tile.typeOfReward.equals("Punishment")) {
-            if(punishImage != null) {
-            image = punishImage;
+            if(assetLoad.getPunishImage() != null) {
+            image = assetLoad.getPunishImage();
             rect.setFill(new ImagePattern(image));
             }
             else
@@ -959,7 +830,7 @@ public class Game extends Application{
      */
     void drawEnemies(AnchorPane root, Board boardGame) {
         Rectangle rect = null;
-        Image image = enemyImage;
+        Image image = assetLoad.getEnemyImage();
 
         int width = xTileSize;
         int height = yTileSize;
@@ -999,8 +870,8 @@ public class Game extends Application{
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; could eventually be done from one file and be more elegant
 
-                Image imageTile = groundImage;
-                Image imageWall = wallImage;
+                Image imageTile = assetLoad.getGroundImage();
+                Image imageWall = assetLoad.getWallImage();
 
                 Tile currentTile = boardGame.getTile(i,j);
                 String currentTileString = currentTile.getClass().getSimpleName();
@@ -1046,10 +917,10 @@ public class Game extends Application{
                 }
                 switch(currentTileInt) {
                     case 2:
-                        drawEntryExit(root, entryImage, j, i);
+                        drawEntryExit(root, assetLoad.getEntryImage(), j, i);
                         break;
                     case 3:
-                        drawEntryExit(root, exitImage, j, i);
+                        drawEntryExit(root, assetLoad.getExitImage(), j, i);
                         break;
                 }
             }
@@ -1098,16 +969,7 @@ public class Game extends Application{
      * @param win true if player wins, else false
      */
     public static void endGame(boolean win){
-        /*if (winStatus == null) {    // prevents winStatus from changing
-            if(win) {
-                winStatus = "You win.";
-            }
-            else {
-                winStatus = "You lose.";
-            }
-            //gameTicks.cancel();
-            //paused = true;
-        }*/
+
         if (currentStage.equals("win") || currentStage.equals("lose")) {
             // do nothing
             gameTicks.cancel();
@@ -1213,16 +1075,7 @@ public class Game extends Application{
     }
 
     public static void main(String[] args) {
-
         launch(args);
-//
-//        Game game = new Game();
-//        int testscore = game.getScore();
-//        System.out.println(testscore);
-//        game.changeScore(23);
-//        int testscore2 = game.getScore();
-//        System.out.println(testscore2);
-//        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     }
 
 }
