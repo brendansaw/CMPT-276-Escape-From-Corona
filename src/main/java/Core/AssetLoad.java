@@ -2,9 +2,8 @@ package Core;
 
 import javafx.scene.image.Image;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import javax.sound.sampled.*;
+import java.io.*;
 
 public class AssetLoad {
     private InputStream spriteStream;
@@ -17,6 +16,21 @@ public class AssetLoad {
     private InputStream entryStream;
     private InputStream bonusStream;
     private InputStream mainMenuStream;
+
+    private File coronaFile;
+    private File clickFile;
+    private File swooshFile;
+    private File gameOverFile;
+    private File victoryFile;
+    private File themeSongFile;
+
+    private Clip coronaClip = null;
+    private Clip clickClip = null;
+    private Clip swooshClip = null;
+    private Clip gameOverClip = null;
+    private Clip victoryClip = null;
+    private Clip themeSongClip = null;
+
 
     private Image spriteImage = null;
     private Image enemyImage = null;
@@ -31,6 +45,7 @@ public class AssetLoad {
 
     public AssetLoad() {
         reloadAssets();
+        reloadAudioAssets();
     }
 
     public void reloadAssets() {
@@ -45,6 +60,99 @@ public class AssetLoad {
         loadBonusImage("src/main/resources/assets/bonusimage.png");
         loadMainMenuImage("src/main/resources/assets/newmainmenu.jpg");
     }
+
+    public void reloadAudioAssets() {
+        loadCoronaTimeAudio("src/main/resources/assets/coronatimelower.wav");
+        loadClickAudio("src/main/resources/assets/click.wav");
+        loadSwooshAudio("src/main/resources/assets/swoosh.wav");
+        loadGameOverAudio("src/main/resources/assets/gameover.wav");
+        loadVictoryAudio("src/main/resources/assets/victory.wav");
+        loadThemeSongAudio("src/main/resources/assets/themesonglow.wav");
+
+    }
+
+    public Clip loadCoronaTimeAudio(String path){
+        try {
+            File coronaFile = new File(path);
+            AudioInputStream coronaInput = AudioSystem.getAudioInputStream(coronaFile);
+            Clip coronaClip = AudioSystem.getClip();
+            coronaClip.open(coronaInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            coronaFile = null;
+            coronaClip = null;
+        }
+            return coronaClip;
+    }
+    public Clip loadClickAudio(String path){
+        try {
+            File clickFile = new File(path);
+            AudioInputStream clickInput = AudioSystem.getAudioInputStream(clickFile);
+            Clip clickClip = AudioSystem.getClip();
+            clickClip.open(clickInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            clickFile = null;
+            clickClip = null;
+        }
+            return clickClip;
+    }
+
+    public Clip loadSwooshAudio(String path){
+        try {
+            File swooshFile = new File(path);
+            AudioInputStream swooshInput = AudioSystem.getAudioInputStream(swooshFile);
+            Clip swooshClip = AudioSystem.getClip();
+            swooshClip.open(swooshInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            swooshFile = null;
+            swooshClip = null;
+        }
+        return swooshClip;
+    }
+    public Clip loadGameOverAudio(String path){
+        try {
+            File gameOverFile = new File(path);
+            AudioInputStream gameOverInput = AudioSystem.getAudioInputStream(gameOverFile);
+            Clip gameOverClip = AudioSystem.getClip();
+            gameOverClip.open(gameOverInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            gameOverFile = null;
+            gameOverClip = null;
+        }
+        return gameOverClip;
+    }
+
+    public Clip loadVictoryAudio(String path){
+        try {
+            File victoryFile = new File(path);
+            AudioInputStream victoryInput = AudioSystem.getAudioInputStream(victoryFile);
+            Clip victoryClip = AudioSystem.getClip();
+            victoryClip.open(victoryInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            victoryFile = null;
+            victoryClip = null;
+        }
+        return victoryClip;
+    }
+    public Clip loadThemeSongAudio(String path){
+        try {
+            File themeSongFile = new File(path);
+            AudioInputStream themeSongInput = AudioSystem.getAudioInputStream(themeSongFile);
+            Clip themeSongClip = AudioSystem.getClip();
+            themeSongClip.open(themeSongInput);
+        }
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+            themeSongFile = null;
+            themeSongClip = null;
+        }
+        return themeSongClip;
+    }
+
+
 
     public Image loadSpriteImage(String path) {
         try {
