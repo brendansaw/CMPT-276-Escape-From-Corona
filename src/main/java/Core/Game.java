@@ -538,22 +538,15 @@ public class Game extends Application{
         //scene2 is passed for the gameendscreen DEBUG
         public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3, Clip clip1, Clip clip2, Clip clip3, Clip clip4) {
             VBox menuOrig = new VBox(40);
-            VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
             menuOrig.setTranslateY(250);
-
-            menu2.setTranslateX(100);
-            menu2.setTranslateY(200);
-
-            final int offset = 400;
 
             MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
 
             resumeBtn.setOnMouseClicked(event -> {
                 clip1.setMicrosecondPosition(0);
                 clip1.start();
-
                 mainGame.setScene(scene);
                 //mp.play();
                 startGame();
@@ -578,7 +571,6 @@ public class Game extends Application{
 
             });
 
-
             /*MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
             debugOverBtn.setOnMouseClicked(event ->{
                 clip2.stop();
@@ -596,7 +588,6 @@ public class Game extends Application{
 
             getChildren().addAll(background, menuOrig);
 
-
         }
     }
     private class InstructionsScreen extends Parent{
@@ -604,16 +595,9 @@ public class Game extends Application{
         //scene2 is passed for the gameendscreen DEBUG
         public InstructionsScreen(Stage mainGame, Scene scene, Clip clip1, Clip clip2, Clip clip3, Clip clip4) {
             VBox menuOrig = new VBox(40);
-            VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
             menuOrig.setTranslateY(100);
-
-            menu2.setTranslateX(100);
-            menu2.setTranslateY(200);
-
-            final int offset = 400;
-
 
             MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
             resumeBtn.setOnMouseClicked(event -> {
@@ -642,9 +626,6 @@ public class Game extends Application{
             text.setWrappingWidth(550);
             text.setTranslateX(-125);
 
-
-
-
             menuOrig.getChildren().addAll(resumeBtn, exitBtn, text);
 
             Rectangle background = new Rectangle(800,600);
@@ -663,19 +644,10 @@ public class Game extends Application{
             if (winorlose == "win"){
                 colour = Color.MEDIUMPURPLE;
             }
-
-
-
             VBox menuOrig = new VBox(40);
-            VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
             menuOrig.setTranslateY(150);
-
-            menu2.setTranslateX(100);
-            menu2.setTranslateY(200);
-
-            final int offset = 400;
 
             MenuButton resumeBtn = new MenuButton("RESTART", clip2, clip3, colour );
             resumeBtn.setOnMouseClicked(event -> {
@@ -732,14 +704,12 @@ public class Game extends Application{
     private static class MenuButton extends StackPane{
         private Text text;
 
-        String coronapath = "assets/coronatime.wav";
-
-
+       /* String coronapath = "assets/coronatime.wav";
 
         public void createMusic(){
             gameSoundEffect musicObject = new gameSoundEffect();
             musicObject.playSoundeff(coronapath);
-        }
+        }*/
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
@@ -784,7 +754,6 @@ public class Game extends Application{
 
             DropShadow drop = new DropShadow(50, Color.WHITE);
             drop.setInput(new Glow());
-
 
             setOnMousePressed(event -> {
                 setEffect(drop);
