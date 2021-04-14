@@ -187,7 +187,7 @@ public class Game extends Application{
         mainGame.getIcons().add(assetLoad.getCheckpointImage());
 
         //coronatime audio
-        File file = new File("src/main/resources/assets/coronatime.wav");
+        File file = new File("src/main/resources/assets/coronatimelower.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip coronat = AudioSystem.getClip();
         coronat.open(audioStream);
@@ -217,7 +217,7 @@ public class Game extends Application{
         Clip victoryAudio = AudioSystem.getClip();
         victoryAudio.open(audioStream5);
 
-        File file6 = new File("src/main/resources/assets/themesong.wav");
+        File file6 = new File("src/main/resources/assets/themesonglow.wav");
         AudioInputStream audioStream6 = AudioSystem.getAudioInputStream(file6);
         Clip homeDepotAudio = AudioSystem.getClip();
         homeDepotAudio.open(audioStream6);
@@ -576,16 +576,16 @@ public class Game extends Application{
             });
 
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
+            /*MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
             debugOverBtn.setOnMouseClicked(event ->{
                 clip2.stop();
                 clip3.setMicrosecondPosition(0);
                 clip3.start();
                 mainGame.setScene(scene2);
             });
+*/
 
-
-            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
 
             Rectangle background = new Rectangle(800,600);
             background.setFill(Color.GREY);
