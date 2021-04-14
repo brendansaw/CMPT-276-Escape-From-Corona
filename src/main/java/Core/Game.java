@@ -436,7 +436,7 @@ public class Game extends Application{
                                 VBox thirdChild = new VBox();
                                 VBox fourthChild = new VBox();
                                 int numberOfChildren = 4;
-                                Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
+                                Text scoreDisplay = new Text("Current Protection: " + getScoreInt.toString());
                                 Text timeDisplay = new Text("Time Elapsed: " + getTimeInt.toString());
                                 Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
                                 Text winDisplay = new Text("Win Status: " + winStatus);
@@ -616,7 +616,10 @@ public class Game extends Application{
 
             //Label label1= new Label("This is the instructions");
             //label1.setPrefSize(1000,250);
-            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the 3 levels of Coronavirus: Your objective is to pick up all Vaccine checkpoints, and then proceed to the podium exit to advance to the next level. Move the character with arrow keys, and avoid tiles with Geese to prevent score punishments. Pick up Masks to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
+            text = new Text("Instructions: Play as Dr. Honnie Benry in her mission to Escape the 3 phases of Coronavirus: " +
+                    "Your objective is to pick up all Vaccine checkpoints, and then proceed to the podium exit to advance " +
+                    "to the next level. Move the character with arrow keys, and avoid tiles with Geese to avoid losing protection. " +
+                    "Pick up Masks to improve your protection! If protection is negative, you die. Make sure to dodge CoronEnemies to keep from dying as well!");
             text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,22));
             text.setFill(Color.BLACK);
             text.setTextAlignment(TextAlignment.CENTER);
@@ -670,7 +673,7 @@ public class Game extends Application{
             //System.out.println("score:");
             //System.out.println(endScore);
 
-            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore, clip2, clip3, colour);
+            MenuButton instructionsBtn = new MenuButton("PROTECTION: " + endScore, clip2, clip3, colour);
             MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s", clip2, clip3, colour);
 
             MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, colour);
