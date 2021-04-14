@@ -39,26 +39,20 @@ import javafx.stage.*;
 import javafx.scene.text.*;
 import javafx.scene.image.*;
 
-import java.io.File;
+import java.io.*;
 import java.lang.*;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 
 import javafx.util.Duration;
 //import org.graalvm.compiler.nodeinfo.StructuralInput;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import javafx.scene.Node.*;
 import javafx.scene.control.Button;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -82,7 +76,7 @@ public class Game extends Application{
 
     private static TimerTask gameTicksTask;
     private static Timer gameTicks;
-    private static int ticksElapsed = 0; // a tick is 1 second, enemies move per 2
+    private static int ticksElapsed = 0; // a tick is 0.25 seconds, enemies move per 2 ticks
     private static int timeOfInput = 0;
     private static boolean paused = false;
 
@@ -100,26 +94,8 @@ public class Game extends Application{
     private static String currentStage = "first"; // can be "first", "second", "third", "win", "lose"
     private static Board boardGame;
 
-    private static InputStream spriteStream;
-    private static InputStream enemyStream;
-    private static InputStream groundStream;
-    private static InputStream wallStream;
-    private static InputStream checkpointStream;
-    private static InputStream punishStream;
-    private static InputStream exitStream;
-    private static InputStream entryStream;
-
-
-    private static Image spriteImage = null;
-    private static Image enemyImage = null;
-    private static Image groundImage = null;
-    private static Image wallImage = null;
-    private static Image checkpointImage = null;
-    private static Image punishImage = null;
-    private static Image exitImage = null;
-    private static Image entryImage = null;
-
     private static boolean gameOver = false;
+    private static AssetLoad assetLoad;
 
 
 
@@ -154,12 +130,12 @@ public class Game extends Application{
     private static int[][] lvl3 = new int[][]{
             {1, 5, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
-            {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
-            {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+            {1, 0, 1, 3, 1, 1, 3, 0, 0, 3, 1, 1, 3, 1, 0, 1},
+            {1, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 1},
             {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
             {1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1},
-            {1, 0, 3, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 3, 0, 1},
-            {1, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 1},
+            {1, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 1},
+            {1, 0, 1, 3, 1, 1, 3, 0, 0, 3, 1, 1, 3, 1, 0, 1},
             {1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
@@ -195,7 +171,7 @@ public class Game extends Application{
         return temp;
     }
 
-    public void start(Stage mainGame) {
+    public void start(Stage mainGame)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         mainGame.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -203,32 +179,60 @@ public class Game extends Application{
                 System.exit(0);
             }
         });
-        mainGame.setTitle("Maze Game");
 
+        assetLoad = new AssetLoad();
+
+
+        mainGame.setTitle("Escape From Corona: The Adventures of Dr. Honnie Benry");
+        mainGame.getIcons().add(assetLoad.getCheckpointImage());
+
+        //coronatime audio
+        File file = new File("src/main/resources/assets/coronatimelower.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip coronat = AudioSystem.getClip();
+        coronat.open(audioStream);
+
+
+        //menuhover audio
+        File file2 = new File("src/main/resources/assets/click.wav");
+        AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
+        Clip menuhover = AudioSystem.getClip();
+        menuhover.open(audioStream2);
+
+        //swooshselect audio
+        File file3 = new File("src/main/resources/assets/swoosh.wav");
+        AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file3);
+        Clip swooshselect = AudioSystem.getClip();
+        swooshselect.open(audioStream3);
+
+        //gamover audio
+        File file4 = new File("src/main/resources/assets/gameover.wav");
+        AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(file4);
+        Clip gameOverAudio = AudioSystem.getClip();
+        gameOverAudio.open(audioStream4);
+
+        //victory audio
+        File file5 = new File("src/main/resources/assets/victory.wav");
+        AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(file5);
+        Clip victoryAudio = AudioSystem.getClip();
+        victoryAudio.open(audioStream5);
+
+        File file6 = new File("src/main/resources/assets/themesonglow.wav");
+        AudioInputStream audioStream6 = AudioSystem.getAudioInputStream(file6);
+        Clip homeDepotAudio = AudioSystem.getClip();
+        homeDepotAudio.open(audioStream6);
+        homeDepotAudio.loop(15);
+        homeDepotAudio.stop();
+
+
+        /*String coronapath2 = "src/main/java/resources/assets/coronatime.mp3";
+        Media coronamedia = new Media(new File(coronapath2).toURI().toString());
+        MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);
+        coronaPlayer.play();*/
         //startGame();
         boardGame = firstStage();
         int squaredBoard = 10;
 
-//        Group root = new Group();
-//        Scene theScene = new Scene(root);
-//        mainGame.setScene(theScene);
-
-//        Canvas canvas = new Canvas(100 + width*100 , 100 + height*100);
-//        root.getChildren().add( canvas);
-
-//        Rectangle[][] rect = new Rectangle[height][width];
-//
-//        for(int i = 0; i < height; i++){
-//            for(int j = 0; j < width; j++){
-//                rect[i][j] = new Rectangle();
-//            }
-//        }
-
-        //Label labelCenter = new Label("this is BorderPane center");
-        //Label labelTop = new Label("this is BorderPane top");
-        //Label labelBottom = new Label("this is BorderPane bottom");
-        //Label labelLeft = new Label("this is BorderPane left");
-        //Label labelRight = new Label("this is BorderPane right");
 
         AnchorPane root = new AnchorPane();
         BorderPane positions = new BorderPane();
@@ -250,7 +254,7 @@ public class Game extends Application{
         gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
-            inputOverBackground = new FileInputStream("assets/YouLost.jpg");
+            inputOverBackground = new FileInputStream("src/main/resources/assets/YouLostFinal.jpg");
 
         } catch(FileNotFoundException e) { inputOverBackground = null;}
 
@@ -260,7 +264,7 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);
 
-        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time);
+        GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose", homeDepotAudio);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         BorderPane gameOverBorder = new BorderPane();
@@ -276,7 +280,7 @@ public class Game extends Application{
         wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
-            winputOverBackground = new FileInputStream("assets/YouWon.jpg");
+            winputOverBackground = new FileInputStream("src/main/resources/assets/YouWonFinal.jpg");
 
         } catch(FileNotFoundException e) { winputOverBackground = null;}
 
@@ -286,14 +290,14 @@ public class Game extends Application{
         wimgView2.setFitHeight(600);
         wimgView2.setFitWidth(800);
 
-        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score);
+        GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win", homeDepotAudio);
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
         BorderPane wgameOverBorder = new BorderPane();
         Group wgameRoot2 = new Group(wgameOverRoot);
 
-        gameOverBorder.setCenter(wgameRoot2);
-        gameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
+        wgameOverBorder.setCenter(wgameRoot2);
+        wgameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
         Scene wgameIsOver = new Scene(wgameOverBorder);
         //Win Gameover scene
 
@@ -302,7 +306,7 @@ public class Game extends Application{
         instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
-            inputInstructionsBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputInstructionsBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputInstructionsBackground = null;}
 
@@ -312,13 +316,14 @@ public class Game extends Application{
         imgView3.setFitHeight(600);
         imgView3.setFitWidth(800);
 
-        InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene);
+        InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene, coronat, menuhover, swooshselect, homeDepotAudio);
+
         instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
         BorderPane instructionsBorder = new BorderPane();
-        Group instructionsGroup = new Group(wgameOverRoot);
+        Group instructionsGroup = new Group(instructionsRoot);
 
-        instructionsBorder.setCenter(instructionsRoot);
-        instructionsBorder.setAlignment(instructionsRoot, Pos.CENTER);
+        instructionsBorder.setCenter(instructionsGroup);
+        instructionsBorder.setAlignment(instructionsGroup, Pos.CENTER);
         Scene instructionScene = new Scene(instructionsBorder);
 
 
@@ -328,7 +333,7 @@ public class Game extends Application{
         InputStream inputBackground;
 
         try {
-            inputBackground = new FileInputStream("assets/EscapeCorona2.jpg");
+            inputBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
 
         } catch(FileNotFoundException e) { inputBackground = null;}
 
@@ -338,13 +343,7 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);
 
-        gameMenu = new GameMenu(mainGame, scene, gameIsOver, instructionScene);
-
-        /*Label label1= new Label("This is the main menu");
-        Button button1= new Button("Start Game");
-        button1.setOnAction(e -> mainGame.setScene(scene));
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, button1);*/
+        gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene, coronat, menuhover, swooshselect, homeDepotAudio);
 
         paneRoot.getChildren().addAll(imgView, gameMenu);
         BorderPane menuBorder = new BorderPane();
@@ -362,7 +361,7 @@ public class Game extends Application{
         InputStream pauseBackground;
 
         try {
-            pauseBackground = new FileInputStream("assets/PauseScreen.jpg");
+            pauseBackground = new FileInputStream("src/main/resources/assets/pauseFinal.jpg");
 
         } catch(FileNotFoundException e) { pauseBackground = null;}
 
@@ -383,92 +382,14 @@ public class Game extends Application{
 
         Scene pauseScene = new Scene(pauseBorder);
 
-        //End of PaueScreen
+        //End of PauseScreen
         Group g2 = new Group();
         //Scene mainmenu = new Scene(g2, 150, 100);
 
         Group g1 = new Group();
 
-        //Label t1 = new Label("Maingame");
-        //Button b1 = new Button("Go to main menu");
-        //Label t2 = new Label("This is the main menu");
-        //Button b2 = new Button("Go to the maingame");
-        //t1.setTranslateY(15);
-        //t2.setTranslateY(15);
-        //b1.setTranslateY(50);
-        //b2.setTranslateY(50);
-        //positions.setLeft(b1);
-        //positions.setLeft(t1);
-        //positions.setAlignment(b1, Pos.CENTER);
-        //positions.setAlignment(t1, Pos.CENTER);
-        //g1.getChildren().addAll(t1, b1);
-        //g2.getChildren().addAll(t2, b2);
-
-        //positions.setLeft(g1);
-        //positions.setAlignment(g1, Pos.CENTER);
-   // positions.setLeft(b1);
-    //positions.setLeft(t1);
-
-        //b1.setOnMouseClicked(e -> { positions.setCenter(g2);});
-        //b2.setOnMouseClicked(e -> { positions.setCenter(rootGroup);
-        //                            positions.setLeft(g1);});
-        /*
-
-        StackPane stack = new StackPane();
-
-        stack.getChildren().add(root);
-        stack.setLayoutX((mainGame.getWidth()/2) - stack.getWidth()/2);
-        stack.setLayoutY((mainGame.getHeight()/2) - stack.getHeight()/2);
-
-        */
-        //positions.setCenter(stack);
-
-        //comment for new branch
-//        FileInputStream inputStream = new FileInputStream("assets/Mossy Tileset/Mossy - TileSet.png");
-//        Image image = new Image(inputStream);
-//        ImageView imageView = new ImageView(image);
-
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill( Color.GREEN );
-//        gc.setStroke( Color.GREEN );
-//        gc.setLineWidth(2);
-//        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-//        gc.setFont( theFont );
-//        gc.fillText( "Start Game", 60, 50 );
-//        gc.strokeText( "Start Game", 60, 50 );
-
-        //xTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
-        //yTileSize = (int)(mainGame.getHeight()/boardGame.getDimY());
-
         scene.setRoot(positions);
         mainGame.setScene(menuStart);
-
-        try{
-            spriteStream = new FileInputStream("assets/bonnie.png");
-            spriteImage = new Image(spriteStream);
-            enemyStream = new FileInputStream("assets/enemy.png");
-            enemyImage = new Image(enemyStream);
-            groundStream = new FileInputStream("assets/grass.png");
-            groundImage = new Image(groundStream);
-            wallStream = new FileInputStream("assets/wall.png");
-            wallImage = new Image(wallStream);
-            checkpointStream = new FileInputStream("assets/chkpt.png");
-            checkpointImage = new Image(checkpointStream);
-            punishStream = new FileInputStream("assets/punish.png");
-            punishImage = new Image(punishStream);
-            exitStream = new FileInputStream("assets/exit.png");
-            exitImage = new Image(exitStream);
-            entryStream = new FileInputStream("assets/entry.png");
-            entryImage = new Image (entryStream);
-        } catch(FileNotFoundException e) {
-            spriteStream = null; spriteImage = null;
-            enemyStream = null; enemyImage = null;
-            groundStream = null; groundImage = null;
-            wallStream = null; wallImage = null;
-            punishStream = null; punishImage = null;
-            exitStream = null; exitImage = null;
-            entryStream = null; entryImage = null;
-        }
 
         drawRectangles(root, boardGame, mainCharacter);
 
@@ -480,7 +401,7 @@ public class Game extends Application{
                             public void handle(ActionEvent event) {
                                 //int currentScore = getScore();
                                 if(winStatus.equals("You lost. :(") && !(gameOver)) {
-                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time);
+                                    GameOverMenu GameOverMenu2 = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose", homeDepotAudio);
                                     Pane gameOverRoot2 = new Pane();
                                     gameOverRoot2.setPrefSize(800,600);
                                     gameOverRoot2.getChildren().addAll(imgView2, GameOverMenu2);
@@ -492,10 +413,13 @@ public class Game extends Application{
 
                                     Scene gameIsOver2 = new Scene(gameOverBorder2);
                                     mainGame.setScene(gameIsOver2);
+                                    gameOverAudio.setMicrosecondPosition(0);
+                                    gameOverAudio.start();
+                                    homeDepotAudio.stop();
                                     gameOver = true;
                                 }
                                 else if(winStatus.equals("You won!") && !(gameOver)) {
-                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, currentScore);
+                                    GameOverMenu WinGameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win", homeDepotAudio);
                                     Pane wingameOverRoot = new Pane();
                                     wingameOverRoot.setPrefSize(800, 600);
                                     wingameOverRoot.getChildren().addAll(wimgView2, WinGameOverMenu);
@@ -506,7 +430,11 @@ public class Game extends Application{
                                     wingameOverBorder.setAlignment(wingameOver, Pos.CENTER);
 
                                     Scene winGameIsOver = new Scene(wingameOverBorder);
+                                    homeDepotAudio.stop();
                                     mainGame.setScene(winGameIsOver);
+                                    victoryAudio.setMicrosecondPosition(0);
+                                    victoryAudio.start();
+
                                     gameOver = true;
                                 }
                                 Integer getScoreInt = new Integer(getScore());
@@ -518,7 +446,7 @@ public class Game extends Application{
                                 VBox thirdChild = new VBox();
                                 VBox fourthChild = new VBox();
                                 int numberOfChildren = 4;
-                                Text scoreDisplay = new Text("Current Score: " + getScoreInt.toString());
+                                Text scoreDisplay = new Text("Current Protection: " + getScoreInt.toString());
                                 Text timeDisplay = new Text("Time Elapsed: " + getTimeInt.toString());
                                 Text checkpointDisplay = new Text("Checkpoints Remaining: " + getCheckpointsRemainingInt.toString());
                                 Text winDisplay = new Text("Win Status: " + winStatus);
@@ -565,9 +493,9 @@ public class Game extends Application{
                         everySecond.pause();
                         //mainGame.setScene(pauseScene);
                         //OLD CODE THAT WORKS
-                        Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
-                        Button b2 = new Button("Go to the maingame");
-                        t2.setTranslateY(15);
+//                        Label t2 = new Label("This is the main menu. Press ESCAPE to resume");
+//                        Button b2 = new Button("Go to the maingame");
+//                        t2.setTranslateY(15);
 
                         //OLD CODE THAT WORKS ENDING
 
@@ -576,17 +504,17 @@ public class Game extends Application{
 
                         //Old code that works part2
                         g2.getChildren().clear();
-                        g2.getChildren().addAll(t2, pauseView);
+                        g2.getChildren().addAll(pauseView);
                         positions.setCenter(g2);
                         //Old Code that works partending
                     } else {
                         everySecond.play();
                         //old code that works
-                       positions.setCenter(rootGroup);
+                        positions.setCenter(rootGroup);
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
                     }
-                    if (winStatus == "") {
+                    if (winStatus.equals("")) {
                         paused = !paused;
                     }
 
@@ -598,13 +526,6 @@ public class Game extends Application{
             }
         });
 
-//        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent e) {
-//                mainCharacter.keyReleased(e);
-//            }
-//        });
-
         mainGame.show();
     }
 
@@ -612,7 +533,7 @@ public class Game extends Application{
 
     private class GameMenu extends Parent{
         //scene2 is passed for the gameendscreen DEBUG
-        public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3) {
+        public GameMenu(Stage mainGame, Scene scene, Scene scene2, Scene scene3, Clip clip1, Clip clip2, Clip clip3, Clip clip4) {
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
@@ -624,27 +545,47 @@ public class Game extends Application{
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("START GAME");
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
 
             resumeBtn.setOnMouseClicked(event -> {
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
+
                 mainGame.setScene(scene);
+                //mp.play();
                 startGame();
+                clip4.start();
+
             });
-            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS");
+            MenuButton instructionsBtn = new MenuButton("INSTRUCTIONS", clip2, clip3, Color.SEAGREEN);
             instructionsBtn.setOnMouseClicked(event -> {
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 mainGame.setScene(scene3);
+
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 System.exit(0);
+
             });
 
-            MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME OVER");
+
+            /*MenuButton debugOverBtn = new MenuButton("DEBUG WONGAME", clip2, clip3, Color.SEAGREEN);
             debugOverBtn.setOnMouseClicked(event ->{
+                clip2.stop();
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 mainGame.setScene(scene2);
             });
-            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn, debugOverBtn);
+*/
+
+            menuOrig.getChildren().addAll(resumeBtn, instructionsBtn, exitBtn);
 
             Rectangle background = new Rectangle(800,600);
             background.setFill(Color.GREY);
@@ -658,43 +599,47 @@ public class Game extends Application{
     private class InstructionsScreen extends Parent{
         private Text text;
         //scene2 is passed for the gameendscreen DEBUG
-        public InstructionsScreen(Stage mainGame, Scene scene) {
+        public InstructionsScreen(Stage mainGame, Scene scene, Clip clip1, Clip clip2, Clip clip3, Clip clip4) {
             VBox menuOrig = new VBox(40);
-            //VBox menu2 = new VBox(10);
+            VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
             menuOrig.setTranslateY(100);
 
-           // menu2.setTranslateX(100);
-           // menu2.setTranslateY(200);
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
 
-            //final int offset = 400;
+            final int offset = 400;
 
 
-            MenuButton resumeBtn = new MenuButton("START GAME");
+            MenuButton resumeBtn = new MenuButton("START GAME", clip2, clip3, Color.SEAGREEN);
             resumeBtn.setOnMouseClicked(event -> {
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
                 mainGame.setScene(scene);
                 startGame();
+                clip4.start();
+
             });
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, Color.SEAGREEN);
             exitBtn.setOnMouseClicked(event ->{
                 System.exit(0);
             });
 
             //Label label1= new Label("This is the instructions");
             //label1.setPrefSize(1000,250);
-            text = new Text("Instructions: Play as Bonnie Henry in her mission to Escape the Coronavirus: Your objective is to pick up all blue checkpoints, and then proceed to the red exit to advance to the next level. Move the character with arrow keys, and avoid squares with needles to avoid score punishments. Pick up PPE to improve ur score! If score is negative, you die. Make sure to dodge CoronaEnemies to keep from dying as well!");
-            text.setFont(text.getFont().font(20));
+            text = new Text("Instructions: Play as Dr. Honnie Benry in her mission to Escape the 3 phases of Coronavirus: " +
+                    "Your objective is to pick up all Vaccine checkpoints, and then proceed to the podium exit to advance " +
+                    "to the next level. Move the character with arrow keys, and avoid tiles with Geese to avoid losing protection. " +
+                    "Pick up Masks to improve your protection! If protection is negative, you die. Make sure to dodge CoronEnemies to keep from dying as well!");
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,22));
             text.setFill(Color.BLACK);
-            text.setTextAlignment(TextAlignment.LEFT);
-            text.setWrappingWidth(600);
-            text.setTranslateX(-150);
+            text.setTextAlignment(TextAlignment.CENTER);
+            text.setWrappingWidth(550);
+            text.setTranslateX(-125);
 
-            /*Rectangle menuR = new Rectangle(250, 50);
-            menuR.setOpacity(0.6);
-            menuR.setFill(Color.BLACK);
-            getChildren().addAll(menuR, text);*/
+
 
 
             menuOrig.getChildren().addAll(resumeBtn, exitBtn, text);
@@ -710,32 +655,45 @@ public class Game extends Application{
     }
 
     private class GameOverMenu extends Parent{
-        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime) {
+        public GameOverMenu(Stage mainGame, Scene scene, int endScore, int endTime, Clip clip1, Clip clip2, Clip clip3, String winorlose, Clip clip4) {
+            Paint colour = Color.FIREBRICK;
+            if (winorlose == "win"){
+                colour = Color.MEDIUMPURPLE;
+            }
+
+
+
             VBox menuOrig = new VBox(40);
             VBox menu2 = new VBox(10);
 
             menuOrig.setTranslateX(250);
-            menuOrig.setTranslateY(250);
+            menuOrig.setTranslateY(150);
 
             menu2.setTranslateX(100);
             menu2.setTranslateY(200);
 
             final int offset = 400;
 
-            MenuButton resumeBtn = new MenuButton("RESTART");
+            MenuButton resumeBtn = new MenuButton("RESTART", clip2, clip3, colour );
             resumeBtn.setOnMouseClicked(event -> {
                 restartGame();
+                clip1.setMicrosecondPosition(0);
+                clip1.start();
                 mainGame.setScene(scene);
+                clip4.start();
+
             });
             //int endScore = getScore();
             //System.out.println("score:");
             //System.out.println(endScore);
 
-            MenuButton instructionsBtn = new MenuButton("SCORE: " + endScore);
-            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s");
+            MenuButton instructionsBtn = new MenuButton("PROTECTION: " + endScore, clip2, clip3, colour);
+            MenuButton timeBtn = new MenuButton("TIME: " + endTime + "s", clip2, clip3, colour);
 
-            MenuButton exitBtn = new MenuButton("EXIT");
+            MenuButton exitBtn = new MenuButton("EXIT", clip2, clip3, colour);
             exitBtn.setOnMouseClicked(event ->{
+                clip3.setMicrosecondPosition(0);
+                clip3.start();
                 System.exit(0);
             });
 
@@ -749,15 +707,15 @@ public class Game extends Application{
         }
     }
 
-    private static class Music {
-        public void playMusic(String musicLocation) {
+    protected static class gameSoundEffect {
+        public static void playSoundeff(String musicLocation) {
             try {
                 File musicPath = new File(musicLocation);
 
                 if (musicPath.exists()) {
                     AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
                     Clip clip = AudioSystem.getClip();
-                    clip.start();
+                    clip.open(audioInput);
                 } else {
                     System.out.println("Cant find file");
                 }
@@ -771,18 +729,25 @@ public class Game extends Application{
     private static class MenuButton extends StackPane{
         private Text text;
 
-        String coronapath = "assets/coronatime.mp3";
+        String coronapath = "assets/coronatime.wav";
 
 
-        //Music musicObject = new Music();
-       // musicObject.playMusic(coronapath);
+
+        public void createMusic(){
+            gameSoundEffect musicObject = new gameSoundEffect();
+            musicObject.playSoundeff(coronapath);
+        }
 
         /*Media coronamedia = new Media(new File(coronapath).toURI().toString());
         MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);*/
-        public MenuButton(String name){
+        public MenuButton(String name, Clip audio, Clip audio2, Paint paint){
+            audio2.setMicrosecondPosition(0);
             text = new Text(name);
-            text.setFont(text.getFont().font(20));
-            text.setFill(Color.WHITE);
+            text.setFont(Font.font("Comic Sans MS", FontWeight.BOLD,25));;
+            //text.setFont(Font.font("Dubai", FontWeight.BOLD,20));
+            //text.setFont(text.getFont().font(20));
+            text.setFill(paint);
+
 
             Rectangle menuR = new Rectangle(250, 50);
             menuR.setOpacity(0.6);
@@ -796,15 +761,21 @@ public class Game extends Application{
             setOnMouseEntered(event -> {
                 menuR.setTranslateX(30);
                 text.setTranslateX(30);
-                menuR.setFill(Color.WHITE);
+                menuR.setFill(paint);
                 text.setFill(Color.BLACK);
+                audio.setMicrosecondPosition(0);
+                audio.start();
+                //createMusic();
+                /*coronaPlayer.setAutoPlay(true);*/
                 //clickPlayer.play();
             });
             setOnMouseExited(event -> {
                 menuR.setTranslateX(0);
                 text.setTranslateX(0);
                 menuR.setFill(Color.BLACK);
-                text.setFill(Color.WHITE);
+                text.setFill(paint);
+                audio.stop();
+
                 //clickPlayer.play();
             });
 
@@ -812,8 +783,15 @@ public class Game extends Application{
             drop.setInput(new Glow());
 
 
-            setOnMousePressed(event -> setEffect(drop));
+            setOnMousePressed(event -> {
+                setEffect(drop);
+                audio.stop();
+                audio2.setMicrosecondPosition(0);
+                audio2.start();
+                //createMusic();
+            });
             setOnMouseReleased(event -> {
+                audio.stop();
                 setEffect(null);
                 /*coronaPlayer.play();*/
             });
@@ -858,7 +836,7 @@ public class Game extends Application{
     public void moveEnemies() {
         for(Enemy e : enemyArrayList) {
             e.move(e.checkBestMovement(enemyArrayList));
-            e.printPos();
+            //e.printPos();
         }
     }
 
@@ -881,7 +859,7 @@ public class Game extends Application{
 
         Rectangle rect = null;
         InputStream inputStream;
-        Image image = spriteImage;
+        Image image = assetLoad.getSpriteImage();
 
         int x = mainCharacter.getX();
         int y = mainCharacter.getY();
@@ -898,27 +876,23 @@ public class Game extends Application{
 
     void drawReward(AnchorPane root, Tile tile, int x, int y) {
         //Rectangle rect = null;
-        Image image = null;
         int height = yTileSize;
         int width = xTileSize;
         Rectangle rect = new Rectangle(width*x, height*y, width, height);
         rect.toFront();
         if (tile.typeOfReward.equals("Checkpoint")) {
-            image = checkpointImage;
-            rect.setFill(new ImagePattern(image));
+            rect.setFill(new ImagePattern(assetLoad.getCheckpointImage()));
 
         }
         else if (tile.typeOfReward.equals("Punishment")) {
-            if(punishImage != null) {
-            image = punishImage;
-            rect.setFill(new ImagePattern(image));
+            if(assetLoad.getPunishImage() != null) {
+            rect.setFill(new ImagePattern(assetLoad.getPunishImage()));
             }
             else
                 rect.setFill(Color.PINK);
         }
         else if (tile.typeOfReward.equals("Bonus")) {
-//            image = bonusImage;
-            rect.setFill(Color.YELLOW);
+            rect.setFill(new ImagePattern(assetLoad.getBonusImage()));
         }
 //        rect.setFill(new ImagePattern(image));
         root.getChildren().add(rect);
@@ -943,7 +917,7 @@ public class Game extends Application{
      */
     void drawEnemies(AnchorPane root, Board boardGame) {
         Rectangle rect = null;
-        Image image = enemyImage;
+        Image image = assetLoad.getEnemyImage();
 
         int width = xTileSize;
         int height = yTileSize;
@@ -983,8 +957,8 @@ public class Game extends Application{
                 rect = new Rectangle(horizontal*j, vertical*i, horizontal, vertical);
                 //temporary asset loading for textures; could eventually be done from one file and be more elegant
 
-                Image imageTile = groundImage;
-                Image imageWall = wallImage;
+                Image imageTile = assetLoad.getGroundImage();
+                Image imageWall = assetLoad.getWallImage();
 
                 Tile currentTile = boardGame.getTile(i,j);
                 String currentTileString = currentTile.getClass().getSimpleName();
@@ -1030,10 +1004,10 @@ public class Game extends Application{
                 }
                 switch(currentTileInt) {
                     case 2:
-                        drawEntryExit(root, entryImage, j, i);
+                        drawEntryExit(root, assetLoad.getEntryImage(), j, i);
                         break;
                     case 3:
-                        drawEntryExit(root, exitImage, j, i);
+                        drawEntryExit(root, assetLoad.getExitImage(), j, i);
                         break;
                 }
             }
@@ -1046,7 +1020,7 @@ public class Game extends Application{
     /**
      * Starts the gameTicks timer.
      */
-    private void startTimer() {
+    protected void startTimer() {
         gameTicksTask = new TimerTask() {
             int prevTicksElapsed = 0;
             @Override
@@ -1063,7 +1037,7 @@ public class Game extends Application{
         };
         gameTicks = new Timer();
 
-        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 500);
+        gameTicks.scheduleAtFixedRate(gameTicksTask, 20, 250);
     }
 
     /**
@@ -1082,16 +1056,7 @@ public class Game extends Application{
      * @param win true if player wins, else false
      */
     public static void endGame(boolean win){
-        /*if (winStatus == null) {    // prevents winStatus from changing
-            if(win) {
-                winStatus = "You win.";
-            }
-            else {
-                winStatus = "You lose.";
-            }
-            //gameTicks.cancel();
-            //paused = true;
-        }*/
+
         if (currentStage.equals("win") || currentStage.equals("lose")) {
             // do nothing
             gameTicks.cancel();
@@ -1128,7 +1093,7 @@ public class Game extends Application{
     /**
      * Resets values and restarts the game to first stage.
      */
-    private void restartGame() {
+    public void restartGame() {
         score = 0;
         time = 0;
         ticksElapsed = 0;
@@ -1162,13 +1127,8 @@ public class Game extends Application{
         return score;
     }
 
-    /**
-     * Getter for time.
-     *
-     * @return the current game time
-     */
-    public int getTime(){
-        return time;
+    public static void setScore(int x) {
+        score = x;
     }
 
     /**
@@ -1184,29 +1144,85 @@ public class Game extends Application{
         }
     }
 
+    /**
+     * Getter for time.
+     *
+     * @return the current game time
+     */
+    public static int getTime(){
+        return time;
+    }
+
+    public static void setTime(int x) {
+        time = x;
+    }
+
+    public static String getCurrentStage() {
+        return currentStage;
+    }
+
+    public static void setCurrentStage(String stage) {
+        currentStage = stage;
+    }
+
+    public static String getWinStatus() {
+        return winStatus;
+    }
+
+    public static void setWinStatus(String status) {
+        winStatus = status;
+    }
+
+    public static boolean getPaused() {
+        return paused;
+    }
+
+    public static void setPaused(boolean pause) {
+        paused = pause;
+    }
+
+    public static int getTicksElapsed() {
+        return ticksElapsed;
+    }
+
+    public static void setTicksElapsed(int x) {
+        ticksElapsed = x;
+    }
+
+    public static int getTimeOfInput() {
+        return timeOfInput;
+    }
+
+    public static void setTimeOfInput(int x) {
+        timeOfInput = x;
+    }
+
+    public static boolean getGameOver() {
+        return gameOver;
+    }
+
+    public static void setGameOver(boolean x) {
+        gameOver = x;
+    }
+
+    public static ArrayList<Enemy> getEnemyArrayList() {
+        return enemyArrayList;
+    }
+
     private static Board createBoard(int[][] lvl) {
 
         Board boardGame = new Board(lvl);
-        for (int i = 0; i < boardGame.getDimY(); i++) {
-            for (int j = 0; j < boardGame.getDimX(); j++) {
-                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
-            }
-            System.out.println("");
-        }
+//        for (int i = 0; i < boardGame.getDimY(); i++) {
+//            for (int j = 0; j < boardGame.getDimX(); j++) {
+//                System.out.print(Board.getBoard()[i][j].getClass().getSimpleName() + Board.getBoard()[i][j].typeOfReward + " ");
+//            }
+//            System.out.println("");
+//        }
         return boardGame;
     }
 
     public static void main(String[] args) {
-
         launch(args);
-//
-//        Game game = new Game();
-//        int testscore = game.getScore();
-//        System.out.println(testscore);
-//        game.changeScore(23);
-//        int testscore2 = game.getScore();
-//        System.out.println(testscore2);
-//        MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     }
 
 }

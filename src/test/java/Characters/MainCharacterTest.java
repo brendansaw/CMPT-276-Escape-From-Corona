@@ -6,6 +6,7 @@ import Core.Tile;
 import TileAction.Checkpoint;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,11 +45,6 @@ public class MainCharacterTest {
         mainCharacter = MainCharacter.restartMainCharacter(3, 7);
         assertEquals(3, mainCharacter.getX(), "x coordinate should be reset to 3");
         assertEquals(7, mainCharacter.getY(), "y coordinate should be reset to 7");
-    }
-
-    @Test
-    public void testMove() {
-       // idk
     }
 
     @Test

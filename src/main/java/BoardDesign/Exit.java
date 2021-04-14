@@ -27,6 +27,7 @@ public class Exit extends Wall {
      * @return true if exit is opened, else false
      */
     public boolean checkCheckpoints() { // essentially call this whenever checkpoints are updated
+        mainCharacter = MainCharacter.getMainCharacter(0, 0);
         if (Checkpoint.getCheckpointsLeft() == 0) {
             isOpen = true;
         }

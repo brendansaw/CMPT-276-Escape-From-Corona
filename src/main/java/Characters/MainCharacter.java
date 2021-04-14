@@ -128,7 +128,7 @@ public class MainCharacter extends NonStationaryCharacter {
                 x += 1;
             }
         }
-        printPos();
+        //printPos();
         move();
     }
 
