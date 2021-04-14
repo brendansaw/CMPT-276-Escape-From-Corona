@@ -1,6 +1,7 @@
 package Core;
 
 import Characters.Enemy;
+import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -122,5 +123,22 @@ public class GameTest {
         for (Enemy e: Game.getEnemyArrayList()) {
             assertNotNull(e, "should not be null");
         }
+    }
+
+    @Test
+    public void testPauseGame() {
+        Game.pauseGame(KeyCode.UP);
+        assertFalse(Game.getPaused(), "should not have paused game");
+        Game.pauseGame(KeyCode.ESCAPE);
+        assertTrue(Game.getPaused(), "escape key should pause the game");
+    }
+
+    @Test
+    public void testUnpauseGame() {
+        Game.setPaused(true);
+        Game.pauseGame(KeyCode.UP);
+        assertTrue(Game.getPaused(), "should not have unpaused game");
+        Game.pauseGame(KeyCode.ESCAPE);
+        assertFalse(Game.getPaused(), "escape key should unpause the game");
     }
 }

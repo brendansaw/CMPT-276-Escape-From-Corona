@@ -517,9 +517,7 @@ public class Game extends Application{
                        /* mainGame.setScene(scene);*/
                         homeDepotAudio.start();
                     }
-                    if (winStatus.equals("")) {
-                        paused = !paused;
-                    }
+                    pauseGame(e.getCode());
 
                 } else if (!paused && ((ticksElapsed-timeOfInput) >= 1)) {
                     timeOfInput = ticksElapsed;
@@ -1111,6 +1109,14 @@ public class Game extends Application{
         boardGame = firstStage();
 
         startTimer();
+    }
+
+    public static void pauseGame(KeyCode key) {
+        if(key == KeyCode.ESCAPE) {
+            if (winStatus == "") {
+                paused = !paused;
+            }
+        }
     }
 
     /**
