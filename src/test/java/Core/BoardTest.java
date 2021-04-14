@@ -1,6 +1,8 @@
 package Core;
 import java.util.ArrayList;
 import java.util.Random;
+
+import TileAction.Bonus;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,10 +69,16 @@ public class BoardTest {
         Board cur = boards.get(0);
         cur.generateBonus();
 
-        for(int i = 0; i < cur.getBonusArrayList().size(); i++) {
-            int xBonus = cur.getBonusArrayList().get(i).getX();
-            int yBonus = cur.getBonusArrayList().get(i).getY();
-            assertTrue(cur.getTile(xBonus, yBonus).getHasReward());
+        boolean hasBonus;
+        ArrayList<Bonus> curBonus = cur.getBonusArrayList();
+
+        for(int i = 0; i < curBonus.size(); i++) {
+
+            int xBonus = curBonus.get(i).getX();
+            int yBonus = curBonus.get(i).getY();
+
+            assertEquals(cur.getTile(xBonus, yBonus).getHasReward(),curBonus.get(i).getTicksRemaining() < 0);
+
         }
 
     }
@@ -87,8 +95,21 @@ public class BoardTest {
         assertEquals(0, entries.getEntranceXPos());
         assertEquals(0, entries.getEntranceYPos());
 
+    }
 
+    @Test
+    public void testTileType() {
 
+        String[] possible = {"Tile", "Wall","TileCheckpoint","TilePunishment",
+        "TileBonus","Entrance","Exit"};
+
+        int[][] id = new int[1][1];
+        Board board;
+        for(int i = 0; i < 7; i++) {
+            id[0][0] = i;
+            board = new Board(id);
+            assertEquals(possible[i],board.getTileString());
+        }
     }
 
 }

@@ -160,10 +160,21 @@ public class Board
     public static void printBoard() { // print board to console
         for (int i = 0; i < dimY; i++) {
             for (int j = 0; j < dimX; j++) {
-//                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + "  ");
+                System.out.print(board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward + "  ");
             }
-//            System.out.println("");
+            System.out.println("");
         }
+    }
+
+    public static String getTileString() { // primarily for testing purposes
+        String ret = "";
+        for (int i = 0; i < dimY; i++) {
+            for (int j = 0; j < dimX; j++) {
+                ret += board[i][j].getClass().getSimpleName() + board[i][j].typeOfReward;
+            }
+            System.out.println("");
+        }
+        return ret;
     }
 
     /**
