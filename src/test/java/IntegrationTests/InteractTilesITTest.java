@@ -21,7 +21,7 @@ import java.awt.event.InputEvent;
 import static javafx.scene.input.KeyEvent.KEY_PRESSED;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InteractTilesIT {
+public class InteractTilesITTest {
     MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
     static Game game = new Game();
 

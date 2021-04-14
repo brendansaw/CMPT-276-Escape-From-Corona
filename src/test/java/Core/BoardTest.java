@@ -3,10 +3,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import TileAction.Bonus;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BoardTest {
 
     static ArrayList<Board> boards;
@@ -22,7 +25,7 @@ public class BoardTest {
     }
 
     static int dimensions = 100;
-    @Before
+    @BeforeAll
     public void setup() {
         boards = new ArrayList<>();
         int numBoards = 10;
