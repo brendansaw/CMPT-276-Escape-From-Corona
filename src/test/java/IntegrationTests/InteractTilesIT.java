@@ -8,10 +8,15 @@ import Core.Board;
 import Core.Game;
 import Core.Tile;
 import TileAction.Checkpoint;
+import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+import java.awt.event.InputEvent;
 
 import static javafx.scene.input.KeyEvent.KEY_PRESSED;
 import static org.junit.jupiter.api.Assertions.*;

@@ -43,7 +43,8 @@ public class NonStationaryCharacter {
         this.y = y;
     }
 
-    public void printPos() {
+    public String printPos() {
         System.out.println(getClass().getSimpleName() +":[" + x + ", " + y + "]");
+        return "[" + x + ", " + y + "]";
     }
 }
