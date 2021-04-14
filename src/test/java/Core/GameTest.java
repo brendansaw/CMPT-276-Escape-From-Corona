@@ -1,6 +1,7 @@
 package Core;
 
 import Characters.Enemy;
+import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,42 @@ public class GameTest {
         Game.setPaused(false);
         Game.setGameOver(false);
         Game.getEnemyArrayList().clear();
+    }
+
+    boolean launched = false; // test condition for javafx
+
+    @Test
+    public void testLaunch() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Application.launch(Game.class); // Run JavaFX application.
+                    launched = true;
+                } catch(Throwable t) {
+                    if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
+                        launched = true;
+                        return;
+                    }
+                }
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
+
+        try {
+            Thread.sleep(3000);  // wait 3 seconds before closing
+        } catch(InterruptedException ex) {
+            // do nothing
+        }
+
+        thread.interrupt();
+        try {
+            thread.join(1); // wait for thread to die
+        } catch(InterruptedException ex) {
+            // do nothing
+        }
+        assertTrue(launched, "should be true if application launched");
     }
 
     @Test
