@@ -506,6 +506,7 @@ public class Game extends Application{
                         g2.getChildren().clear();
                         g2.getChildren().addAll(pauseView);
                         positions.setCenter(g2);
+                        homeDepotAudio.stop();
                         //Old Code that works partending
                     } else {
                         everySecond.play();
@@ -513,6 +514,7 @@ public class Game extends Application{
                         positions.setCenter(rootGroup);
                         //old code that works ending
                        /* mainGame.setScene(scene);*/
+                        homeDepotAudio.start();
                     }
                     if (winStatus.equals("")) {
                         paused = !paused;
