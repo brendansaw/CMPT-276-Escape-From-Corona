@@ -73,22 +73,23 @@ public class AssetLoad {
 
     public Clip loadCoronaTimeAudio(String path){
         try {
-            File coronaFile = new File(path);
+            coronaFile = new File(path);
             AudioInputStream coronaInput = AudioSystem.getAudioInputStream(coronaFile);
-            Clip coronaClip = AudioSystem.getClip();
+            coronaClip = AudioSystem.getClip();
             coronaClip.open(coronaInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
             coronaFile = null;
             coronaClip = null;
+            return coronaClip;
         }
             return coronaClip;
     }
     public Clip loadClickAudio(String path){
         try {
-            File clickFile = new File(path);
+            clickFile = new File(path);
             AudioInputStream clickInput = AudioSystem.getAudioInputStream(clickFile);
-            Clip clickClip = AudioSystem.getClip();
+            clickClip = AudioSystem.getClip();
             clickClip.open(clickInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
@@ -100,9 +101,9 @@ public class AssetLoad {
 
     public Clip loadSwooshAudio(String path){
         try {
-            File swooshFile = new File(path);
+            swooshFile = new File(path);
             AudioInputStream swooshInput = AudioSystem.getAudioInputStream(swooshFile);
-            Clip swooshClip = AudioSystem.getClip();
+            swooshClip = AudioSystem.getClip();
             swooshClip.open(swooshInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
@@ -113,9 +114,9 @@ public class AssetLoad {
     }
     public Clip loadGameOverAudio(String path){
         try {
-            File gameOverFile = new File(path);
+            gameOverFile = new File(path);
             AudioInputStream gameOverInput = AudioSystem.getAudioInputStream(gameOverFile);
-            Clip gameOverClip = AudioSystem.getClip();
+            gameOverClip = AudioSystem.getClip();
             gameOverClip.open(gameOverInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
@@ -127,9 +128,9 @@ public class AssetLoad {
 
     public Clip loadVictoryAudio(String path){
         try {
-            File victoryFile = new File(path);
+            victoryFile = new File(path);
             AudioInputStream victoryInput = AudioSystem.getAudioInputStream(victoryFile);
-            Clip victoryClip = AudioSystem.getClip();
+            victoryClip = AudioSystem.getClip();
             victoryClip.open(victoryInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
@@ -140,9 +141,9 @@ public class AssetLoad {
     }
     public Clip loadThemeSongAudio(String path){
         try {
-            File themeSongFile = new File(path);
+            themeSongFile = new File(path);
             AudioInputStream themeSongInput = AudioSystem.getAudioInputStream(themeSongFile);
-            Clip themeSongClip = AudioSystem.getClip();
+            themeSongClip = AudioSystem.getClip();
             themeSongClip.open(themeSongInput);
         }
         catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
@@ -320,5 +321,31 @@ public class AssetLoad {
         return bonusImage;
     }
 
-    public Image getMainMenuImage(){return mainMenuImage;}
+    public Image getMainMenuImage()
+    {
+        return mainMenuImage;
+    }
+
+    public Clip getCoronaClip() {
+        return  coronaClip;
+    }
+    public Clip getClickClip() {
+        return  clickClip;
+    }
+    public Clip getSwooshClip() {
+        return  swooshClip;
+    }
+    public Clip getGameOverClip() {
+        return  gameOverClip;
+    }
+    public Clip getVictoryClip() {
+        return  victoryClip;
+    }
+    public Clip getThemeSongClip() {
+        return  themeSongClip;
+    }
+
+
 }
+
+

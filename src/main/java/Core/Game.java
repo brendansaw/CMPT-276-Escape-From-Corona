@@ -97,6 +97,8 @@ public class Game extends Application{
     private static boolean gameOver = false;
     private static AssetLoad assetLoad;
 
+    private Clip clip;
+
 
 
     // no constructor needed since this will contain the main for now
@@ -171,6 +173,25 @@ public class Game extends Application{
         return temp;
     }
 
+    private class gameSoundEffect {
+        public  Clip playSoundeff(String musicLocation) {
+            try {
+                File musicPath = new File(musicLocation);
+
+                if (musicPath.exists()) {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                } else {
+                    System.out.println("Cant find file");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return clip;
+        }
+    }
+
     public void start(Stage mainGame)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         mainGame.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -187,49 +208,49 @@ public class Game extends Application{
         mainGame.getIcons().add(assetLoad.getCheckpointImage());
 
         //coronatime audio
-        File file = new File("src/main/resources/assets/coronatimelower.wav");
+        Clip coronat = assetLoad.getCoronaClip();
+        /*File file = new File("src/main/resources/assets/coronatimelower.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip coronat = AudioSystem.getClip();
-        coronat.open(audioStream);
-
+        coronat.open(audioStream);*/
 
         //menuhover audio
-        File file2 = new File("src/main/resources/assets/click.wav");
+        Clip menuhover = assetLoad.getClickClip();
+        /*File file2 = new File("src/main/resources/assets/click.wav");
         AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
         Clip menuhover = AudioSystem.getClip();
-        menuhover.open(audioStream2);
+        menuhover.open(audioStream2);*/
 
         //swooshselect audio
-        File file3 = new File("src/main/resources/assets/swoosh.wav");
+        Clip swooshselect = assetLoad.getSwooshClip();
+        /*File file3 = new File("src/main/resources/assets/swoosh.wav");
         AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file3);
         Clip swooshselect = AudioSystem.getClip();
-        swooshselect.open(audioStream3);
+        swooshselect.open(audioStream3);*/
 
         //gamover audio
-        File file4 = new File("src/main/resources/assets/gameover.wav");
+        Clip gameOverAudio = assetLoad.getGameOverClip();
+        /*File file4 = new File("src/main/resources/assets/gameover.wav");
         AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(file4);
         Clip gameOverAudio = AudioSystem.getClip();
-        gameOverAudio.open(audioStream4);
+        gameOverAudio.open(audioStream4);*/
 
         //victory audio
-        File file5 = new File("src/main/resources/assets/victory.wav");
+        Clip victoryAudio = assetLoad.getVictoryClip();
+        /*File file5 = new File("src/main/resources/assets/victory.wav");
         AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(file5);
         Clip victoryAudio = AudioSystem.getClip();
-        victoryAudio.open(audioStream5);
+        victoryAudio.open(audioStream5);*/
 
-        File file6 = new File("src/main/resources/assets/themesonglow.wav");
+        //themesongaudio
+        Clip homeDepotAudio = assetLoad.getThemeSongClip();
+        /*File file6 = new File("src/main/resources/assets/themesonglow.wav");
         AudioInputStream audioStream6 = AudioSystem.getAudioInputStream(file6);
         Clip homeDepotAudio = AudioSystem.getClip();
-        homeDepotAudio.open(audioStream6);
+        homeDepotAudio.open(audioStream6);*/
         homeDepotAudio.loop(15);
         homeDepotAudio.stop();
 
-
-        /*String coronapath2 = "src/main/java/resources/assets/coronatime.mp3";
-        Media coronamedia = new Media(new File(coronapath2).toURI().toString());
-        MediaPlayer coronaPlayer = new MediaPlayer(coronamedia);
-        coronaPlayer.play();*/
-        //startGame();
         boardGame = firstStage();
         int squaredBoard = 10;
 
@@ -247,7 +268,6 @@ public class Game extends Application{
 
         Scene scene = new Scene(positions);
         scene.setRoot(positions);
-
 
         //Lose Gameover Scene
         Pane gameOverRoot = new Pane();
@@ -682,23 +702,7 @@ public class Game extends Application{
         }
     }
 
-    protected static class gameSoundEffect {
-        public static void playSoundeff(String musicLocation) {
-            try {
-                File musicPath = new File(musicLocation);
 
-                if (musicPath.exists()) {
-                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(audioInput);
-                } else {
-                    System.out.println("Cant find file");
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     //MenuButton template for buttons
     private static class MenuButton extends StackPane{
