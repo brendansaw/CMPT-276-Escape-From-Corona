@@ -187,32 +187,32 @@ public class Game extends Application{
 
 
         //coronatime audio
-        File file = new File("assets/coronatime.wav");
+        File file = new File("src/main/resources/assets/coronatime.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip coronat = AudioSystem.getClip();
         coronat.open(audioStream);
 
 
         //menuhover audio
-        File file2 = new File("assets/click.wav");
+        File file2 = new File("src/main/resources/assets/click.wav");
         AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
         Clip menuhover = AudioSystem.getClip();
         menuhover.open(audioStream2);
 
         //swooshselect audio
-        File file3 = new File("assets/swoosh.wav");
+        File file3 = new File("src/main/resources/assets/swoosh.wav");
         AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(file3);
         Clip swooshselect = AudioSystem.getClip();
         swooshselect.open(audioStream3);
 
         //gamover audio
-        File file4 = new File("assets/gameover.wav");
+        File file4 = new File("src/main/resources/assets/gameover.wav");
         AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(file4);
         Clip gameOverAudio = AudioSystem.getClip();
         gameOverAudio.open(audioStream4);
 
         //victory audio
-        File file5 = new File("assets/victory.wav");
+        File file5 = new File("src/main/resources/assets/victory.wav");
         AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(file5);
         Clip victoryAudio = AudioSystem.getClip();
         victoryAudio.open(audioStream5);
