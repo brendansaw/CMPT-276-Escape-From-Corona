@@ -183,8 +183,8 @@ public class Game extends Application{
         assetLoad = new AssetLoad();
 
 
-        mainGame.setTitle("Maze Game");
-
+        mainGame.setTitle("Escape From Corona: The Adventures of Dr. Honnie Benry");
+        mainGame.getIcons().add(assetLoad.getCheckpointImage());
 
         //coronatime audio
         File file = new File("src/main/resources/assets/coronatime.wav");
