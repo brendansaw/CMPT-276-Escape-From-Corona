@@ -21,7 +21,7 @@ public class BoardTest {
             for (int i = 0; i < y; i++) {
                 for (int j = 0; j < x; j++) {
                     cur[i][j] = rand.nextInt();
-                    System.out.println(cur[i][j]);
+                    //System.out.println(cur[i][j]);
                 }
             }
             boards.add(new Board(cur));
