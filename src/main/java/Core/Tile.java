@@ -111,4 +111,26 @@ public class Tile
         reward = null;
         typeOfReward = "";
     }
+
+    /**
+     * Creates and returns a string for the reward object, but deals with issue of null Reward by using an if statement.
+     * @return either the actual reward if the Tile has a reward, or an empty string if it doesn't
+     */
+    public String getTypeReward(){
+        String rewardType;
+        if (hasReward == true){
+            rewardType = typeOfReward;
+        }
+        else {
+            rewardType = "";
+        }
+        return rewardType;
+    }
+
+   /* public int getXCoordinate(){
+        return x;
+    }
+    public int getYCoordinate(){
+        return y;
+    }*/
 }

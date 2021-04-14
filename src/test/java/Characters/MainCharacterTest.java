@@ -47,11 +47,6 @@ public class MainCharacterTest {
     }
 
     @Test
-    public void testMove() {
-       // idk
-    }
-
-    @Test
     public void testIsColliding() {
         Tile mockTile = mock(Tile.class);
         when(mockTile.getHasReward()).thenReturn(true);
