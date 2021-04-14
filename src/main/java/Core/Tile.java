@@ -126,4 +126,11 @@ public class Tile
         }
         return rewardType;
     }
+
+   /* public int getXCoordinate(){
+        return x;
+    }
+    public int getYCoordinate(){
+        return y;
+    }*/
 }
