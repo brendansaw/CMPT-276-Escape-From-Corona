@@ -123,6 +123,7 @@ public class Enemy extends NonStationaryCharacter {
      * @return true if the player is on the same tile, else false
      */
     public boolean isColliding() {
+        player = MainCharacter.getMainCharacter(0, 0);
         if((player.getX() == x) && (player.getY() == y)) {
             return true;
         }

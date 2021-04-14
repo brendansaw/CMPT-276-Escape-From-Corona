@@ -1,6 +1,8 @@
 package IntegrationTests;
 
 import BoardDesign.Exit;
+import Characters.Direction;
+import Characters.Enemy;
 import Characters.MainCharacter;
 import Core.Board;
 import Core.Game;
@@ -8,8 +10,6 @@ import Core.Tile;
 import TileAction.Checkpoint;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InteractTilesIT {
     MainCharacter mainCharacter = MainCharacter.getMainCharacter(0, 0);
-    Game game = new Game();
+    static Game game = new Game();
 
     int[][] id = {
             {0, 0, 0},
@@ -111,7 +111,24 @@ public class InteractTilesIT {
         mainCharacter.keyPressed(new KeyEvent(KEY_PRESSED, "", "", KeyCode.RIGHT, false, false, false, false));
         assertTrue(exit.isOpen());
         mainCharacter.keyPressed(new KeyEvent(KEY_PRESSED, "", "", KeyCode.RIGHT, false, false, false, false));
-        ((Exit) exit).checkCheckpoints();
-        assertEquals("You won!", Game.getWinStatus());
+        int tempTime = Game.getTime();
+        assertEquals("You won!", Game.getWinStatus(), "should be set if appropriate condition block entered");
+        assertEquals("win", Game.getCurrentStage(), "should be set if appropriate condition block entered");
+        assertEquals(tempTime, Game.getTime(), "should not have changed");
+    }
+
+    @Test
+    public void testLoseGameEnemy() {
+        int[][] testBoard = {
+                {1, 1, 1},
+                {0, 0, 0},
+                {1, 1, 1}
+        };
+        mainCharacter.setPos(0, 1);
+        Enemy e = new Enemy(2, 1);
+        e.move(Direction.LEFT);
+        e.move(Direction.LEFT);
+        assertEquals("You lost. :(", Game.getWinStatus(), "should be set to You lost :( if appropriate condition block entered");
+        assertEquals("lose", Game.getCurrentStage(), "should be set to lose if appropriate condition block entered");
     }
 }
