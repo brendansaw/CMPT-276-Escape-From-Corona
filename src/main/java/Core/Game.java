@@ -506,6 +506,7 @@ public class Game extends Application{
                         g2.getChildren().clear();
                         g2.getChildren().addAll(pauseView);
                         positions.setCenter(g2);
+                        //stops audio
                         homeDepotAudio.stop();
                         //Old Code that works partending
                     } else {
