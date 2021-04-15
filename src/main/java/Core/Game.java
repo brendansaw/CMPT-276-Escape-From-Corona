@@ -295,11 +295,11 @@ public class Game extends Application{
         gameOverBorder.setCenter(gameRoot2);
         gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);*/
         Scene gameIsOver = new Scene(gameOverBorder);
-        //Lose Gameover scene
+        //Lose Gameover scene end
 
         //Win Gameover Scene
         Pane wgameOverRoot = new Pane();
-        wgameOverRoot.setPrefSize(800,600);
+        /*wgameOverRoot.setPrefSize(800,600);
         InputStream winputOverBackground;
         try {
             winputOverBackground = new FileInputStream("src/main/resources/assets/YouWonFinal.jpg");
@@ -310,22 +310,24 @@ public class Game extends Application{
 
         ImageView wimgView2 = new ImageView(winputBackgroundOver);
         wimgView2.setFitHeight(600);
-        wimgView2.setFitWidth(800);
+        wimgView2.setFitWidth(800);*/
+        Image winGameOverImageLoaded = assetLoad.getGameOverWinImage();
+        ImageView wimgView2 = SceneImageBuilder(winGameOverImageLoaded, wgameOverRoot);
 
         GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win", homeDepotAudio);
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
-        BorderPane wgameOverBorder = new BorderPane();
         Group wgameRoot2 = new Group(wgameOverRoot);
-
+        BorderPane wgameOverBorder = SceneBuilder(wgameRoot2);
+       /* BorderPane wgameOverBorder = new BorderPane();
         wgameOverBorder.setCenter(wgameRoot2);
-        wgameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);
+        wgameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);*/
         Scene wgameIsOver = new Scene(wgameOverBorder);
-        //Win Gameover scene
+        //Win Gameover scene end
 
         //INstructions scene
         Pane instructionsRoot = new Pane();
-        instructionsRoot.setPrefSize(800,600);
+       /* instructionsRoot.setPrefSize(800,600);
         InputStream inputInstructionsBackground;
         try {
             inputInstructionsBackground = new FileInputStream("src/main/resources/assets/mainmenufinal.jpg");
@@ -336,22 +338,24 @@ public class Game extends Application{
 
         ImageView imgView3 = new ImageView(inputBackgroundInstructions);
         imgView3.setFitHeight(600);
-        imgView3.setFitWidth(800);
+        imgView3.setFitWidth(800);*/
+        Image instructionsScreenImageLoaded = assetLoad.getMainMenuImage();
+        ImageView imgView3 = SceneImageBuilder(instructionsScreenImageLoaded, instructionsRoot);
 
         InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene, coronat, menuhover, swooshselect, homeDepotAudio);
 
         instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
-        BorderPane instructionsBorder = new BorderPane();
         Group instructionsGroup = new Group(instructionsRoot);
-
+        BorderPane instructionsBorder = SceneBuilder(instructionsGroup);
+       /* BorderPane instructionsBorder = new BorderPane();
         instructionsBorder.setCenter(instructionsGroup);
-        instructionsBorder.setAlignment(instructionsGroup, Pos.CENTER);
+        instructionsBorder.setAlignment(instructionsGroup, Pos.CENTER);*/
         Scene instructionScene = new Scene(instructionsBorder);
-
+        //Instuctions scene end
 
         //MenuStart Scene
         Pane paneRoot = new Pane();
-        paneRoot.setPrefSize(800,600);
+        /*paneRoot.setPrefSize(800,600);
         InputStream inputBackground;
 
         try {
@@ -363,23 +367,24 @@ public class Game extends Application{
 
         ImageView imgView = new ImageView(inputBackgroundImage);
         imgView.setFitHeight(600);
-        imgView.setFitWidth(800);
+        imgView.setFitWidth(800);*/
+        Image mainGameScreenImageLoaded = assetLoad.getMainMenuImage();
+        ImageView imgView1 = SceneImageBuilder(mainGameScreenImageLoaded, paneRoot);
 
         gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene, coronat, menuhover, swooshselect, homeDepotAudio);
 
-        paneRoot.getChildren().addAll(imgView, gameMenu);
-        BorderPane menuBorder = new BorderPane();
+        paneRoot.getChildren().addAll(imgView1, gameMenu);
         Group menuRoot = new Group(paneRoot);
-
+        BorderPane menuBorder = SceneBuilder(menuRoot);
+        /*BorderPane menuBorder = new BorderPane();
         menuBorder.setCenter(menuRoot);
-        menuBorder.setAlignment(menuRoot, Pos.CENTER);
-
+        menuBorder.setAlignment(menuRoot, Pos.CENTER);*/
         Scene menuStart = new Scene(menuBorder);
         //End of MenuStart
 
         //Pause Screen
         Pane pauseRoot = new Pane();
-        pauseRoot.setPrefSize(800,600);
+        /*pauseRoot.setPrefSize(800,600);
         InputStream pauseBackground;
 
         try {
@@ -392,19 +397,21 @@ public class Game extends Application{
         ImageView pauseView = new ImageView(pauseImage);
         pauseView.setFitHeight(600);
         pauseView.setFitWidth(800);
-
+*/
+        Image pauseScreenImageLoaded = assetLoad.getPauseScreenImage();
+        ImageView pauseView = SceneImageBuilder(pauseScreenImageLoaded, pauseRoot);
         //InstructionsScreen pauseMenu = new InstructionsScreen(mainGame, scene);
 
         pauseRoot.getChildren().addAll(pauseView);
-        BorderPane pauseBorder = new BorderPane();
         Group rootPause = new Group(pauseRoot);
+        BorderPane pauseBorder = SceneBuilder(rootPause);
 
+        /*BorderPane pauseBorder = new BorderPane();
         pauseBorder.setCenter(rootPause);
-        pauseBorder.setAlignment(rootPause, Pos.CENTER);
-
+        pauseBorder.setAlignment(rootPause, Pos.CENTER);*/
         Scene pauseScene = new Scene(pauseBorder);
-
         //End of PauseScreen
+
         Group g2 = new Group();
         //Scene mainmenu = new Scene(g2, 150, 100);
 
@@ -554,8 +561,8 @@ public class Game extends Application{
         mainGame.show();
     }
 
-    public ImageView SceneImageBuilder (Image image, Pane paneroot){
-        paneroot.setPrefSize(800, 600);
+    public ImageView SceneImageBuilder (Image image, Pane paneRoot1){
+        paneRoot1.setPrefSize(800, 600);
         ImageView imgview = new ImageView(image);
         imgview.setFitWidth(800);
         imgview.setFitHeight(600);
