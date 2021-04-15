@@ -173,7 +173,7 @@ public class Game extends Application{
         return temp;
     }
 
-    private class gameSoundEffect {
+   /* private class gameSoundEffect {
         public  Clip playSoundeff(String musicLocation) {
             try {
                 File musicPath = new File(musicLocation);
@@ -190,7 +190,7 @@ public class Game extends Application{
             }
             return clip;
         }
-    }
+    }*/
 
     public void start(Stage mainGame)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         mainGame.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -271,7 +271,7 @@ public class Game extends Application{
 
         //Lose Gameover Scene
         Pane gameOverRoot = new Pane();
-        gameOverRoot.setPrefSize(800,600);
+        /*gameOverRoot.setPrefSize(800,600);
         InputStream inputOverBackground;
         try {
             inputOverBackground = new FileInputStream("src/main/resources/assets/YouLostFinal.jpg");
@@ -282,16 +282,18 @@ public class Game extends Application{
 
         ImageView imgView2 = new ImageView(inputBackgroundOver);
         imgView2.setFitHeight(600);
-        imgView2.setFitWidth(800);
+        imgView2.setFitWidth(800);*/
+        Image loseGameOverImageLoaded = assetLoad.getGameOverLoseImage();
+        ImageView imgView2 = SceneImageBuilder(loseGameOverImageLoaded, gameOverRoot);
 
         GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose", homeDepotAudio);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
-        BorderPane gameOverBorder = new BorderPane();
         Group gameRoot2 = new Group(gameOverRoot);
-
+        BorderPane gameOverBorder = SceneBuilder(gameRoot2);
+       /* BorderPane gameOverBorder = new BorderPane();
         gameOverBorder.setCenter(gameRoot2);
-        gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);
+        gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);*/
         Scene gameIsOver = new Scene(gameOverBorder);
         //Lose Gameover scene
 
@@ -552,7 +554,20 @@ public class Game extends Application{
         mainGame.show();
     }
 
+    public ImageView SceneImageBuilder (Image image, Pane paneroot){
+        paneroot.setPrefSize(800, 600);
+        ImageView imgview = new ImageView(image);
+        imgview.setFitWidth(800);
+        imgview.setFitHeight(600);
+        return imgview;
+    }
 
+    public BorderPane SceneBuilder (Group group1){
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(group1);
+        borderPane.setAlignment(group1, Pos.CENTER);
+        return borderPane;
+    }
 
     private class GameMenu extends Parent{
         //scene2 is passed for the gameendscreen DEBUG

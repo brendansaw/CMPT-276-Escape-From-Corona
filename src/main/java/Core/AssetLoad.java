@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.util.function.IntUnaryOperator;
 
 public class AssetLoad {
     private InputStream spriteStream;
@@ -16,6 +17,9 @@ public class AssetLoad {
     private InputStream entryStream;
     private InputStream bonusStream;
     private InputStream mainMenuStream;
+    private InputStream gameOverLoseStream;
+    private InputStream gameOverWinStream;
+    private InputStream pauseScreenStream;
 
     private File coronaFile;
     private File clickFile;
@@ -42,6 +46,9 @@ public class AssetLoad {
     private Image entryImage = null;
     private Image bonusImage = null;
     private Image mainMenuImage = null;
+    private Image gameOverLoseImage = null;
+    private Image gameOverWinImage = null;
+    private Image pauseScreenImage = null;
 
     public AssetLoad() {
         reloadAssets();
@@ -58,7 +65,10 @@ public class AssetLoad {
         loadExitImage("src/main/resources/assets/exit.png");
         loadEntranceImage("src/main/resources/assets/entry.png");
         loadBonusImage("src/main/resources/assets/bonusimage.png");
-        loadMainMenuImage("src/main/resources/assets/newmainmenu.jpg");
+        loadMainMenuImage("src/main/resources/assets/mainmenufinal.jpg");
+        loadGameOverLoseImage("src/main/resources/assets/YouLostFinal.jpg");
+        loadGameOverWinImage("src/main/resources/assets/YouWonFinal.jpg");
+        loadPauseScreenImage("src/main/resources/assets/PauseScreen.jpg");
     }
 
     public void reloadAudioAssets() {
@@ -285,6 +295,46 @@ public class AssetLoad {
         return mainMenuImage;
     }
 
+    public Image loadGameOverLoseImage(String path) {
+        try {
+            gameOverLoseStream = new FileInputStream(path);
+            gameOverLoseImage = new Image(gameOverLoseStream);
+        }
+        catch (FileNotFoundException e) {
+            gameOverLoseStream = null;
+            gameOverLoseImage = null;
+            return gameOverLoseImage;
+        }
+        return gameOverLoseImage;
+    }
+
+    public Image loadGameOverWinImage(String path) {
+        try {
+            gameOverWinStream = new FileInputStream(path);
+            gameOverWinImage = new Image(gameOverWinStream);
+        }
+        catch (FileNotFoundException e) {
+            gameOverWinStream = null;
+            gameOverWinImage = null;
+            return gameOverWinImage;
+        }
+        return gameOverWinImage;
+    }
+
+    public Image loadPauseScreenImage(String path) {
+        try {
+            pauseScreenStream = new FileInputStream(path);
+            pauseScreenImage = new Image(pauseScreenStream);
+        }
+        catch (FileNotFoundException e) {
+            pauseScreenStream = null;
+            pauseScreenImage = null;
+            return pauseScreenImage;
+        }
+        return pauseScreenImage;
+    }
+
+
     public Image getSpriteImage() {
         return spriteImage;
     }
@@ -325,6 +375,22 @@ public class AssetLoad {
     {
         return mainMenuImage;
     }
+
+    public Image getGameOverLoseImage()
+    {
+        return gameOverLoseImage;
+    }
+
+    public Image getGameOverWinImage()
+    {
+        return gameOverWinImage;
+    }
+
+    public Image getPauseScreenImage()
+    {
+        return pauseScreenImage;
+    }
+
 
     public Clip getCoronaClip() {
         return  coronaClip;
