@@ -68,7 +68,7 @@ public class AssetLoad {
         loadMainMenuImage("src/main/resources/assets/mainmenufinal.jpg");
         loadGameOverLoseImage("src/main/resources/assets/YouLostFinal.jpg");
         loadGameOverWinImage("src/main/resources/assets/YouWonFinal.jpg");
-        loadPauseScreenImage("src/main/resources/assets/PauseScreen.jpg");
+        loadPauseScreenImage("src/main/resources/assets/pauseFinal.jpg");
     }
 
     public void reloadAudioAssets() {

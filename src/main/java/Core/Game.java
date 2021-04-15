@@ -284,13 +284,13 @@ public class Game extends Application{
         imgView2.setFitHeight(600);
         imgView2.setFitWidth(800);*/
         Image loseGameOverImageLoaded = assetLoad.getGameOverLoseImage();
-        ImageView imgView2 = SceneImageBuilder(loseGameOverImageLoaded, gameOverRoot);
+        ImageView imgView2 = sceneImageBuilder(loseGameOverImageLoaded, gameOverRoot);
 
         GameOverMenu gameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "lose", homeDepotAudio);
 
         gameOverRoot.getChildren().addAll(imgView2, gameOverMenu);
         Group gameRoot2 = new Group(gameOverRoot);
-        BorderPane gameOverBorder = SceneBuilder(gameRoot2);
+        BorderPane gameOverBorder = sceneBuilder(gameRoot2);
        /* BorderPane gameOverBorder = new BorderPane();
         gameOverBorder.setCenter(gameRoot2);
         gameOverBorder.setAlignment(gameRoot2, Pos.CENTER);*/
@@ -312,13 +312,13 @@ public class Game extends Application{
         wimgView2.setFitHeight(600);
         wimgView2.setFitWidth(800);*/
         Image winGameOverImageLoaded = assetLoad.getGameOverWinImage();
-        ImageView wimgView2 = SceneImageBuilder(winGameOverImageLoaded, wgameOverRoot);
+        ImageView wimgView2 = sceneImageBuilder(winGameOverImageLoaded, wgameOverRoot);
 
         GameOverMenu wgameOverMenu = new GameOverMenu(mainGame, scene, score, time, coronat, menuhover, swooshselect, "win", homeDepotAudio);
 
         wgameOverRoot.getChildren().addAll(wimgView2, wgameOverMenu);
         Group wgameRoot2 = new Group(wgameOverRoot);
-        BorderPane wgameOverBorder = SceneBuilder(wgameRoot2);
+        BorderPane wgameOverBorder = sceneBuilder(wgameRoot2);
        /* BorderPane wgameOverBorder = new BorderPane();
         wgameOverBorder.setCenter(wgameRoot2);
         wgameOverBorder.setAlignment(wgameRoot2, Pos.CENTER);*/
@@ -340,13 +340,13 @@ public class Game extends Application{
         imgView3.setFitHeight(600);
         imgView3.setFitWidth(800);*/
         Image instructionsScreenImageLoaded = assetLoad.getMainMenuImage();
-        ImageView imgView3 = SceneImageBuilder(instructionsScreenImageLoaded, instructionsRoot);
+        ImageView imgView3 = sceneImageBuilder(instructionsScreenImageLoaded, instructionsRoot);
 
         InstructionsScreen instructionsMenu = new InstructionsScreen(mainGame, scene, coronat, menuhover, swooshselect, homeDepotAudio);
 
         instructionsRoot.getChildren().addAll(imgView3, instructionsMenu);
         Group instructionsGroup = new Group(instructionsRoot);
-        BorderPane instructionsBorder = SceneBuilder(instructionsGroup);
+        BorderPane instructionsBorder = sceneBuilder(instructionsGroup);
        /* BorderPane instructionsBorder = new BorderPane();
         instructionsBorder.setCenter(instructionsGroup);
         instructionsBorder.setAlignment(instructionsGroup, Pos.CENTER);*/
@@ -369,13 +369,13 @@ public class Game extends Application{
         imgView.setFitHeight(600);
         imgView.setFitWidth(800);*/
         Image mainGameScreenImageLoaded = assetLoad.getMainMenuImage();
-        ImageView imgView1 = SceneImageBuilder(mainGameScreenImageLoaded, paneRoot);
+        ImageView imgView1 = sceneImageBuilder(mainGameScreenImageLoaded, paneRoot);
 
         gameMenu = new GameMenu(mainGame, scene, wgameIsOver, instructionScene, coronat, menuhover, swooshselect, homeDepotAudio);
 
         paneRoot.getChildren().addAll(imgView1, gameMenu);
         Group menuRoot = new Group(paneRoot);
-        BorderPane menuBorder = SceneBuilder(menuRoot);
+        BorderPane menuBorder = sceneBuilder(menuRoot);
         /*BorderPane menuBorder = new BorderPane();
         menuBorder.setCenter(menuRoot);
         menuBorder.setAlignment(menuRoot, Pos.CENTER);*/
@@ -399,12 +399,12 @@ public class Game extends Application{
         pauseView.setFitWidth(800);
 */
         Image pauseScreenImageLoaded = assetLoad.getPauseScreenImage();
-        ImageView pauseView = SceneImageBuilder(pauseScreenImageLoaded, pauseRoot);
+        ImageView pauseView = sceneImageBuilder(pauseScreenImageLoaded, pauseRoot);
         //InstructionsScreen pauseMenu = new InstructionsScreen(mainGame, scene);
 
         pauseRoot.getChildren().addAll(pauseView);
         Group rootPause = new Group(pauseRoot);
-        BorderPane pauseBorder = SceneBuilder(rootPause);
+        BorderPane pauseBorder = sceneBuilder(rootPause);
 
         /*BorderPane pauseBorder = new BorderPane();
         pauseBorder.setCenter(rootPause);
@@ -561,7 +561,7 @@ public class Game extends Application{
         mainGame.show();
     }
 
-    public ImageView SceneImageBuilder (Image image, Pane paneRoot1){
+    public ImageView sceneImageBuilder (Image image, Pane paneRoot1){
         paneRoot1.setPrefSize(800, 600);
         ImageView imgview = new ImageView(image);
         imgview.setFitWidth(800);
@@ -569,7 +569,7 @@ public class Game extends Application{
         return imgview;
     }
 
-    public BorderPane SceneBuilder (Group group1){
+    public BorderPane sceneBuilder (Group group1){
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(group1);
         borderPane.setAlignment(group1, Pos.CENTER);

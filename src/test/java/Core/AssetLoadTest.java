@@ -12,6 +12,7 @@ public class AssetLoadTest {
     @BeforeEach
     public void reset() {
         assetLoad.reloadAssets();
+        assetLoad.reloadAudioAssets();
     }
 
     @Test
