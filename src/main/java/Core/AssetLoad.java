@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.net.URL;
 import java.util.function.IntUnaryOperator;
 
 public class AssetLoad {
@@ -21,12 +22,12 @@ public class AssetLoad {
     private InputStream gameOverWinStream;
     private InputStream pauseScreenStream;
 
-    private InputStream coronaFile;
-    private InputStream clickFile;
-    private InputStream swooshFile;
-    private InputStream gameOverFile;
-    private InputStream victoryFile;
-    private InputStream themeSongFile;
+    private URL coronaFile;
+    private URL clickFile;
+    private URL swooshFile;
+    private URL gameOverFile;
+    private URL victoryFile;
+    private URL themeSongFile;
 
     private Clip coronaClip = null;
     private Clip clickClip = null;
@@ -83,7 +84,7 @@ public class AssetLoad {
 
     public Clip loadCoronaTimeAudio(String path){
         try {
-            coronaFile = getClass().getResourceAsStream(path);
+            coronaFile = getClass().getResource(path);
             AudioInputStream coronaInput = AudioSystem.getAudioInputStream(coronaFile);
             coronaClip = AudioSystem.getClip();
             coronaClip.open(coronaInput);
@@ -97,7 +98,7 @@ public class AssetLoad {
     }
     public Clip loadClickAudio(String path){
         try {
-            clickFile = getClass().getResourceAsStream(path);
+            clickFile = getClass().getResource(path);
             AudioInputStream clickInput = AudioSystem.getAudioInputStream(clickFile);
             clickClip = AudioSystem.getClip();
             clickClip.open(clickInput);
@@ -111,7 +112,7 @@ public class AssetLoad {
 
     public Clip loadSwooshAudio(String path){
         try {
-            swooshFile = getClass().getResourceAsStream(path);
+            swooshFile = getClass().getResource(path);
             AudioInputStream swooshInput = AudioSystem.getAudioInputStream(swooshFile);
             swooshClip = AudioSystem.getClip();
             swooshClip.open(swooshInput);
@@ -124,7 +125,7 @@ public class AssetLoad {
     }
     public Clip loadGameOverAudio(String path){
         try {
-            gameOverFile = getClass().getResourceAsStream(path);
+            gameOverFile = getClass().getResource(path);
             AudioInputStream gameOverInput = AudioSystem.getAudioInputStream(gameOverFile);
             gameOverClip = AudioSystem.getClip();
             gameOverClip.open(gameOverInput);
@@ -138,7 +139,7 @@ public class AssetLoad {
 
     public Clip loadVictoryAudio(String path){
         try {
-            victoryFile = getClass().getResourceAsStream(path);
+            victoryFile = getClass().getResource(path);
             AudioInputStream victoryInput = AudioSystem.getAudioInputStream(victoryFile);
             victoryClip = AudioSystem.getClip();
             victoryClip.open(victoryInput);
@@ -151,7 +152,7 @@ public class AssetLoad {
     }
     public Clip loadThemeSongAudio(String path){
         try {
-            themeSongFile = getClass().getResourceAsStream(path);
+            themeSongFile = getClass().getResource(path);
             AudioInputStream themeSongInput = AudioSystem.getAudioInputStream(themeSongFile);
             themeSongClip = AudioSystem.getClip();
             themeSongClip.open(themeSongInput);
