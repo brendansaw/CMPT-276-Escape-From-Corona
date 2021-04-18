@@ -590,6 +590,7 @@ public class Game extends Application{
                 mainGame.setScene(scene);
                 //mp.play();
                 startGame();
+                clip4.loop(15);
                 clip4.start();
 
             });
@@ -645,6 +646,7 @@ public class Game extends Application{
                 clip1.start();
                 mainGame.setScene(scene);
                 startGame();
+                clip4.loop(15);
                 clip4.start();
 
             });
@@ -696,6 +698,7 @@ public class Game extends Application{
                 clip1.start();
                 mainGame.setScene(scene);
                 clip4.start();
+                clip4.loop(15);
 
             });
             //int endScore = getScore();
