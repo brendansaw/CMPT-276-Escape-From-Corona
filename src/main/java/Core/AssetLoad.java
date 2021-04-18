@@ -21,12 +21,12 @@ public class AssetLoad {
     private InputStream gameOverWinStream;
     private InputStream pauseScreenStream;
 
-    private File coronaFile;
-    private File clickFile;
-    private File swooshFile;
-    private File gameOverFile;
-    private File victoryFile;
-    private File themeSongFile;
+    private InputStream coronaFile;
+    private InputStream clickFile;
+    private InputStream swooshFile;
+    private InputStream gameOverFile;
+    private InputStream victoryFile;
+    private InputStream themeSongFile;
 
     private Clip coronaClip = null;
     private Clip clickClip = null;
@@ -56,39 +56,39 @@ public class AssetLoad {
     }
 
     public void reloadAssets() {
-        loadSpriteImage("src/main/resources/assets/bonnie.png");
-        loadEnemyImage("src/main/resources/assets/enemy.png");
-        loadGroundImage("src/main/resources/assets/grass.png");
-        loadWallImage("src/main/resources/assets/wall.png");
-        loadCheckpointImage("src/main/resources/assets/chkpt.png");
-        loadPunishmentImage("src/main/resources/assets/punish.png");
-        loadExitImage("src/main/resources/assets/exit.png");
-        loadEntranceImage("src/main/resources/assets/entry.png");
-        loadBonusImage("src/main/resources/assets/bonusimage.png");
-        loadMainMenuImage("src/main/resources/assets/mainmenufinal.jpg");
-        loadGameOverLoseImage("src/main/resources/assets/YouLostFinal.jpg");
-        loadGameOverWinImage("src/main/resources/assets/YouWonFinal.jpg");
-        loadPauseScreenImage("src/main/resources/assets/pauseFinal.jpg");
+        loadSpriteImage("/assets/bonnie.png");
+        loadEnemyImage("/assets/enemy.png");
+        loadGroundImage("/assets/grass.png");
+        loadWallImage("/assets/wall.png");
+        loadCheckpointImage("/assets/chkpt.png");
+        loadPunishmentImage("/assets/punish.png");
+        loadExitImage("/assets/exit.png");
+        loadEntranceImage("/assets/entry.png");
+        loadBonusImage("/assets/bonusimage.png");
+        loadMainMenuImage("/assets/mainmenufinal.jpg");
+        loadGameOverLoseImage("/assets/YouLostFinal.jpg");
+        loadGameOverWinImage("/assets/YouWonFinal.jpg");
+        loadPauseScreenImage("/assets/pauseFinal.jpg");
     }
 
     public void reloadAudioAssets() {
-        loadCoronaTimeAudio("src/main/resources/assets/coronatimelower.wav");
-        loadClickAudio("src/main/resources/assets/click.wav");
-        loadSwooshAudio("src/main/resources/assets/swoosh.wav");
-        loadGameOverAudio("src/main/resources/assets/gameover.wav");
-        loadVictoryAudio("src/main/resources/assets/victory.wav");
-        loadThemeSongAudio("src/main/resources/assets/themesonglow.wav");
+        loadCoronaTimeAudio("/assets/coronatimelower.wav");
+        loadClickAudio("/assets/click.wav");
+        loadSwooshAudio("/assets/swoosh.wav");
+        loadGameOverAudio("/assets/gameover.wav");
+        loadVictoryAudio("/assets/victory.wav");
+        loadThemeSongAudio("/assets/themesonglow.wav");
 
     }
 
     public Clip loadCoronaTimeAudio(String path){
         try {
-            coronaFile = new File(path);
+            coronaFile = getClass().getResourceAsStream(path);
             AudioInputStream coronaInput = AudioSystem.getAudioInputStream(coronaFile);
             coronaClip = AudioSystem.getClip();
             coronaClip.open(coronaInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             coronaFile = null;
             coronaClip = null;
             return coronaClip;
@@ -97,12 +97,12 @@ public class AssetLoad {
     }
     public Clip loadClickAudio(String path){
         try {
-            clickFile = new File(path);
+            clickFile = getClass().getResourceAsStream(path);
             AudioInputStream clickInput = AudioSystem.getAudioInputStream(clickFile);
             clickClip = AudioSystem.getClip();
             clickClip.open(clickInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             clickFile = null;
             clickClip = null;
         }
@@ -111,12 +111,12 @@ public class AssetLoad {
 
     public Clip loadSwooshAudio(String path){
         try {
-            swooshFile = new File(path);
+            swooshFile = getClass().getResourceAsStream(path);
             AudioInputStream swooshInput = AudioSystem.getAudioInputStream(swooshFile);
             swooshClip = AudioSystem.getClip();
             swooshClip.open(swooshInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             swooshFile = null;
             swooshClip = null;
         }
@@ -124,12 +124,12 @@ public class AssetLoad {
     }
     public Clip loadGameOverAudio(String path){
         try {
-            gameOverFile = new File(path);
+            gameOverFile = getClass().getResourceAsStream(path);
             AudioInputStream gameOverInput = AudioSystem.getAudioInputStream(gameOverFile);
             gameOverClip = AudioSystem.getClip();
             gameOverClip.open(gameOverInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             gameOverFile = null;
             gameOverClip = null;
         }
@@ -138,12 +138,12 @@ public class AssetLoad {
 
     public Clip loadVictoryAudio(String path){
         try {
-            victoryFile = new File(path);
+            victoryFile = getClass().getResourceAsStream(path);
             AudioInputStream victoryInput = AudioSystem.getAudioInputStream(victoryFile);
             victoryClip = AudioSystem.getClip();
             victoryClip.open(victoryInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             victoryFile = null;
             victoryClip = null;
         }
@@ -151,12 +151,12 @@ public class AssetLoad {
     }
     public Clip loadThemeSongAudio(String path){
         try {
-            themeSongFile = new File(path);
+            themeSongFile = getClass().getResourceAsStream(path);
             AudioInputStream themeSongInput = AudioSystem.getAudioInputStream(themeSongFile);
             themeSongClip = AudioSystem.getClip();
             themeSongClip.open(themeSongInput);
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException | NullPointerException e){
             themeSongFile = null;
             themeSongClip = null;
         }
@@ -167,10 +167,10 @@ public class AssetLoad {
 
     public Image loadSpriteImage(String path) {
         try {
-            spriteStream = new FileInputStream(path);
+            spriteStream = getClass().getResourceAsStream(path);
             spriteImage = new Image(spriteStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             spriteStream = null;
             spriteImage = null;
             return spriteImage;
@@ -180,10 +180,10 @@ public class AssetLoad {
 
     public Image loadEnemyImage(String path) {
         try {
-            enemyStream = new FileInputStream(path);
+            enemyStream = getClass().getResourceAsStream(path);
             enemyImage = new Image(enemyStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             enemyStream = null;
             enemyImage = null;
             return enemyImage;
@@ -193,10 +193,10 @@ public class AssetLoad {
 
     public Image loadGroundImage(String path) {
         try {
-            groundStream = new FileInputStream(path);
+            groundStream = getClass().getResourceAsStream(path);
             groundImage = new Image(groundStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             groundStream = null;
             groundImage = null;
             return groundImage;
@@ -206,10 +206,10 @@ public class AssetLoad {
 
     public Image loadWallImage(String path) {
         try {
-            wallStream = new FileInputStream(path);
+            wallStream = getClass().getResourceAsStream(path);
             wallImage = new Image(wallStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             wallStream = null;
             wallImage = null;
             return wallImage;
@@ -219,10 +219,10 @@ public class AssetLoad {
 
     public Image loadCheckpointImage(String path) {
         try {
-            checkpointStream = new FileInputStream(path);
+            checkpointStream = getClass().getResourceAsStream(path);
             checkpointImage = new Image(checkpointStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             checkpointStream = null;
             checkpointImage = null;
             return checkpointImage;
@@ -232,10 +232,10 @@ public class AssetLoad {
 
     public Image loadPunishmentImage(String path) {
         try {
-            punishStream = new FileInputStream(path);
+            punishStream = getClass().getResourceAsStream(path);
             punishImage = new Image(punishStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             punishStream = null;
             punishImage = null;
             return punishImage;
@@ -245,10 +245,10 @@ public class AssetLoad {
 
     public Image loadExitImage(String path) {
         try {
-            exitStream = new FileInputStream(path);
+            exitStream = getClass().getResourceAsStream(path);
             exitImage = new Image(exitStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             exitStream = null;
             exitImage = null;
             return exitImage;
@@ -258,10 +258,10 @@ public class AssetLoad {
 
     public Image loadEntranceImage(String path) {
         try {
-            entryStream = new FileInputStream(path);
+            entryStream = getClass().getResourceAsStream(path);
             entryImage = new Image(entryStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             entryStream = null;
             entryImage = null;
             return entryImage;
@@ -271,10 +271,10 @@ public class AssetLoad {
 
     public Image loadBonusImage(String path) {
         try {
-            bonusStream = new FileInputStream(path);
+            bonusStream = getClass().getResourceAsStream(path);
             bonusImage = new Image(bonusStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             bonusStream = null;
             bonusImage = null;
             return bonusImage;
@@ -284,10 +284,10 @@ public class AssetLoad {
     }
     public Image loadMainMenuImage(String path) {
         try {
-            mainMenuStream = new FileInputStream(path);
+            mainMenuStream = getClass().getResourceAsStream(path);
             mainMenuImage = new Image(mainMenuStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             mainMenuStream = null;
             mainMenuImage = null;
             return mainMenuImage;
@@ -297,10 +297,10 @@ public class AssetLoad {
 
     public Image loadGameOverLoseImage(String path) {
         try {
-            gameOverLoseStream = new FileInputStream(path);
+            gameOverLoseStream = getClass().getResourceAsStream(path);
             gameOverLoseImage = new Image(gameOverLoseStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             gameOverLoseStream = null;
             gameOverLoseImage = null;
             return gameOverLoseImage;
@@ -310,10 +310,10 @@ public class AssetLoad {
 
     public Image loadGameOverWinImage(String path) {
         try {
-            gameOverWinStream = new FileInputStream(path);
+            gameOverWinStream = getClass().getResourceAsStream(path);
             gameOverWinImage = new Image(gameOverWinStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             gameOverWinStream = null;
             gameOverWinImage = null;
             return gameOverWinImage;
@@ -323,10 +323,10 @@ public class AssetLoad {
 
     public Image loadPauseScreenImage(String path) {
         try {
-            pauseScreenStream = new FileInputStream(path);
+            pauseScreenStream = getClass().getResourceAsStream(path);
             pauseScreenImage = new Image(pauseScreenStream);
         }
-        catch (FileNotFoundException e) {
+        catch (NullPointerException e) {
             pauseScreenStream = null;
             pauseScreenImage = null;
             return pauseScreenImage;

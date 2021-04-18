@@ -81,79 +81,79 @@ public class AssetLoadImageTest {
 
     @Test
     public void nullValidMCTest() {
-        assetLoad.loadSpriteImage("");
+        assetLoad.loadSpriteImage(null);
         assertNull(assetLoad.getSpriteImage());
     }
 
     @Test
     public void nullValidEnemyTest() {
-        assetLoad.loadEnemyImage("");
+        assetLoad.loadEnemyImage(null);
         assertNull(assetLoad.getEnemyImage());
     }
 
     @Test
     public void nullValidGroundTest() {
-        assetLoad.loadGroundImage("");
+        assetLoad.loadGroundImage(null);
         assertNull(assetLoad.getGroundImage());
     }
 
     @Test
     public void nullValidWallTest() {
-        assetLoad.loadWallImage("");
+        assetLoad.loadWallImage(null);
         assertNull(assetLoad.getWallImage());
     }
 
     @Test
     public void nullValidCheckpointTest() {
-        assetLoad.loadCheckpointImage("");
+        assetLoad.loadCheckpointImage(null);
         assertNull(assetLoad.getCheckpointImage());
     }
 
     @Test
     public void nullValidPunishmentTest() {
-        assetLoad.loadPunishmentImage("");
+        assetLoad.loadPunishmentImage(null);
         assertNull(assetLoad.getPunishImage());
     }
 
     @Test
     public void nullValidExitTest() {
-        assetLoad.loadExitImage("");
+        assetLoad.loadExitImage(null);
         assertNull(assetLoad.getExitImage());
     }
 
     @Test
     public void nullValidEntryTest() {
-        assetLoad.loadEntranceImage("");
+        assetLoad.loadEntranceImage(null);
         assertNull(assetLoad.getEntryImage());
     }
 
     @Test
     public void nullValidBonusTest() {
-        assetLoad.loadBonusImage("");
+        assetLoad.loadBonusImage(null);
         assertNull(assetLoad.getBonusImage());
     }
 
     @Test
     public void nullValidMainMenuTest() {
-        assetLoad.loadMainMenuImage("");
+        assetLoad.loadMainMenuImage(null);
         assertNull(assetLoad.getMainMenuImage());
     }
 
     @Test
     public void nullValidGameOverLoseTest() {
-        assetLoad.loadGameOverLoseImage("");
+        assetLoad.loadGameOverLoseImage(null);
         assertNull(assetLoad.getGameOverLoseImage());
     }
 
     @Test
     public void nullValidGameOverWinTest() {
-        assetLoad.loadGameOverWinImage("");
+        assetLoad.loadGameOverWinImage(null);
         assertNull(assetLoad.getGameOverWinImage());
     }
 
     @Test
     public void nullValidPauseScreenTest() {
-        assetLoad.loadPauseScreenImage("");
+        assetLoad.loadPauseScreenImage(null);
         assertNull(assetLoad.getPauseScreenImage());
     }
 }
