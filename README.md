@@ -25,7 +25,7 @@ To view the created Javadocs, go to `...\Project\target\site\apidocs` where ther
 In the `C:\...\Project` path, run `mvn test` to run all tests.
 
 ## Video Tutorial ##
-A video tutorial showcasing the project can be found at INSERT LINK HERE https://www.youtube.com/
+A video tutorial showcasing the project can be found at https://www.youtube.com/watch?v=l2fZTEQB7kQ
 
 
 ## Credits ##
