@@ -1,7 +1,7 @@
 # CMPT 276 Project: Escape From Corona #
 
 ## Project running instructions ##
-
+We have included an already created JAR file and Javadocs that can be found at `...\Project\Documents\'Phase 4 JAR and Javadocs'`
 
 ### Running Using Maven ###
 If a .jar file hasn't been created, you can run the project directly using Maven and the command `mvn javafx:run` in the `C:\...\Project` path.
